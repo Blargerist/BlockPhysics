@@ -1,6 +1,7 @@
 package blockphysics;
 
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 
 public class WorldUnloadHook

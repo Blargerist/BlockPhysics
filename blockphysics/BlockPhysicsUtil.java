@@ -35,10 +35,13 @@ import java.util.HashSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import net.minecraft.block.Block;
 import net.minecraftforge.common.ForgeVersion;
 
 public class BlockPhysicsUtil
@@ -610,7 +613,7 @@ public class BlockPhysicsUtil
                   to = 1 + Integer.parseInt(bll[1]);
                 }
                 for (int vv = Integer.valueOf(from).intValue(); vv < Integer.valueOf(to).intValue(); vv++) {
-                  if (aqw.s[vv] != null) {
+                  if (Block.blocksList[vv] != null) {
                     if ((vv < 1) || (vv > 4095))
                     {
                       BlockPhysics.writetoLog("Skipping bad option in line " + line + " : " + sout + " ( Block Id range is 1-4095.)", 0);
@@ -642,7 +645,7 @@ public class BlockPhysicsUtil
               {
                 int vv = Integer.parseInt(bll[0]);
                 int vm = Integer.parseInt(bll[1]);
-                if (aqw.s[vv] != null) {
+                if (Block.blocksList[vv] != null) {
                   if ((vv < 1) || (vv > 4095))
                   {
                     BlockPhysics.writetoLog("Skipping bad option in line " + line + " : " + sout + " ( Block Id range is 1-4095.)", 0);
@@ -677,7 +680,6 @@ public class BlockPhysicsUtil
           {
             int defnum;
             String t;
-            String t;
             if (as[0].equals("d"))
             {
               defnum = Integer.parseInt(as[1]);
@@ -699,10 +701,7 @@ public class BlockPhysicsUtil
                   for (int cc = 0; cc < opttranslations.length; cc++) {
                     t = t.replaceAll(opttranslations[cc][0], Matcher.quoteReplacement(opttranslations[cc][1]));
                   }
-                  String[] at = t.split(":");
-                  if (at[0].equals("x"))
-                  {
-                    break;doneblockdef = true;
+                    doneblockdef = true;
                     BlockPhysics.blockDef[defnum] = new BlockDef(defnum);
                     for (t = ""; (t = bufferedreader.readLine()) != null;)
                     {
@@ -881,13 +880,9 @@ public class BlockPhysicsUtil
                     }
                   }
                 }
-              }
             }
             else
             {
-              int defnum;
-              String t;
-              String t;
               if (as[0].equals("o"))
               {
                 defnum = Integer.parseInt(as[1]);
@@ -909,10 +904,7 @@ public class BlockPhysicsUtil
                     for (int cc = 0; cc < opttranslations.length; cc++) {
                       t = t.replaceAll(opttranslations[cc][0], Matcher.quoteReplacement(opttranslations[cc][1]));
                     }
-                    String[] at = t.split(":");
-                    if (at[0].equals("x"))
-                    {
-                      break;BlockPhysics.blockMoveDef[defnum] = new MoveDef(defnum);
+                      BlockPhysics.blockMoveDef[defnum] = new MoveDef(defnum);
                       for (t = ""; (t = bufferedreader.readLine()) != null;)
                       {
                         sout = new String(t);
@@ -1056,7 +1048,6 @@ public class BlockPhysicsUtil
                         else if (t.trim().length() != 0)
                         {
                           BlockPhysics.writetoLog("Skipping bad option in line " + line + " : " + sout, 0);
-                        }
                       }
                     }
                   }
@@ -1111,7 +1102,7 @@ public class BlockPhysicsUtil
       JButton button;
       if (desktop.isSupported(Desktop.Action.BROWSE))
       {
-        JButton button = new JButton("Open Website");
+        button = new JButton("Open Website");
         button.setActionCommand("BPUPD");
       }
       else
@@ -1444,7 +1435,7 @@ public class BlockPhysicsUtil
         exc.add("cp");
         exc.add("es");
         exc.add("ef");
-        for (s = ""; (s = bufferedreader.readLine()) != null;)
+        for (String s = ""; (s = bufferedreader.readLine()) != null;)
         {
           String sout = new String(s);
           

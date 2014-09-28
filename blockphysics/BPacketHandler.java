@@ -31,34 +31,33 @@ public class BPacketHandler
   {
     if ((playerEntity instanceof EntityPlayerMP))
     {
-      if (packet.a.equals("BlockPhysics0001")) {
-        if (packet.c[0] == 0)
+      if (packet.channel.equals("BlockPhysics0001")) {
+        if (packet.data[0] == 0)
         {
           Packet250CustomPayload packet2 = new Packet250CustomPayload();
-          packet2.a = "BlockPhysics0000";
-          packet2.c = BlockPhysics.cConf.toByteArray();
-          packet2.b = packet2.c.length;
+          packet2.channel = "BlockPhysics0000";
+          packet2.data = BlockPhysics.cConf.toByteArray();
+          packet2.length = packet2.data.length;
           PacketDispatcher.sendPacketToPlayer(packet2, playerEntity);
-          BlockPhysics.writetoLog("Configuration sent to player: " + ((EntityPlayerMP)playerEntity).bu, 1);
+          BlockPhysics.writetoLog("Configuration sent to player: " + ((EntityPlayerMP)playerEntity).username, 1);
         }
         else
         {
-          ((EntityPlayerMP)playerEntity).a.c("BlockPhysics configuration sync error, try to connect again!");
-          BlockPhysics.writetoLog("Error sending configuration to player: " + ((EntityPlayerMP)playerEntity).bu + " Disconnecting...", 0);
+          ((EntityPlayerMP)playerEntity).playerNetServerHandler.kickPlayerFromServer("BlockPhysics configuration sync error, try to connect again!");
+          BlockPhysics.writetoLog("Error sending configuration to player: " + ((EntityPlayerMP)playerEntity).username + " Disconnecting...", 0);
         }
       }
-      if (packet.a.equals("BlockPhysics0002")) {
-        if (packet.c[0] == 0)
+      if (packet.channel.equals("BlockPhysics0002")) {
+        if (packet.data[0] == 0)
         {
           File cf;
-          File cf;
-          if (MinecraftServer.F().V()) {
+          if (MinecraftServer.getServer().isDedicatedServer()) {
             cf = new File(BlockPhysicsUtil.confDir(), "blockphysics.cfg");
           } else {
-            cf = new File(BlockPhysics.gameDir + File.separator + "saves" + File.separator + Minecraft.w().C().L() + File.separator + "blockphysics.cfg");
+            cf = new File(BlockPhysics.gameDir + File.separator + "saves" + File.separator + Minecraft.getMinecraft().getIntegratedServer().getFolderName() + File.separator + "blockphysics.cfg");
           }
-          byte[] conf = new byte[packet.c.length - 1];
-          System.arraycopy(packet.c, 1, conf, 0, packet.c.length - 1);
+          byte[] conf = new byte[packet.data.length - 1];
+          System.arraycopy(packet.data, 1, conf, 0, packet.data.length - 1);
           
           BlockPhysicsUtil.resetConfig();
           if (BlockPhysicsUtil.loadConfig(conf))
@@ -82,71 +81,71 @@ public class BPacketHandler
             }
             if (succ)
             {
-              BlockPhysics.writetoLog(((EntityPlayerMP)playerEntity).c_() + " successfully uploaded a new config.", 1);
-              ((EntityPlayerMP)playerEntity).a("Configuration upload successfull.");
+              BlockPhysics.writetoLog(((EntityPlayerMP)playerEntity).getCommandSenderName() + " successfully uploaded a new config.", 1);
+              ((EntityPlayerMP)playerEntity).addChatMessage("Configuration upload successfull.");
               Packet250CustomPayload packet2 = new Packet250CustomPayload();
-              packet2.a = "BlockPhysics0001";
-              packet2.c = BlockPhysics.cConfmd5.getBytes();
-              packet2.b = packet2.c.length;
+              packet2.channel = "BlockPhysics0001";
+              packet2.data = BlockPhysics.cConfmd5.getBytes();
+              packet2.length = packet2.data.length;
               PacketDispatcher.sendPacketToAllPlayers(packet2);
               BlockPhysics.writetoLog("Configuration md5 sent to all players.", 1);
             }
             else
             {
               BlockPhysics.writetoLog("Can not save config file.", 0);
-              ((EntityPlayerMP)playerEntity).a("Configuration upload failed.");
+              ((EntityPlayerMP)playerEntity).addChatMessage("Configuration upload failed.");
               if (!cf.exists())
               {
-                ((EntityPlayerMP)playerEntity).a("BlockPhysics configuration loading error, can't find: " + cf);
+                ((EntityPlayerMP)playerEntity).addChatMessage("BlockPhysics configuration loading error, can't find: " + cf);
                 return;
               }
               BlockPhysicsUtil.resetConfig();
               BlockPhysicsUtil.loadConfig(cf);
               
               Packet250CustomPayload packet2 = new Packet250CustomPayload();
-              packet2.a = "BlockPhysics0001";
-              packet2.c = BlockPhysics.cConfmd5.getBytes();
-              packet2.b = packet2.c.length;
+              packet2.channel = "BlockPhysics0001";
+              packet2.data = BlockPhysics.cConfmd5.getBytes();
+              packet2.length = packet2.data.length;
               PacketDispatcher.sendPacketToAllPlayers(packet2);
               BlockPhysics.writetoLog("Configuration md5 sent to all players.", 1);
               
 
-              ((EntityPlayerMP)playerEntity).a("BlockPhysics configuration loaded from: " + cf);
+              ((EntityPlayerMP)playerEntity).addChatMessage("BlockPhysics configuration loaded from: " + cf);
             }
           }
           else
           {
-            BlockPhysics.writetoLog(((EntityPlayerMP)playerEntity).c_() + "'s config uploaded failed.", 0);
-            ((EntityPlayerMP)playerEntity).a("Configuration upload failed.");
+            BlockPhysics.writetoLog(((EntityPlayerMP)playerEntity).getCommandSenderName() + "'s config uploaded failed.", 0);
+            ((EntityPlayerMP)playerEntity).addChatMessage("Configuration upload failed.");
             if (!cf.exists())
             {
-              ((EntityPlayerMP)playerEntity).a("BlockPhysics configuration loading error, can't find: " + cf);
+              ((EntityPlayerMP)playerEntity).addChatMessage("BlockPhysics configuration loading error, can't find: " + cf);
               return;
             }
             BlockPhysicsUtil.resetConfig();
             BlockPhysicsUtil.loadConfig(cf);
             
             Packet250CustomPayload packet2 = new Packet250CustomPayload();
-            packet2.a = "BlockPhysics0001";
-            packet2.c = BlockPhysics.cConfmd5.getBytes();
-            packet2.b = packet2.c.length;
+            packet2.channel = "BlockPhysics0001";
+            packet2.data = BlockPhysics.cConfmd5.getBytes();
+            packet2.length = packet2.data.length;
             PacketDispatcher.sendPacketToAllPlayers(packet2);
             BlockPhysics.writetoLog("Configuration md5 sent to all players.", 1);
             
 
-            ((EntityPlayerMP)playerEntity).a("BlockPhysics configuration loaded from: " + cf);
+            ((EntityPlayerMP)playerEntity).addChatMessage("BlockPhysics configuration loaded from: " + cf);
           }
         }
       }
     }
-    else if (!Minecraft.w().A())
+    else if (!Minecraft.getMinecraft().isIntegratedServerRunning())
     {
-      if (packet.a.equals("BlockPhysics0000"))
+      if (packet.channel.equals("BlockPhysics0000"))
       {
-        if (BlockPhysicsUtil.md5Sum(packet.c).equals(BlockPhysics.cConfmd5))
+        if (BlockPhysicsUtil.md5Sum(packet.data).equals(BlockPhysics.cConfmd5))
         {
           BlockPhysicsUtil.resetConfig();
-          BlockPhysicsUtil.loadConfig(packet.c);
+          BlockPhysicsUtil.loadConfig(packet.data);
           
           File conf = new File(BlockPhysics.gameDir, "config" + File.separator + "blockphysics" + File.separator + "servers");
           if (!conf.exists()) {
@@ -155,7 +154,7 @@ public class BPacketHandler
           conf = new File(conf, BlockPhysics.cConfmd5 + ".cfg");
           try
           {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(packet.c)));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(packet.data)));
             BufferedWriter bw = new BufferedWriter(new FileWriter(conf, false));
             for (String s = ""; (s = br.readLine()) != null;)
             {
@@ -171,15 +170,15 @@ public class BPacketHandler
         {
           BlockPhysics.writetoLog("Received inconsistent configuration!", 0);
           Packet250CustomPayload packet2 = new Packet250CustomPayload();
-          packet2.a = "BlockPhysics0001";
-          packet2.c = new byte[] { 1 };
-          packet2.b = packet2.c.length;
+          packet2.channel = "BlockPhysics0001";
+          packet2.data = new byte[] { 1 };
+          packet2.length = packet2.data.length;
           PacketDispatcher.sendPacketToServer(packet2);
         }
       }
-      else if (packet.a.equals("BlockPhysics0001"))
+      else if (packet.channel.equals("BlockPhysics0001"))
       {
-        String cmd5 = new String(packet.c);
+        String cmd5 = new String(packet.data);
         if (cmd5.equals("null"))
         {
           BlockPhysicsUtil.resetConfig();
@@ -196,15 +195,15 @@ public class BPacketHandler
           
           BlockPhysics.cConfmd5 = cmd5;
           Packet250CustomPayload packet2 = new Packet250CustomPayload();
-          packet2.a = "BlockPhysics0001";
-          packet2.c = new byte[] { 0 };
-          packet2.b = packet2.c.length;
+          packet2.channel = "BlockPhysics0001";
+          packet2.data = new byte[] { 0 };
+          packet2.length = packet2.data.length;
           PacketDispatcher.sendPacketToServer(packet2);
           BlockPhysics.writetoLog("Requesting configuration.", 1);
         }
       }
-      if (packet.a.equals("BlockPhysics0002")) {
-        if (packet.c[0] == 0)
+      if (packet.channel.equals("BlockPhysics0002")) {
+        if (packet.data[0] == 0)
         {
           File cf = new File(BlockPhysicsUtil.confDir(), "blockphysics.upload.cfg");
           if (cf.exists())
@@ -214,22 +213,22 @@ public class BPacketHandler
             byte[] conf = BlockPhysics.cConf.toByteArray();
             
             Packet250CustomPayload packet2 = new Packet250CustomPayload();
-            packet2.a = "BlockPhysics0002";
+            packet2.channel = "BlockPhysics0002";
             
-            packet2.c = new byte[conf.length + 1];
+            packet2.data = new byte[conf.length + 1];
             
-            System.arraycopy(new byte[] { 0 }, 0, packet2.c, 0, 1);
-            System.arraycopy(conf, 0, packet2.c, 1, conf.length);
+            System.arraycopy(new byte[] { 0 }, 0, packet2.data, 0, 1);
+            System.arraycopy(conf, 0, packet2.data, 1, conf.length);
             
-            packet2.b = packet2.c.length;
+            packet2.length = packet2.data.length;
             PacketDispatcher.sendPacketToServer(packet2);
             BlockPhysics.writetoLog("Uploading configuration.", 1);
             
-            ((EntityPlayerSP)playerEntity).a("Uploading : " + BlockPhysicsUtil.confDir() + "\\blockphysics.upload.cfg");
+            ((EntityPlayerSP)playerEntity).addChatMessage("Uploading : " + BlockPhysicsUtil.confDir() + "\\blockphysics.upload.cfg");
           }
           else
           {
-            ((EntityPlayerSP)playerEntity).a("Can't find: " + BlockPhysicsUtil.confDir() + "\\blockphysics.upload.cfg");
+            ((EntityPlayerSP)playerEntity).addChatMessage("Can't find: " + BlockPhysicsUtil.confDir() + "\\blockphysics.upload.cfg");
           }
         }
       }
@@ -239,11 +238,11 @@ public class BPacketHandler
   public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager)
   {
     Packet250CustomPayload packet = new Packet250CustomPayload();
-    packet.a = "BlockPhysics0001";
-    packet.c = BlockPhysics.cConfmd5.getBytes();
-    packet.b = packet.c.length;
+    packet.channel = "BlockPhysics0001";
+    packet.data = BlockPhysics.cConfmd5.getBytes();
+    packet.length = packet.data.length;
     PacketDispatcher.sendPacketToPlayer(packet, player);
-    BlockPhysics.writetoLog("Configuration md5 sent to player: " + ((EntityPlayerMP)player).bu, 1);
+    BlockPhysics.writetoLog("Configuration md5 sent to player: " + ((EntityPlayerMP)player).username, 1);
   }
   
   public String connectionReceived(NetLoginHandler netHandler, INetworkManager manager)

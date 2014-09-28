@@ -23,20 +23,20 @@ public class BClient
   {
     
     if (BlockPhysicsUtil.loadConfig(new File(BlockPhysics.gameDir, "saves" + File.separator + var2 + File.separator + "blockphysics.cfg"))) {
-      Minecraft.w().a(var2, var3, (WorldSettings)null);
+      Minecraft.getMinecraft().launchIntegratedServer(var2, var3, (WorldSettings)null);
     } else {
-      Minecraft.w().a(new BGui(screen, var2, var3, (WorldSettings)null, false));
+      Minecraft.getMinecraft().displayGuiScreen(new BGui(screen, var2, var3, (WorldSettings)null, false));
     }
   }
   
   public static void renderBlockSandFalling(RenderBlocks sandRenderBlocks, Block block, World par2World, int par3, int par4, int par5, int par6)
   {
-    if (!block.b())
+    if (!block.renderAsNormalBlock())
     {
-      if (block.d() == 18) {
-        sandRenderBlocks.a(block, par2World, par3, par4, par5, par6);
+      if (block.getRenderType() == 18) {
+        sandRenderBlocks.renderBlockSandFalling(block, par2World, par3, par4, par5, par6);
       } else {
-        sandRenderBlocks.a(block, par6, 0.8F);
+        sandRenderBlocks.renderBlockAsItem(block, par6, 0.8F);
       }
     }
     else
@@ -45,13 +45,13 @@ public class BClient
       if ((block instanceof BlockLeaves)) {
         colormult = colorLeaves(par2World, par3, par5, par6);
       } else {
-        colormult = block.c(par2World, par3, par4, par5);
+        colormult = block.colorMultiplier(par2World, par3, par4, par5);
       }
       float cm1 = (colormult >> 16 & 0xFF) / 255.0F;
       float cm2 = (colormult >> 8 & 0xFF) / 255.0F;
       float cm3 = (colormult & 0xFF) / 255.0F;
       
-      sandRenderBlocks.v = false;
+      sandRenderBlocks.enableAO = false;
       boolean var9 = false;
       float var10 = 0.5F;
       float var11 = 1.0F;
@@ -70,30 +70,30 @@ public class BClient
       float var24 = var12 * cm3;
       float var25 = var13 * cm3;
       
-      Tessellator var8 = Tessellator.a;
+      Tessellator tessellator = Tessellator.instance;
       
-      var8.c(block.e(par2World, par3, par4, par5));
-      var8.b();
+      tessellator.setBrightness(block.getMixedBrightnessForBlock(par2World, par3, par4, par5));
+      tessellator.startDrawingQuads();
       
-      var8.a(var17, var20, var23);
-      sandRenderBlocks.a(block, -0.5D, -0.5D, -0.5D, block.a(0, par6));
+      tessellator.setColorOpaque_F(var17, var20, var23);
+      sandRenderBlocks.renderFaceYNeg(block, -0.5D, -0.5D, -0.5D, block.getIcon(0, par6));
       
-      var8.a(var14, var15, var16);
-      sandRenderBlocks.b(block, -0.5D, -0.5D, -0.5D, block.a(1, par6));
+      tessellator.setColorOpaque_F(var14, var15, var16);
+      sandRenderBlocks.renderFaceYPos(block, -0.5D, -0.5D, -0.5D, block.getIcon(1, par6));
       
-      var8.a(var18, var21, var24);
-      sandRenderBlocks.c(block, -0.5D, -0.5D, -0.5D, block.a(2, par6));
+      tessellator.setColorOpaque_F(var18, var21, var24);
+      sandRenderBlocks.renderFaceZNeg(block, -0.5D, -0.5D, -0.5D, block.getIcon(2, par6));
       
-      var8.a(var18, var21, var24);
-      sandRenderBlocks.d(block, -0.5D, -0.5D, -0.5D, block.a(3, par6));
+      tessellator.setColorOpaque_F(var18, var21, var24);
+      sandRenderBlocks.renderFaceZPos(block, -0.5D, -0.5D, -0.5D, block.getIcon(3, par6));
       
-      var8.a(var19, var22, var25);
-      sandRenderBlocks.e(block, -0.5D, -0.5D, -0.5D, block.a(4, par6));
+      tessellator.setColorOpaque_F(var19, var22, var25);
+      sandRenderBlocks.renderFaceXNeg(block, -0.5D, -0.5D, -0.5D, block.getIcon(4, par6));
       
-      var8.a(var19, var22, var25);
-      sandRenderBlocks.f(block, -0.5D, -0.5D, -0.5D, block.a(5, par6));
+      tessellator.setColorOpaque_F(var19, var22, var25);
+      sandRenderBlocks.renderFaceXPos(block, -0.5D, -0.5D, -0.5D, block.getIcon(5, par6));
       
-      var8.a();
+      tessellator.draw();
     }
   }
   
@@ -108,12 +108,12 @@ public class BClient
     //NOTE: Removed lots of color math, replaced with "return getFoliageColorBasic"
     return ColorizerFoliage.getFoliageColorBasic();
   }
-  
+  /* Unable to deobfuscate. //TODO
   public static boolean cancelRender(EntityFallingSand par1EntityFallingSand)
   {
     if (par1EntityFallingSand.q.a(MathHelper.c(par1EntityFallingSand.u), MathHelper.c(par1EntityFallingSand.v), MathHelper.c(par1EntityFallingSand.w)) != 0) {
       return true;
     }
     return false;
-  }
+  }*/
 }

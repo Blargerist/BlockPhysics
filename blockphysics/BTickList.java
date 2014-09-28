@@ -23,9 +23,9 @@ public class BTickList
       return;
     }
     byte var7 = 8;
-    if (world.e(par1 - var7, par2 - var7, par3 - var7, par1 + var7, par2 + var7, par3 + var7))
+    if (world.checkChunksExist(par1 - var7, par2 - var7, par3 - var7, par1 + var7, par2 + var7, par3 + var7))
     {
-      BTickListEntry var6 = new BTickListEntry(par1, par2, par3, par5, BlockPhysics.blockSet[par4][meta].tickrate + world.N().g());
+      BTickListEntry var6 = new BTickListEntry(par1, par2, par3, par5, BlockPhysics.blockSet[par4][meta].tickrate + world.getWorldInfo().getWorldTime());
       this.bticklist.add(var6);
     }
   }
@@ -45,11 +45,11 @@ public class BTickList
     for (int var3 = 0; var3 < siz; var3++)
     {
       BTickListEntry var4 = (BTickListEntry)this.bticklist.remove(0);
-      if (var4.scheduledTime <= world.N().g() + 60L)
+      if (var4.scheduledTime <= world.getWorldInfo().getWorldTime() + 60L)
       {
         ChunkCoordIntPair chunk = new ChunkCoordIntPair(var4.xCoord / 16, var4.zCoord / 16);
         
-        BlockPhysics.tryToMove(world, var4.xCoord, var4.yCoord, var4.zCoord, world.a(var4.xCoord, var4.yCoord, var4.zCoord), world.h(var4.xCoord, var4.yCoord, var4.zCoord), var4.slide);
+        BlockPhysics.tryToMove(world, var4.xCoord, var4.yCoord, var4.zCoord, world.getBlockId(var4.xCoord, var4.yCoord, var4.zCoord), world.getBlockMetadata(var4.xCoord, var4.yCoord, var4.zCoord), var4.slide);
       }
     }
   }

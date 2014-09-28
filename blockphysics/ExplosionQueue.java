@@ -35,8 +35,8 @@ public class ExplosionQueue
     }
     this.xinterv = 0;
     Explosion explosion = (Explosion)this.explosionQueue.remove(0);
-    explosion.a();
-    explosion.a(true);
+    explosion.doExplosionA();
+    explosion.doExplosionB(true);
   }
   
   public int getSize()

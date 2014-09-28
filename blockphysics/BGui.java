@@ -44,20 +44,19 @@ public class BGui
     this.catapult = true;
     this.explfire = true;
     
-    this.i.clear();
-    this.i.add(this.catapultPiston = new GuiButton(9, this.g / 2 - 155, 90, 150, 20, "Catapult Piston:"));
-    this.i.add(this.physPreset = new GuiButton(10, this.g / 2 - 155, 120, 150, 20, "Moving Blocks:"));
-    this.i.add(this.explPhys = new GuiButton(11, this.g / 2 + 5, 120, 150, 20, "Explosion Strength:"));
-    this.i.add(this.explFire = new GuiButton(12, this.g / 2 + 5, 90, 150, 20, "Explosion Fire:"));
-    String btxt;
+    this.buttonList.clear();
+    this.buttonList.add(this.catapultPiston = new GuiButton(9, this.width / 2 - 155, 90, 150, 20, "Catapult Piston:"));
+    this.buttonList.add(this.physPreset = new GuiButton(10, this.width / 2 - 155, 120, 150, 20, "Moving Blocks:"));
+    this.buttonList.add(this.explPhys = new GuiButton(11, this.width / 2 + 5, 120, 150, 20, "Explosion Strength:"));
+    this.buttonList.add(this.explFire = new GuiButton(12, this.width / 2 + 5, 90, 150, 20, "Explosion Fire:"));
     String btxt;
     if (this.create) {
       btxt = "Create New World";
     } else {
       btxt = "Convert World";
     }
-    this.i.add(new GuiButton(0, this.g / 2 - 155, this.h - 28, 150, 20, btxt));
-    this.i.add(new GuiButton(1, this.g / 2 + 5, this.h - 28, 150, 20, "Back"));
+    this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, btxt));
+    this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, "Back"));
     
     updateButtonText();
     this.createClicked = false;
@@ -66,60 +65,60 @@ public class BGui
   private void updateButtonText()
   {
     if (this.catapult) {
-      this.catapultPiston.f = "Catapult Piston: ON";
+      this.catapultPiston.displayString = "Catapult Piston: ON";
     } else {
-      this.catapultPiston.f = "Catapult Piston: OFF";
+      this.catapultPiston.displayString = "Catapult Piston: OFF";
     }
     if (this.explfire) {
-      this.explFire.f = "Explosion Fire: ON";
+      this.explFire.displayString = "Explosion Fire: ON";
     } else {
-      this.explFire.f = "Explosion Fire: OFF";
+      this.explFire.displayString = "Explosion Fire: OFF";
     }
     switch (this.physics)
     {
     case 0: 
-      this.physPreset.f = "Moving Blocks: OFF";
+      this.physPreset.displayString = "Moving Blocks: OFF";
       break;
     case 1: 
-      this.physPreset.f = "Moving Blocks: Vanilla";
+      this.physPreset.displayString = "Moving Blocks: Vanilla";
       break;
     case 2: 
-      this.physPreset.f = "Moving Blocks: Default";
+      this.physPreset.displayString = "Moving Blocks: Default";
       break;
     case 3: 
-      this.physPreset.f = "Moving Blocks: Easy";
+      this.physPreset.displayString = "Moving Blocks: Easy";
       break;
     case 4: 
-      this.physPreset.f = "Moving Blocks: Hard";
+      this.physPreset.displayString = "Moving Blocks: Hard";
     }
     switch (this.explphys)
     {
     case 0: 
-      this.explPhys.f = "Explosion Strength: OFF";
+      this.explPhys.displayString = "Explosion Strength: OFF";
       break;
     case 1: 
-      this.explPhys.f = "Explosion Strength: Default";
+      this.explPhys.displayString = "Explosion Strength: Default";
       break;
     case 2: 
-      this.explPhys.f = "Explosion Strength: High";
+      this.explPhys.displayString = "Explosion Strength: High";
       break;
     case 3: 
-      this.explPhys.f = "Explosion Strength: Griefing";
+      this.explPhys.displayString = "Explosion Strength: Griefing";
     }
   }
   
   public void b() {}
   
-  protected void a(GuiButton par1GuiButton)
+  protected void displayGuiScreen(GuiButton par1GuiButton)
   {
-    if (par1GuiButton.h) {
-      if (par1GuiButton.g == 1)
+    if (par1GuiButton.enabled) {
+      if (par1GuiButton.id == 1)
       {
-        this.f.a(this.parentGuiScreen);
+        this.mc.displayGuiScreen(this.parentGuiScreen);
       }
-      else if (par1GuiButton.g == 0)
+      else if (par1GuiButton.id == 0)
       {
-        this.f.a((GuiScreen)null);
+        this.mc.displayGuiScreen((GuiScreen)null);
         if (this.createClicked) {
           return;
         }
@@ -127,19 +126,19 @@ public class BGui
         
         BlockPhysicsUtil.resetConfig();
         
-        this.f.a(this.folderName, this.wName, this.worldSettings);
+        this.mc.launchIntegratedServer(this.folderName, this.wName, this.worldSettings);
         
         File confF = new File(BlockPhysics.gameDir + File.separator + "saves" + File.separator + this.folderName + File.separator + "blockphysics.cfg");
         BlockPhysicsUtil.compConfig(confF, this.catapult, this.explfire, this.explphys, this.physics);
         
         BlockPhysicsUtil.loadConfig(confF);
       }
-      else if (par1GuiButton.g == 9)
+      else if (par1GuiButton.id == 9)
       {
         this.catapult = (!this.catapult);
         updateButtonText();
       }
-      else if (par1GuiButton.g == 10)
+      else if (par1GuiButton.id == 10)
       {
         this.physics += 1;
         if (this.physics > 4) {
@@ -147,7 +146,7 @@ public class BGui
         }
         updateButtonText();
       }
-      else if (par1GuiButton.g == 11)
+      else if (par1GuiButton.id == 11)
       {
         this.explphys += 1;
         if (this.explphys > 3) {
@@ -155,7 +154,7 @@ public class BGui
         }
         updateButtonText();
       }
-      else if (par1GuiButton.g == 12)
+      else if (par1GuiButton.id == 12)
       {
         this.explfire = (!this.explfire);
         updateButtonText();
@@ -163,67 +162,67 @@ public class BGui
     }
   }
   
-  protected void a(int par1, int par2, int par3)
+  protected void mouseClicked(int par1, int par2, int par3)
   {
     if (System.currentTimeMillis() - this.startTime > 250L) {
-      super.a(par1, par2, par3);
+      super.mouseClicked(par1, par2, par3);
     }
   }
   
-  public void a(int par1, int par2, float par3)
+  public void drawScreen(int par1, int par2, float par3)
   {
-    e();
+    //TODO no clue what this is supposed to do: e();
     if (this.create)
     {
-      a(this.o, "Configure BlockPhysics for World:", this.g / 2, 20, 16777215);
-      a(this.o, this.wName, this.g / 2, 50, 10526880);
+    	drawCenteredString(this.fontRenderer, "Configure BlockPhysics for World:", this.width / 2, 20, 16777215);
+    	drawCenteredString(this.fontRenderer, this.wName, this.width / 2, 50, 10526880);
     }
     else
     {
-      a(this.o, "Convert World [ " + this.wName + " ] to BlockPhysics", this.g / 2, 20, 16777215);
-      a(this.o, "Warning! Last chance to backup this world!", this.g / 2, 50, 10526880);
+    	drawCenteredString(this.fontRenderer, "Convert World [ " + this.wName + " ] to BlockPhysics", this.width / 2, 20, 16777215);
+    	drawCenteredString(this.fontRenderer, "Warning! Last chance to backup this world!", this.width / 2, 50, 10526880);
     }
     switch (this.physics)
     {
     case 0: 
-      b(this.o, "Nothing falls.", this.g / 2 - 170, 150, 10526880);
-      b(this.o, "explosions and pistons", this.g / 2 - 170, 160, 10526880);
-      b(this.o, "can push blocks.", this.g / 2 - 170, 170, 10526880);
+    	drawString(this.fontRenderer, "Nothing falls.", this.width / 2 - 170, 150, 10526880);
+    	drawString(this.fontRenderer, "explosions and pistons", this.width / 2 - 170, 160, 10526880);
+    	drawString(this.fontRenderer, "can push blocks.", this.width / 2 - 170, 170, 10526880);
       break;
     case 1: 
-      b(this.o, "Only sand and gravel will fall,", this.g / 2 - 170, 150, 10526880);
-      b(this.o, "explosions and pistons", this.g / 2 - 170, 160, 10526880);
-      b(this.o, "can push blocks.", this.g / 2 - 170, 170, 10526880);
+    	drawString(this.fontRenderer, "Only sand and gravel will fall,", this.width / 2 - 170, 150, 10526880);
+    	drawString(this.fontRenderer, "explosions and pistons", this.width / 2 - 170, 160, 10526880);
+    	drawString(this.fontRenderer, "can push blocks.", this.width / 2 - 170, 170, 10526880);
       break;
     case 2: 
-      b(this.o, "The block's behavior will be set", this.g / 2 - 170, 150, 10526880);
-      b(this.o, "according to the global settings.", this.g / 2 - 170, 160, 10526880);
-      b(this.o, "( .minecraft/config/", this.g / 2 - 170, 170, 10526880);
-      b(this.o, "blockphysics/blockphysics.cfg )", this.g / 2 - 170, 180, 10526880);
+    	drawString(this.fontRenderer, "The block's behavior will be set", this.width / 2 - 170, 150, 10526880);
+    	drawString(this.fontRenderer, "according to the global settings.", this.width / 2 - 170, 160, 10526880);
+    	drawString(this.fontRenderer, "( .minecraft/config/", this.width / 2 - 170, 170, 10526880);
+    	drawString(this.fontRenderer, "blockphysics/blockphysics.cfg )", this.width / 2 - 170, 180, 10526880);
       break;
     case 3: 
-      b(this.o, "Only sand and gravel will slide,", this.g / 2 - 170, 150, 10526880);
-      b(this.o, "various blocks will fall.", this.g / 2 - 170, 160, 10526880);
+    	drawString(this.fontRenderer, "Only sand and gravel will slide,", this.width / 2 - 170, 150, 10526880);
+    	drawString(this.fontRenderer, "various blocks will fall.", this.width / 2 - 170, 160, 10526880);
       break;
     }
     switch (this.explphys)
     {
     case 0: 
-      b(this.o, "Explosions will not affect blocks,", this.g / 2 + 10, 150, 10526880);
-      b(this.o, "only entities.", this.g / 2 + 10, 160, 10526880);
+    	drawString(this.fontRenderer, "Explosions will not affect blocks,", this.width / 2 + 10, 150, 10526880);
+    	drawString(this.fontRenderer, "only entities.", this.width / 2 + 10, 160, 10526880);
       break;
     case 1: 
-      b(this.o, "The Explosion Strength will be set", this.g / 2 + 10, 150, 10526880);
-      b(this.o, "according to the global settings.", this.g / 2 + 10, 160, 10526880);
-      b(this.o, "( .minecraft/config/", this.g / 2 + 10, 170, 10526880);
-      b(this.o, "blockphysics/blockphysics.cfg )", this.g / 2 + 10, 180, 10526880);
+    	drawString(this.fontRenderer, "The Explosion Strength will be set", this.width / 2 + 10, 150, 10526880);
+    	drawString(this.fontRenderer, "according to the global settings.", this.width / 2 + 10, 160, 10526880);
+    	drawString(this.fontRenderer, "( .minecraft/config/", this.width / 2 + 10, 170, 10526880);
+    	drawString(this.fontRenderer, "blockphysics/blockphysics.cfg )", this.width / 2 + 10, 180, 10526880);
       break;
     case 2: 
-      b(this.o, "Explosion Strength: 100", this.g / 2 + 10, 150, 10526880);
+    	drawString(this.fontRenderer, "Explosion Strength: 100", this.width / 2 + 10, 150, 10526880);
       break;
     case 3: 
-      b(this.o, "Explosion Strength: 140", this.g / 2 + 10, 150, 10526880);
+    	drawString(this.fontRenderer, "Explosion Strength: 140", this.width / 2 + 10, 150, 10526880);
     }
-    super.a(par1, par2, par3);
+    super.drawScreen(par1, par2, par3);
   }
 }
