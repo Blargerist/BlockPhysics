@@ -1,0 +1,21 @@
+[
+{
+  "modid": "BlockPhysics",
+  "name": "BlockPhysics",
+  "description": "Falling blocks.",
+  "mcversion": "@MCVERSION@",
+  "version" : "@VERSION@",
+  "url": "",
+  "updateUrl": "",
+  "authors": [
+    "id_miner"
+  ],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
