@@ -31,7 +31,6 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 @MCVersion("1.6.2")
 public class BlockPhysicsCorePlugin implements IFMLLoadingPlugin
 {
-    @Override
     public String[] getLibraryRequestClass()
     {
         return null;
