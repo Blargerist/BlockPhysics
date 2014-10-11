@@ -1,31 +1,19 @@
 package blockphysics;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import blockphysics.asm.BlockPhysicsCorePlugin;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.BlockPistonMoving;
-import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -40,7 +28,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet23VehicleSpawn;
 import net.minecraft.network.packet.Packet28EntityVelocity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
 import net.minecraft.tileentity.TileEntityPiston;
@@ -54,10 +41,16 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.WorldSettings;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkMod;
 
 @Mod(modid="BlockPhysics", name="BlockPhysics", version="0.8.0")
 @NetworkMod(clientSideRequired=true, serverSideRequired=true, channels={"BlockPhysics0000", "BlockPhysics0001", "BlockPhysics0002"}, packetHandler = BPacketHandler.class, connectionHandler = BPacketHandler.class)
@@ -71,8 +64,8 @@ public class BlockPhysics
     
 	@Instance("BlockPhysics")
 	public static BlockPhysics instance;
-	public static File gameDir = new File(".");
-	public static File bpjarFile = null;
+	public static File gameDir = BlockPhysicsCorePlugin.gameDir;
+	public static File bpjarFile = BlockPhysicsCorePlugin.bpjarFile;
 	
 	protected static Random rand = new Random();
 	protected static int updateLCG = (new Random()).nextInt();
@@ -1169,7 +1162,7 @@ public class BlockPhysics
 	    	                {
 	    	            		entity = (Entity)iterator.next();
 	    	            		if (entity instanceof EntityFallingSand ) smass += BlockPhysics.blockSet[((EntityFallingSand)entity).blockID][((EntityFallingSand)entity).metadata].mass;
-	    	            		else if (entity instanceof EntityLiving ) smass += ((double)((EntityLiving)entity).func_110138_aP() * 3D);
+	    	            		else if (entity instanceof EntityLiving ) smass += ((double)((EntityLiving)entity).getMaxHealth() * 3D);
 	    	            		else smass += 25D;
 	    	                }	    	            	
 	    	            	
@@ -1921,7 +1914,7 @@ public class BlockPhysics
 			    		//entityCollide(world, fsand, collent, (double)((EntityLiving) collent).getMaxHealth() * 3.0D, true);
 			    		
 			    		double m1 = (double)BlockPhysics.blockSet[fsand.blockID][fsand.metadata].mass;
-			        	double m2 = (double)((EntityLiving) collent).func_110138_aP() * 3.0D;
+			        	double m2 = (double)((EntityLiving) collent).getMaxHealth() * 3.0D;
 			        	double smass =  m1 + m2;
 			    		double vv;
 			    		double damage = fsand.motionX*fsand.motionX + fsand.motionY*fsand.motionY + fsand.motionZ*fsand.motionZ;
@@ -2309,7 +2302,7 @@ public class BlockPhysics
                             {
                             	int m = world.getBlockMetadata(var22, var23, var24);
                             	Block var26 = Block.blocksList[var25];
-                                float var27 = explosion.exploder != null ? explosion.exploder.func_82146_a(explosion, world, var24, var22, var23, var26) : var26.getExplosionResistance(explosion.exploder);
+                                float var27 = explosion.exploder != null ? explosion.exploder.getBlockExplosionResistance(explosion, world, var24, var22, var23, var26) : var26.getExplosionResistance(explosion.exploder);
                                 var14 -= (var27 + 0.3F) * var21;
                             	
 	                            if (var14 > 0.0F)

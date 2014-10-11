@@ -34,9 +34,14 @@ public class BTickList
     
     public void scheduleBlockMoveUpdate(World world, int par1, int par2, int par3, int par4, int meta, boolean par5)
     {
-    	if ( BlockPhysics.blockSet[par4][meta].movenum == 0 ) return;
+    	if ( BlockPhysics.blockSet[par4][meta].movenum == 0 ) {
+    		BlockPhysics.bpLogger.info("Block: " + par4 + ":" + meta + " not found in set");
+    		return;
+    	}
     	
-    	if (bticklist.size() >= 10000) return;
+    	if (bticklist.size() >= 10000) {
+    		return;
+    	}
 		
     	byte var7 = 8;
     	        

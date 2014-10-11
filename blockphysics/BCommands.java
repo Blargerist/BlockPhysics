@@ -24,7 +24,6 @@ import java.util.List;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -252,5 +251,12 @@ public class BCommands  extends CommandBase
 			((EntityPlayerMP)icommandsender).addChatMessage("/bphys confup   upload config");
 			((EntityPlayerMP)icommandsender).addChatMessage("/bphys stat       list statistics");
 		}
+	}
+
+	@Override
+	public int compareTo(Object arg0)
+	{
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

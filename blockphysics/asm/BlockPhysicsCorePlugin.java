@@ -22,15 +22,17 @@ import java.io.File;
 import java.util.Map;
 
 import blockphysics.BlockPhysics;
-
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 
 @TransformerExclusions({"blockphysics.asm"})
-@MCVersion("1.6.2")
+@MCVersion("1.6.4")
 public class BlockPhysicsCorePlugin implements IFMLLoadingPlugin
 {
+	public static File gameDir = new File(".");;
+	public static File bpjarFile = null;
+	
     public String[] getLibraryRequestClass()
     {
         return null;
@@ -57,8 +59,8 @@ public class BlockPhysicsCorePlugin implements IFMLLoadingPlugin
     @Override
     public void injectData(Map<String, Object> data)
     {   
-    	BlockPhysics.gameDir = (File) data.get("mcLocation");
-    	BlockPhysics.bpjarFile = (File) data.get("coremodLocation");
+    	this.gameDir = (File) data.get("mcLocation");
+    	this.bpjarFile = (File) data.get("coremodLocation");
     }
     
 }

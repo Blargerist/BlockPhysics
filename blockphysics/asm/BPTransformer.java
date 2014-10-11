@@ -1,21 +1,3 @@
-/*	Copyright 2013 Dénes Derhán
-*
-*	This file is part of BlockPhysics.
-*
-*	BlockPhysics is free software: you can redistribute it and/or modify
-*	it under the terms of the GNU General Public License as published by
-*	the Free Software Foundation, either version 3 of the License, or
-*	(at your option) any later version.
-*
-*	BlockPhysics is distributed in the hope that it will be useful,
-*	but WITHOUT ANY WARRANTY; without even the implied warranty of
-*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*	GNU General Public License for more details.
-*
-*	You should have received a copy of the GNU General Public License
-*	along with BlockPhysics.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 package blockphysics.asm;
 
 import java.util.Iterator;
@@ -52,119 +34,119 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 	@Override
     public byte[] transform(String name, String mcpName, byte[] bytes)
     {
-		if (name.equals("adq"))
+		if (name.equals("adr"))//
         {
     		return transformChunk(bytes);
         }
-    	else if (name.equals("adr"))
+    	else if (name.equals("ads"))//
         {
     		return transformExtendedBlockStorage(bytes);
         }
-    	else if (name.equals("aed"))
+    	else if (name.equals("aee"))//
         {
     		return transformAnvilChunkLoader(bytes);
         }
-    	else if (name.equals("anh"))
+    	else if (name.equals("ank"))//
         {
     		return transformBlockChest(bytes);
         }
-    	else if (name.equals("anv"))
+    	else if (name.equals("any"))//
         {
     		return transformBlockDispenser(bytes);
         }
-    	else if (name.equals("aoh"))
+    	else if (name.equals("aok"))//
         {
     		return transformBlockFurnace(bytes);
         }
-    	else if (name.equals("ast"))
+    	else if (name.equals("asw"))//
         {
     		return transformTileEntityPiston(bytes);
         }
-    	else if (name.equals("blockphysics.BlockPhysics")) //WHY!?!?!?!?
+    	else if (name.equals("blockphysics.BlockPhysics"))
         {
         	return transformBlockPhysics(bytes);
         }
-    	else if (name.equals("aqw"))
+    	else if (name.equals("aqz"))//
         {
     		return transformBlock(bytes);
         }
-    	else if (name.equals("ams"))
+    	else if (name.equals("amv"))//
         {
     		return transformBlockAnvil(bytes);
         }
-    	else if (name.equals("any"))
+    	else if (name.equals("aob"))//
         {
     		return transformBlockDragonEgg(bytes);
 	    }
-    	else if (name.equals("aoc"))
+    	else if (name.equals("aof"))//
         {
     		return transformBlockFarmland(bytes);
         }
-    	else if (name.equals("asq"))
+    	else if (name.equals("ast"))//
         {
     		return transformBlockPistonBase(bytes);
         }
-    	else if (name.equals("amv"))
+    	else if (name.equals("amy"))//
         {
     		return transformBlockRailBase(bytes);
         }
-    	else if (name.equals("aqa"))
+    	else if (name.equals("aqd"))//
         {
     		return transformBlockRedstoneLight(bytes);
         }
-    	else if (name.equals("aop"))
+    	else if (name.equals("aos"))//
         {
     		return transformBlockSand(bytes);
         }
-    	else if (name.equals("arb"))
+    	else if (name.equals("are"))//
         {
     		return transformBlockTNT(bytes);
         }
-    	else if (name.equals("arm"))
+    	else if (name.equals("arp"))//
         {
     		return transformBlockWeb(bytes);
         }
-    	else if (name.equals("nm"))
+    	else if (name.equals("nn"))//
         {
     		return transformEntity(bytes);
         }
-    	else if (name.equals("sp"))
+    	else if (name.equals("sq"))//
         {
     		return transformEntityBoat(bytes);
         }
-    	else if (name.equals("sq") )
+    	else if (name.equals("sr") )//
         {
     		return transformEntityFallingSand(bytes);
         }
-    	else if (name.equals("ss"))
+    	else if (name.equals("st"))//
         {
         	return transformEntityMinecart(bytes);
         }
-    	else if (name.equals("tb"))
+    	else if (name.equals("tc"))//
         {
     		return transformEntityTNTPrimed(bytes);
         }
-    	else if (name.equals("jl"))
+    	else if (name.equals("jm"))//
         {
     		return transformEntityTracker(bytes);
         }
-    	else if (name.equals("jw"))
+    	else if (name.equals("jx"))//
         {
     		return transformEntityTrackerEntry(bytes);
         }
-    	else if (name.equals("nz"))
+    	else if (name.equals("oa"))//
         {
     		return transformEntityXPOrb(bytes);
         }
-    	else if (name.equals("abq"))
+    	else if (name.equals("abr"))//
         {
     		return transformExplosion(bytes);
 	    }
-    	else if (name.equals("auy"))
+    	else if (name.equals("avb"))//
         {
     		return transformGuiCreateWorld(bytes);
         }
-        else if (name.equals("awe"))
+        else if (name.equals("awh"))//
         {
     		return transformGuiSelectWorld(bytes);
         }
@@ -172,19 +154,19 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {	
 			return transformMinecraftServer(bytes);
 	    }
-    	else if (name.equals("bct"))
+    	else if (name.equals("bcw"))//
         {
     		return transformNetClientHandler(bytes);
         }
-    	else if (name.equals("bgl"))
+    	else if (name.equals("bgo"))//
         {
     		return transformRenderFallingSand(bytes);
         }
-        else if (name.equals("abv"))
+        else if (name.equals("abw"))//
         {
         	return transformWorld(bytes);
 	    }       
-        else if (name.equals("jr") )
+        else if (name.equals("js") )//
         {    		
 			return transformWorldServer(bytes);
 	    }
@@ -207,7 +189,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();        	
         	if (m.name.equals("<init>") && m.desc.equals("(IIIZZ)V") )
-        	{
+        	{//Method = <init> (int, int, int, boolean, boolean)V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
             		if (m.instructions.get(index).getOpcode() == RETURN ) 
@@ -221,10 +203,10 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new InsnNode(ACONST_NULL));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "ast", "movingBlockTileEntityData", "Lbx;"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new InsnNode(ICONST_0));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "ast", "bpmeta", "I"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "asw", "bpmeta", "I"));
 
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			
@@ -234,10 +216,10 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
                 }
             }
         	else if (m.name.equals("f") && m.desc.equals("()V") )
-        	{
+        	{//Method = clearPistonTileEntity()V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
         		{
-            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abv") && ((MethodInsnNode) m.instructions.get(index)).name.equals("g") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(IIII)V"))
+            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abw") && ((MethodInsnNode) m.instructions.get(index)).name.equals("g") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(IIII)V"))
             		{
             			
             			/*
@@ -255,45 +237,45 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			InsnList toInject = new InsnList();
             			
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "k", "Labv;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "k", "Labw;"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "l", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "l", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "m", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "m", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "n", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "n", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "bpmeta", "I"));
-            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "setBlockBPdata", "(Labv;IIII)Z"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "bpmeta", "I"));
+            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "setBlockBPdata", "(Labw;IIII)Z"));
             			toInject.add(new InsnNode(POP));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "movingBlockTileEntityData", "Lbx;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
             			LabelNode l1 = new LabelNode();
             			toInject.add(new JumpInsnNode(IFNULL, l1));
-            			toInject.add(new FieldInsnNode(GETSTATIC, "aqw", "s", "[Laqw;"));
+            			toInject.add(new FieldInsnNode(GETSTATIC, "aqz", "s", "[Laqz;"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "a", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "a", "I"));
             			toInject.add(new InsnNode(AALOAD));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "k", "Labv;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "k", "Labw;"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "b", "I"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "aqw", "createTileEntity", "(Labv;I)Lasm;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "b", "I"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "aqz", "createTileEntity", "(Labw;I)Lasm;"));
             			toInject.add(new VarInsnNode(ASTORE, 1));
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "movingBlockTileEntityData", "Lbx;"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "asm", "a", "(Lbx;)V"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "asm", "a", "(Lby;)V"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "k", "Labv;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "k", "Labw;"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "l", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "l", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "m", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "m", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "n", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "n", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 1));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "abv", "a", "(IIILasm;)V"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "abw", "a", "(IIILasm;)V"));
             			toInject.add(l1);
                 		
             			m.instructions.insert(m.instructions.get(index),toInject);
@@ -303,8 +285,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
         	}
-        	else if (m.name.equals("a") && m.desc.equals("(Lbx;)V") )
-        	{
+        	else if (m.name.equals("a") && m.desc.equals("(Lby;)V") )
+        	{//Method = readFromNBT(NBTTagCompound)V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
             		if (m.instructions.get(index).getOpcode() == RETURN ) 
@@ -324,25 +306,25 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new LdcInsnNode("BPData"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "b", "(Ljava/lang/String;)Z"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "b", "(Ljava/lang/String;)Z"));
             			LabelNode l1 = new LabelNode();
             			toInject.add(new JumpInsnNode(IFEQ, l1));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new LdcInsnNode("BPData"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "c", "(Ljava/lang/String;)B"));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "ast", "bpmeta", "I"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "c", "(Ljava/lang/String;)B"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "asw", "bpmeta", "I"));
             			toInject.add(l1);
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new LdcInsnNode("TileEntityData"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "b", "(Ljava/lang/String;)Z"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "b", "(Ljava/lang/String;)Z"));
             			LabelNode l0 = new LabelNode();
             			toInject.add(new JumpInsnNode(IFEQ, l0));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new LdcInsnNode("TileEntityData"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "l", "(Ljava/lang/String;)Lbx;"));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "ast", "movingBlockTileEntityData", "Lbx;"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "l", "(Ljava/lang/String;)Lby;"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
             			toInject.add(l0);
                 		
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
@@ -352,8 +334,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("b") && m.desc.equals("(Lbx;)V") )
-        	{
+        	else if (m.name.equals("b") && m.desc.equals("(Lby;)V") )
+        	{//Method = writeToNBT(NBTTagCompound)V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
             		if (m.instructions.get(index).getOpcode() == RETURN ) 
@@ -370,18 +352,18 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new LdcInsnNode("BPData"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "bpmeta", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "bpmeta", "I"));
             			toInject.add(new InsnNode(I2B));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "a", "(Ljava/lang/String;B)V"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "a", "(Ljava/lang/String;B)V"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "movingBlockTileEntityData", "Lbx;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
             			LabelNode l0 = new LabelNode();
             			toInject.add(new JumpInsnNode(IFNULL, l0));
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new LdcInsnNode("TileEntityData"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "movingBlockTileEntityData", "Lbx;"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "a", "(Ljava/lang/String;Lbx;)V"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "a", "(Ljava/lang/String;Lby;)V"));
             			toInject.add(l0);
                 		
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
@@ -392,10 +374,10 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
                 }
             }
             else if (m.name.equals("h") && m.desc.equals("()V") )
-        	{
+        	{//Method = updateEntity()V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
         		{
-            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abv") && ((MethodInsnNode) m.instructions.get(index)).name.equals("g") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(IIII)V"))
+            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abw") && ((MethodInsnNode) m.instructions.get(index)).name.equals("g") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(IIII)V"))
             		{
             			/*
             			 * Equivalent to injecting
@@ -412,45 +394,45 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			InsnList toInject = new InsnList();
             			
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "k", "Labv;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "k", "Labw;"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "l", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "l", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "m", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "m", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "n", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "n", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "bpmeta", "I"));
-            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "setBlockBPdata", "(Labv;IIII)Z"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "bpmeta", "I"));
+            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "setBlockBPdata", "(Labw;IIII)Z"));
             			toInject.add(new InsnNode(POP));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "movingBlockTileEntityData", "Lbx;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
             			LabelNode l0 = new LabelNode();
             			toInject.add(new JumpInsnNode(IFNULL, l0));
-            			toInject.add(new FieldInsnNode(GETSTATIC, "aqw", "s", "[Laqw;"));
+            			toInject.add(new FieldInsnNode(GETSTATIC, "aqz", "s", "[Laqz;"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "a", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "a", "I"));
             			toInject.add(new InsnNode(AALOAD));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "k", "Labv;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "k", "Labw;"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "b", "I"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "aqw", "createTileEntity", "(Labv;I)Lasm;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "b", "I"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "aqz", "createTileEntity", "(Labw;I)Lasm;"));
             			toInject.add(new VarInsnNode(ASTORE, 1));
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "movingBlockTileEntityData", "Lbx;"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "asm", "a", "(Lbx;)V"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "asm", "a", "(Lby;)V"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "k", "Labv;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "k", "Labw;"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "l", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "l", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "m", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "m", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "ast", "n", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "asw", "n", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 1));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "abv", "a", "(IIILasm;)V"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "abw", "a", "(IIILasm;)V"));
             			toInject.add(l0);
             			
             			m.instructions.insert(m.instructions.get(index),toInject);
@@ -469,8 +451,13 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         else System.out.println("Failed."+ok+ok2+ok3+ok4+ok5);
         
         FieldVisitor fv;
+        /*
+         * Equivalent to adding fields:
+         * public NBTTagCompound movingBlockTileEntityData;
+         * public int bpmeta;
+         */
     	
-        fv = cw.visitField(ACC_PUBLIC, "movingBlockTileEntityData", "Lbx;", null, null);
+        fv = cw.visitField(ACC_PUBLIC, "movingBlockTileEntityData", "Lby;", null, null);
         fv.visitEnd();
         
         fv = cw.visitField(ACC_PUBLIC, "bpmeta", "I", null, null);
@@ -496,11 +483,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         while(methods.hasNext())
         {
         	m = methods.next();        	
-        	if (m.name.equals("a") && m.desc.equals("(Labv;III)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;III)V") )
         	{
         		for (int index = 0; index < m.instructions.size(); index++)
         		{
-            		if ( m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("aoh") && ((MethodInsnNode) m.instructions.get(index)).name.equals("k") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Labv;III)V"))
+            		if ( m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("aok") && ((MethodInsnNode) m.instructions.get(index)).name.equals("k") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Labw;III)V"))
             		{
             			/*
             			 * Equivalent to removing entire method call
@@ -540,11 +527,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         while(methods.hasNext())
         {
         	m = methods.next();        	
-        	if (m.name.equals("a") && m.desc.equals("(Labv;III)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;III)V") )
         	{
         		for (int index = 0; index < m.instructions.size(); index++)
         		{
-            		if ( m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("anv") && ((MethodInsnNode) m.instructions.get(index)).name.equals("k") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Labv;III)V"))
+            		if ( m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("any") && ((MethodInsnNode) m.instructions.get(index)).name.equals("k") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Labw;III)V"))
             		{
             			/*
             			 * Equivalent to removing entire method call
@@ -584,11 +571,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         while(methods.hasNext())
         {
         	m = methods.next();        	
-        	if (m.name.equals("a") && m.desc.equals("(Labv;III)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;III)V") )
         	{
         		for (int index = 0; index < m.instructions.size(); index++)
         		{
-            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("anh") && ((MethodInsnNode) m.instructions.get(index)).name.equals("f_") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Labv;III)V"))
+            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("ank") && ((MethodInsnNode) m.instructions.get(index)).name.equals("f_") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Labw;III)V"))
             		{
             			/*
             			 * Equivalent to removing entire method call
@@ -628,13 +615,13 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         while(methods.hasNext())
         {
         	m = methods.next();        	
-        	if (m.name.equals("a") && m.desc.equals("(Ladq;Labv;Lbx;)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Ladr;Labw;Lby;)V") )
         	{
         		int var1 = 9;
         		for (int index = 0; index < m.instructions.size(); index++)
         		{
             		if (ok3) break;
-        			if ( m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("bx") && ((MethodInsnNode) m.instructions.get(index)).name.equals("<init>") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("()V"))
+        			if ( m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("by") && ((MethodInsnNode) m.instructions.get(index)).name.equals("<init>") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("()V"))
             		{
             			for (int index2 = index; index2 < m.instructions.size(); index2++)
                 		{
@@ -676,7 +663,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		
         		for (int index = 0; index < m.instructions.size(); index++)
         		{
-            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("cf") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Lck;)V"))
+            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("cg") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Lcl;)V"))
             		{
             			/*
             			 * Equivalent to injecting 
@@ -688,8 +675,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			toInject.add(new VarInsnNode(ALOAD, var1));
             			toInject.add(new LdcInsnNode("BPData"));
             			toInject.add(new VarInsnNode(ALOAD, var2));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "adr", "getBPdataArray", "()[B"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "a", "(Ljava/lang/String;[B)V"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "ads", "getBPdataArray", "()[B"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "a", "(Ljava/lang/String;[B)V"));
                 		
             			m.instructions.insertBefore(m.instructions.get(index - 2 ),toInject);
             			
@@ -698,7 +685,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
         	}
-        	else if (m.name.equals("a") && m.desc.equals("(Labv;Lbx;)Ladq;") )
+        	else if (m.name.equals("a") && m.desc.equals("(Labw;Lby;)Ladr;") )
         	{
         		/*
         		 * method = net/minecraft/world/chunk/storage/AnvilChunkLoader/readChunkFromNBT(World, NBTTagCompound)Chunk
@@ -708,7 +695,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		{
 
             		if (ok6) break;
-        			if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("cf") && ((MethodInsnNode) m.instructions.get(index)).name.equals("b") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(I)Lck;"))
+        			if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("cg") && ((MethodInsnNode) m.instructions.get(index)).name.equals("b") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(I)Lcl;"))
             		{
             			for (int index2 = index; index2 < m.instructions.size(); index2++)
                 		{
@@ -730,7 +717,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		for (int index = 0; index < m.instructions.size(); index++)
         		{
             		if (ok7) break;
-        			if ( m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("adr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("<init>") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(IZ)V") )
+        			if ( m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("ads") && ((MethodInsnNode) m.instructions.get(index)).name.equals("<init>") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(IZ)V") )
             		{
             			for (int index2 = index; index2 < m.instructions.size(); index2++)
                 		{
@@ -750,7 +737,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		
         		for (int index = 0; index < m.instructions.size(); index++)
         		{
-            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("adr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("e") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("()V"))
+            		if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("ads") && ((MethodInsnNode) m.instructions.get(index)).name.equals("e") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("()V"))
             		{
             			/*
             			 * Equivalent to injecting
@@ -768,14 +755,14 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			
             			toInject.add(new VarInsnNode(ALOAD, var1));
             			toInject.add(new LdcInsnNode("BPData"));
-                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "b", "(Ljava/lang/String;)Z"));
+                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "b", "(Ljava/lang/String;)Z"));
                     	LabelNode l6 = new LabelNode();
                     	toInject.add(new JumpInsnNode(IFEQ, l6));
                     	toInject.add(new VarInsnNode(ALOAD, var2));
                     	toInject.add(new VarInsnNode(ALOAD, var1));
                     	toInject.add(new LdcInsnNode("BPData"));
-                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "j", "(Ljava/lang/String;)[B"));
-                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "adr", "setBPdataArray", "([B)V"));
+                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "j", "(Ljava/lang/String;)[B"));
+                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "ads", "setBPdataArray", "([B)V"));
                     	LabelNode l7 = new LabelNode();
                     	toInject.add(new JumpInsnNode(GOTO, l7));
                     	toInject.add(l6);
@@ -783,7 +770,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
                     	toInject.add(new VarInsnNode(ALOAD, var2));
                     	toInject.add(new IntInsnNode(SIPUSH, 4096));
                     	toInject.add(new IntInsnNode(NEWARRAY, T_BYTE));
-                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "adr", "setBPdataArray", "([B)V"));
+                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "ads", "setBPdataArray", "([B)V"));
                     	toInject.add(l7);
                 		
             			m.instructions.insertBefore(m.instructions.get(index - 1 ),toInject);
@@ -836,7 +823,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		        		toInject.add(new VarInsnNode(ALOAD, 0));
 		        		toInject.add(new IntInsnNode(SIPUSH, 4096));
 		        		toInject.add(new IntInsnNode(NEWARRAY, T_BYTE));
-		        		toInject.add(new FieldInsnNode(PUTFIELD, "adr", "blockBPdataArray", "[B"));
+		        		toInject.add(new FieldInsnNode(PUTFIELD, "ads", "blockBPdataArray", "[B"));
 		        		
 		        		m.instructions.insertBefore(m.instructions.get(index),toInject);
             			
@@ -861,7 +848,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "getBlockBPdata", "(III)I", null, null);
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 0);
-        mv.visitFieldInsn(GETFIELD, "adr", "blockBPdataArray", "[B");
+        mv.visitFieldInsn(GETFIELD, "ads", "blockBPdataArray", "[B");
         mv.visitVarInsn(ILOAD, 2);
         mv.visitIntInsn(SIPUSH, 256);
         mv.visitInsn(IMUL);
@@ -887,7 +874,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv = cw.visitMethod(ACC_PUBLIC, "setBlockBPdata", "(IIII)V", null, null);
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adr", "blockBPdataArray", "[B");
+		mv.visitFieldInsn(GETFIELD, "ads", "blockBPdataArray", "[B");
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitIntInsn(SIPUSH, 256);
 		mv.visitInsn(IMUL);
@@ -915,7 +902,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv = cw.visitMethod(ACC_PUBLIC, "getBPdataArray", "()[B", null, null);
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adr", "blockBPdataArray", "[B");
+		mv.visitFieldInsn(GETFIELD, "ads", "blockBPdataArray", "[B");
 		mv.visitInsn(ARETURN);
 		mv.visitMaxs(1, 1);
 		mv.visitEnd();
@@ -932,7 +919,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
 		mv.visitVarInsn(ALOAD, 1);
-		mv.visitFieldInsn(PUTFIELD, "adr", "blockBPdataArray", "[B");
+		mv.visitFieldInsn(PUTFIELD, "ads", "blockBPdataArray", "[B");
 		mv.visitInsn(RETURN);
 		mv.visitMaxs(2, 2);
 		mv.visitEnd();
@@ -975,7 +962,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		 * 				return 0;
 		 * 			}
 		 * 
-		 * 		ExtendedBlockArray blockStorage = this.storageArrays[par2 >> 4];
+		 * 		ExtendedBlockStorage blockStorage = this.storageArrays[par2 >> 4];
 		 * 
 		 * 		if (blockStorage != null)
 		 * 		{
@@ -994,7 +981,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv.visitInsn(ICONST_4);
 		mv.visitInsn(ISHR);
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adq", "r", "[Ladr;");
+		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
 		mv.visitInsn(ARRAYLENGTH);
 		Label l0 = new Label();
 		mv.visitJumpInsn(IF_ICMPLT, l0);
@@ -1003,7 +990,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv.visitLabel(l0);
 		mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adq", "r", "[Ladr;");
+		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitInsn(ICONST_4);
 		mv.visitInsn(ISHR);
@@ -1018,11 +1005,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv.visitIntInsn(BIPUSH, 15);
 		mv.visitInsn(IAND);
 		mv.visitVarInsn(ILOAD, 3);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "adr", "getBlockBPdata", "(III)I");
+		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "getBlockBPdata", "(III)I");
 		Label l2 = new Label();
 		mv.visitJumpInsn(GOTO, l2);
 		mv.visitLabel(l1);
-		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"adr"}, 0, null);
+		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"ads"}, 0, null);
 		mv.visitInsn(ICONST_0);
 		mv.visitLabel(l2);
 		mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {Opcodes.INTEGER});
@@ -1036,7 +1023,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		 * {
 		 *	 ExtendedBlockStorage blockStorage = this.storageArrays[par2 >> 4];
 		 *	
-		 *	 if (blockStorage == null
+		 *	 if (blockStorage == null)
 		 *	 {
 		 *		 return false;
 		 *	 }
@@ -1055,7 +1042,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv = cw.visitMethod(ACC_PUBLIC, "setBlockBPdata", "(IIII)Z", null, null);
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adq", "r", "[Ladr;");
+		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitInsn(ICONST_4);
 		mv.visitInsn(ISHR);
@@ -1067,14 +1054,14 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv.visitInsn(ICONST_0);
 		mv.visitInsn(IRETURN);
 		mv.visitLabel(lab0);
-		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"adr"}, 0, null);
+		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"ads"}, 0, null);
 		mv.visitVarInsn(ALOAD, 5);
 		mv.visitVarInsn(ILOAD, 1);
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitIntInsn(BIPUSH, 15);
 		mv.visitInsn(IAND);
 		mv.visitVarInsn(ILOAD, 3);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "adr", "getBlockBPdata", "(III)I");
+		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "getBlockBPdata", "(III)I");
 		mv.visitVarInsn(ISTORE, 6);
 		mv.visitVarInsn(ILOAD, 6);
 		mv.visitVarInsn(ILOAD, 4);
@@ -1086,7 +1073,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {Opcodes.INTEGER}, 0, null);
 		mv.visitVarInsn(ALOAD, 0);
 		mv.visitInsn(ICONST_1);
-		mv.visitFieldInsn(PUTFIELD, "adq", "l", "Z");
+		mv.visitFieldInsn(PUTFIELD, "adr", "l", "Z");
 		mv.visitVarInsn(ALOAD, 5);
 		mv.visitVarInsn(ILOAD, 1);
 		mv.visitVarInsn(ILOAD, 2);
@@ -1094,7 +1081,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		mv.visitInsn(IAND);
 		mv.visitVarInsn(ILOAD, 3);
 		mv.visitVarInsn(ILOAD, 4);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "adr", "setBlockBPdata", "(IIII)V");
+		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "setBlockBPdata", "(IIII)V");
 		mv.visitInsn(ICONST_1);
 		mv.visitInsn(IRETURN);
 		mv.visitMaxs(5, 7);
@@ -1133,7 +1120,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         while(methods.hasNext())
         {
         	m = methods.next();
-        	if ( m.name.equals("tickBlocksRandomMove") && m.desc.equals("(Ljr;)V") )
+        	if ( m.name.equals("tickBlocksRandomMove") && m.desc.equals("(Ljs;)V") )
         	{
         		m.instructions.clear();
         		m.localVariables.clear();
@@ -1147,7 +1134,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(l0);
         		toInject.add(new FrameNode(Opcodes.F_SAME, 0, null, 0, null));
         		toInject.add(new VarInsnNode(ALOAD, 0));
-        		toInject.add(new FieldInsnNode(GETFIELD, "jr", "G", "Lgnu/trove/map/hash/TLongShortHashMap;"));
+        		toInject.add(new FieldInsnNode(GETFIELD, "js", "G", "Lgnu/trove/map/hash/TLongShortHashMap;"));
         		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "gnu/trove/map/hash/TLongShortHashMap", "iterator", "()Lgnu/trove/iterator/TLongShortIterator;"));
         		toInject.add(new VarInsnNode(ASTORE, 1));
         		LabelNode l1 = new LabelNode();
@@ -1165,12 +1152,12 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ALOAD, 0));
         		toInject.add(new InsnNode(POP));
         		toInject.add(new VarInsnNode(LLOAD, 2));
-        		toInject.add(new MethodInsnNode(INVOKESTATIC, "abv", "keyToX", "(J)I"));
+        		toInject.add(new MethodInsnNode(INVOKESTATIC, "abw", "keyToX", "(J)I"));
         		toInject.add(new VarInsnNode(ISTORE, 4));
         		toInject.add(new VarInsnNode(ALOAD, 0));
         		toInject.add(new InsnNode(POP));
         		toInject.add(new VarInsnNode(LLOAD, 2));
-        		toInject.add(new MethodInsnNode(INVOKESTATIC, "abv", "keyToZ", "(J)I"));
+        		toInject.add(new MethodInsnNode(INVOKESTATIC, "abw", "keyToZ", "(J)I"));
         		toInject.add(new VarInsnNode(ISTORE, 5));
         		toInject.add(new VarInsnNode(ILOAD, 4));
         		toInject.add(new IntInsnNode(BIPUSH, 16));
@@ -1183,10 +1170,10 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ALOAD, 0));
         		toInject.add(new VarInsnNode(ILOAD, 4));
         		toInject.add(new VarInsnNode(ILOAD, 5));
-        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "jr", "e", "(II)Ladq;"));
+        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "js", "e", "(II)Ladr;"));
         		toInject.add(new VarInsnNode(ASTORE, 8));
         		toInject.add(new VarInsnNode(ALOAD, 8));
-        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "adq", "i", "()[Ladr;"));
+        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "adr", "i", "()[Lads;"));
         		toInject.add(new VarInsnNode(ASTORE, 12));
         		toInject.add(new VarInsnNode(ALOAD, 12));
         		toInject.add(new InsnNode(ARRAYLENGTH));
@@ -1195,7 +1182,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ISTORE, 10));
         		LabelNode l3 = new LabelNode();
         		toInject.add(l3);
-        		toInject.add(new FrameNode(Opcodes.F_FULL, 12, new Object[] {"jr", "gnu/trove/iterator/TLongShortIterator", Opcodes.LONG, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "adq", Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.TOP, "[Ladr;"}, 0, new Object[] {}));
+        		toInject.add(new FrameNode(Opcodes.F_FULL, 12, new Object[] {"js", "gnu/trove/iterator/TLongShortIterator", Opcodes.LONG, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "adr", Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.TOP, "[Lads;"}, 0, new Object[] {}));
         		toInject.add(new VarInsnNode(ILOAD, 10));
         		toInject.add(new VarInsnNode(ILOAD, 9));
         		LabelNode l4 = new LabelNode();
@@ -1211,7 +1198,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ISTORE, 14));
         		LabelNode l6 = new LabelNode();
         		toInject.add(l6);
-        		toInject.add(new FrameNode(Opcodes.F_APPEND,2, new Object[] {"adr", Opcodes.INTEGER}, 0, null));
+        		toInject.add(new FrameNode(Opcodes.F_APPEND,2, new Object[] {"ads", Opcodes.INTEGER}, 0, null));
         		toInject.add(new VarInsnNode(ILOAD, 14));
         		toInject.add(new InsnNode(ICONST_3));
         		toInject.add(new JumpInsnNode(IF_ICMPGE, l5));
@@ -1245,13 +1232,13 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ILOAD, 15));
         		toInject.add(new VarInsnNode(ILOAD, 17));
         		toInject.add(new VarInsnNode(ILOAD, 16));
-        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "adr", "a", "(III)I"));
+        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "ads", "a", "(III)I"));
         		toInject.add(new VarInsnNode(ISTORE, 18));
         		toInject.add(new VarInsnNode(ALOAD, 13));
         		toInject.add(new VarInsnNode(ILOAD, 15));
         		toInject.add(new VarInsnNode(ILOAD, 17));
         		toInject.add(new VarInsnNode(ILOAD, 16));
-        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "adr", "b", "(III)I"));
+        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "ads", "b", "(III)I"));
         		toInject.add(new VarInsnNode(ISTORE, 19));
         		toInject.add(new FieldInsnNode(GETSTATIC, "blockphysics/BlockPhysics", "blockSet", "[[Lblockphysics/BlockDef;"));
         		toInject.add(new VarInsnNode(ILOAD, 18));
@@ -1267,7 +1254,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new InsnNode(IADD));
         		toInject.add(new VarInsnNode(ILOAD, 17));
         		toInject.add(new VarInsnNode(ALOAD, 13));
-        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "adr", "d", "()I"));
+        		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "ads", "d", "()I"));
         		toInject.add(new InsnNode(IADD));
         		toInject.add(new VarInsnNode(ILOAD, 16));
         		toInject.add(new VarInsnNode(ILOAD, 7));
@@ -1275,18 +1262,18 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ILOAD, 18));
         		toInject.add(new VarInsnNode(ILOAD, 19));
         		toInject.add(new InsnNode(ICONST_0));
-        		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "tryToMove", "(Labv;IIIIIZ)Z"));
+        		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "tryToMove", "(Labw;IIIIIZ)Z"));
         		toInject.add(new InsnNode(POP));
         		toInject.add(l7);
-        		toInject.add(new FrameNode(Opcodes.F_FULL, 14, new Object[] {"jr", "gnu/trove/iterator/TLongShortIterator", Opcodes.LONG, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "adq", Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "[Ladr;", "adr", Opcodes.INTEGER}, 0, new Object[] {}));
+        		toInject.add(new FrameNode(Opcodes.F_FULL, 14, new Object[] {"js", "gnu/trove/iterator/TLongShortIterator", Opcodes.LONG, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "adr", Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "[Lads;", "ads", Opcodes.INTEGER}, 0, new Object[] {}));
         		toInject.add(new IincInsnNode(14, 1));
         		toInject.add(new JumpInsnNode(GOTO, l6));
         		toInject.add(l5);
-        		toInject.add(new FrameNode(Opcodes.F_FULL, 12, new Object[] {"jr", "gnu/trove/iterator/TLongShortIterator", Opcodes.LONG, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "adq", Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.TOP, "[Ladr;"}, 0, new Object[] {}));
+        		toInject.add(new FrameNode(Opcodes.F_FULL, 12, new Object[] {"js", "gnu/trove/iterator/TLongShortIterator", Opcodes.LONG, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "adr", Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.TOP, "[Lads;"}, 0, new Object[] {}));
         		toInject.add(new IincInsnNode(10, 1));
         		toInject.add(new JumpInsnNode(GOTO, l3));
         		toInject.add(l4);
-        		toInject.add(new FrameNode(Opcodes.F_FULL, 2, new Object[] {"jr", "gnu/trove/iterator/TLongShortIterator"}, 0, new Object[] {}));
+        		toInject.add(new FrameNode(Opcodes.F_FULL, 2, new Object[] {"js", "gnu/trove/iterator/TLongShortIterator"}, 0, new Object[] {}));
         		toInject.add(new JumpInsnNode(GOTO, l1));
         		toInject.add(l2);
         		toInject.add(new FrameNode(Opcodes.F_CHOP,1, null, 0, null));
@@ -1324,15 +1311,14 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if ( m.name.equals("C") && m.desc.equals("()V") )
-        	{
+        	if ( m.name.equals("D") && m.desc.equals("()V") )
+        	{//Method = doBlockCollisions()V
         		for (int index = 0; index < m.instructions.size() - 1 ; index++ )
         		{
         			if ( m.instructions.get(index).getType() == AbstractInsnNode.LDC_INSN && ((LdcInsnNode)m.instructions.get(index)).cst.equals(0.001D) )
         			{
         				/*
         				 * Equivalent to changing all 0.001D to 0.07D
-        				 * into doBlockCollisions()V
         				 */
         				ok = true;
         				m.instructions.set( m.instructions.get(index), new LdcInsnNode(new Double("0.07")));
@@ -1366,7 +1352,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
          * Equivalent to adding return statement to the start of
          * EntityMinecart.setInWeb()
          */
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "al", "()V", null, null);
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "am", "()V", null, null);
         mv.visitCode();
         mv.visitInsn(RETURN);
         mv.visitMaxs(0, 1);
@@ -1456,7 +1442,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         while(methods.hasNext())
         {
         	m = methods.next();
-        	if (m.name.equals("a") && m.desc.equals("(Labv;IIILnm;)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;IIILnn;)V") )
         	{
         		/*
         		 * Equivalent to clearing all code within the method onEntityCollidedWithBlock(World;IIIEntity;)V
@@ -1469,9 +1455,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
     			toInject.add(new VarInsnNode(ILOAD, 3));
     			toInject.add(new VarInsnNode(ILOAD, 4));
     			toInject.add(new VarInsnNode(ALOAD, 0));
-    			toInject.add(new FieldInsnNode(GETFIELD, "arm", "cF", "I"));
+    			toInject.add(new FieldInsnNode(GETFIELD, "arp", "cF", "I"));
     			toInject.add(new VarInsnNode(ALOAD, 5));
-    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onEntityCollidedWithBlock", "(Labv;IIIILnm;)V"));
+    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onEntityCollidedWithBlock", "(Labw;IIIILnn;)V"));
     			toInject.add(new InsnNode(RETURN));
             	
     			m.instructions.clear();
@@ -1527,32 +1513,32 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 		    		    toInject.add(new TypeInsnNode(NEW, "blockphysics/BTickList"));
 		    		    toInject.add(new InsnNode(DUP));
 		    		    toInject.add(new MethodInsnNode(INVOKESPECIAL, "blockphysics/BTickList", "<init>", "()V"));
-		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abv", "moveTickList", "Lblockphysics/BTickList;"));
+		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abw", "moveTickList", "Lblockphysics/BTickList;"));
 		    		    toInject.add(new VarInsnNode(ALOAD, 0));
 		    		    toInject.add(new TypeInsnNode(NEW, "java/util/HashSet"));
 		    		    toInject.add(new InsnNode(DUP));
 		    		    toInject.add(new MethodInsnNode(INVOKESPECIAL, "java/util/HashSet", "<init>", "()V"));
-		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abv", "pistonMoveBlocks", "Ljava/util/HashSet;"));
+		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abw", "pistonMoveBlocks", "Ljava/util/HashSet;"));
 		    		    toInject.add(new VarInsnNode(ALOAD, 0));
 		    		    toInject.add(new TypeInsnNode(NEW, "blockphysics/ExplosionQueue"));
 		    		    toInject.add(new InsnNode(DUP));
 		    		    toInject.add(new MethodInsnNode(INVOKESPECIAL, "blockphysics/ExplosionQueue", "<init>", "()V"));
-		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abv", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
+		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abw", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
 
 		    			m.instructions.insertBefore(m.instructions.get(index),toInject);
 		    			ok = true;
             		}
                 }
         	}
-        	else if ( m.name.equals("a") && m.desc.equals("(Lnm;DDDFZZ)Labq;") );
+        	else if ( m.name.equals("a") && m.desc.equals("(Lnn;DDDFZZ)Labr;") );
         	{
         		for ( int index = m.instructions.size()-1; index > 0; index--)
         		{ //^ start from bottom
-        			if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abq") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Z)V"))
+        			if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Z)V"))
         			{
         				//^if Explosion.doExplosionB(Z)V
 
-        				while ( !(m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abq") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("()V")) )
+        				while ( !(m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("()V")) )
         				{
         					/*
         					 * Remove all instructions starting from and including explosion.doExplosionB(true);
@@ -1574,9 +1560,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				 */
         				InsnList toInject = new InsnList();
         				toInject.add(new VarInsnNode(ALOAD, 0));
-        				toInject.add(new FieldInsnNode(GETFIELD, "abv", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
+        				toInject.add(new FieldInsnNode(GETFIELD, "abw", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
         				toInject.add(new VarInsnNode(ALOAD, 11));
-        				toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/ExplosionQueue", "add", "(Labq;)V"));
+        				toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/ExplosionQueue", "add", "(Labr;)V"));
 
             			m.instructions.insertBefore(m.instructions.get(index-1),toInject);
             			
@@ -1646,7 +1632,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         	m = methods.next();
         	
         	if (m.name.equals("b") && m.desc.equals("()V") )
-        	{
+        	{//Method = tick()V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
             		if (m.instructions.get(index).getOpcode() == RETURN ) 
@@ -1661,16 +1647,16 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			 */
             			InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "tickBlocksRandomMove", "(Ljr;)V"));
+                		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "tickBlocksRandomMove", "(Ljs;)V"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new FieldInsnNode(GETFIELD, "jr", "moveTickList", "Lblockphysics/BTickList;"));
+                		toInject.add(new FieldInsnNode(GETFIELD, "js", "moveTickList", "Lblockphysics/BTickList;"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/BTickList", "tickMoveUpdates", "(Labv;)V"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/BTickList", "tickMoveUpdates", "(Labw;)V"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new FieldInsnNode(GETFIELD, "jr", "pistonMoveBlocks", "Ljava/util/HashSet;"));
+                		toInject.add(new FieldInsnNode(GETFIELD, "js", "pistonMoveBlocks", "Ljava/util/HashSet;"));
                 		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "java/util/HashSet", "clear", "()V"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new FieldInsnNode(GETFIELD, "jr", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
+                		toInject.add(new FieldInsnNode(GETFIELD, "js", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
                 		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/ExplosionQueue", "doNextExplosion", "()V"));
 
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
@@ -1680,15 +1666,15 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if ( !bukkit && m.name.equals("a") && m.desc.equals("(Lnm;DDDFZZ)Labq;") );
+        	else if ( !bukkit && m.name.equals("a") && m.desc.equals("(Lnn;DDDFZZ)Labr;") );
         	{
         		for ( int index = m.instructions.size()-1; index > 0; index--)
         		{
-        			if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abq") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Z)V"))
+        			if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Z)V"))
         			{
         				//^if Explosion.doExplosionB(Z)V
 
-        				while ( !(m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abq") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("()V")) )
+        				while ( !(m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("()V")) )
         				{
         					/*
         					 * Remove all instructions starting from and including explosion.doExplosionB(true);
@@ -1710,9 +1696,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				 */
         				InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "jr", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "js", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
             			toInject.add(new VarInsnNode(ALOAD, 11));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/ExplosionQueue", "add", "(Labq;)V"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/ExplosionQueue", "add", "(Labr;)V"));
 
             			m.instructions.insertBefore(m.instructions.get(index-1),toInject);
             			
@@ -1750,7 +1736,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
 
-        	if ((m.name.equals("<init>") && m.desc.equals("(Labv;Lnm;DDDF)V")))
+        	if ((m.name.equals("<init>") && m.desc.equals("(Labw;Lnn;DDDF)V")))
         	{
         		/*
         		 * Equivalent to injecting
@@ -1760,7 +1746,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		InsnList toInject = new InsnList();
 				toInject.add(new VarInsnNode(ALOAD, 0));
 				toInject.add(new InsnNode(ICONST_0));
-				toInject.add(new FieldInsnNode(PUTFIELD, "abq", "impact", "Z"));
+				toInject.add(new FieldInsnNode(PUTFIELD, "abr", "impact", "Z"));
 
 				for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -1780,9 +1766,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		 */
         		InsnList toInject = new InsnList();
 				toInject.add(new VarInsnNode(ALOAD, 0));
-				toInject.add(new FieldInsnNode(GETFIELD, "abq", "k", "Labv;"));
+				toInject.add(new FieldInsnNode(GETFIELD, "abr", "k", "Labw;"));
 				toInject.add(new VarInsnNode(ALOAD, 0));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "doExplosionA", "(Labv;Labq;)V"));
+				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "doExplosionA", "(Labw;Labr;)V"));
 				toInject.add(new InsnNode(RETURN));
 
 				m.instructions.clear();
@@ -1799,10 +1785,10 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		
         		InsnList toInject = new InsnList();
 				toInject.add(new VarInsnNode(ALOAD, 0));
-				toInject.add(new FieldInsnNode(GETFIELD, "abq", "k", "Labv;"));
+				toInject.add(new FieldInsnNode(GETFIELD, "abr", "k", "Labw;"));
 				toInject.add(new VarInsnNode(ALOAD, 0));
 				toInject.add(new VarInsnNode(ILOAD, 1));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "doExplosionB", "(Labv;Labq;Z)V"));
+				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "doExplosionB", "(Labw;Labr;Z)V"));
 				toInject.add(new InsnNode(RETURN));
 				
 				m.instructions.clear();
@@ -1966,11 +1952,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
 
-        	if (m.name.equals("c") && m.desc.equals("()Lex;") )
+        	if (m.name.equals("c") && m.desc.equals("()Ley;") )
         	{ //method = getPacketForThisEntity ()Packet;
         		for (int index = 0; index < m.instructions.size(); index++)
                 {
-        			if ( m.instructions.get(index).getType() == AbstractInsnNode.TYPE_INSN && m.instructions.get(index).getOpcode() == INSTANCEOF && ((TypeInsnNode) m.instructions.get(index)).desc.equals("sq"))
+        			if ( m.instructions.get(index).getType() == AbstractInsnNode.TYPE_INSN && m.instructions.get(index).getOpcode() == INSTANCEOF && ((TypeInsnNode) m.instructions.get(index)).desc.equals("sr"))
                     { //^if instance of EntityFallingSand
     					while ( m.instructions.get(index).getOpcode() != IFEQ )
     					{
@@ -1999,9 +1985,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
     					
     					InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "jw", "a", "Lnm;"));
-            			toInject.add(new TypeInsnNode(CHECKCAST, "sq"));
-            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "spawnFallingSandPacket", "(Lsq;)Ldc;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "jx", "a", "Lnn;"));
+            			toInject.add(new TypeInsnNode(CHECKCAST, "sr"));
+            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "spawnFallingSandPacket", "(Lsr;)Ldd;"));
             			
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			ok = true;
@@ -2040,7 +2026,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("<init>") && m.desc.equals("(Ljr;)V") )
+        	if (m.name.equals("<init>") && m.desc.equals("(Ljs;)V") )
         	{//Method = <init>(WorldServer)V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -2054,7 +2040,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(ICONST_0));
-                    	toInject.add(new FieldInsnNode( PUTFIELD, "jl", "movingblocks", "I"));
+                    	toInject.add(new FieldInsnNode( PUTFIELD, "jm", "movingblocks", "I"));
                     	
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			ok = true;
@@ -2062,11 +2048,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
         	}
-        	else if (m.name.equals("a") && m.desc.equals("(Lnm;)V") )//TODO doing this makes no sense
+        	else if (m.name.equals("a") && m.desc.equals("(Lnn;)V") )//TODO doing this makes no sense
         	{//Method = addEntityToTracker(Entity)V
         		for (int index = 0; index < m.instructions.size(); index++)
                 {
-        			if ( m.instructions.get(index).getType() == AbstractInsnNode.TYPE_INSN && m.instructions.get(index).getOpcode() == INSTANCEOF && ((TypeInsnNode) m.instructions.get(index)).desc.equals("tb"))
+        			if ( m.instructions.get(index).getType() == AbstractInsnNode.TYPE_INSN && m.instructions.get(index).getOpcode() == INSTANCEOF && ((TypeInsnNode) m.instructions.get(index)).desc.equals("tc"))
                     {//InstanceOf EntityTNTPrimed
         				m.instructions.remove(m.instructions.get(index-1));
     					/*
@@ -2088,7 +2074,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		
         		for (int index = 0; index < m.instructions.size(); index++)
                 {
-        			if ( m.instructions.get(index).getType() == AbstractInsnNode.TYPE_INSN && m.instructions.get(index).getOpcode() == INSTANCEOF && ((TypeInsnNode) m.instructions.get(index)).desc.equals("sq"))
+        			if ( m.instructions.get(index).getType() == AbstractInsnNode.TYPE_INSN && m.instructions.get(index).getOpcode() == INSTANCEOF && ((TypeInsnNode) m.instructions.get(index)).desc.equals("sr"))
                     {//instanceof EntityFallingSand
     					while ( m.instructions.get(index).getOpcode() != GOTO )
     					{
@@ -2111,17 +2097,17 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
     					InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new InsnNode(DUP));
-            			toInject.add(new FieldInsnNode( GETFIELD, "jl", "movingblocks", "I"));
+            			toInject.add(new FieldInsnNode( GETFIELD, "jm", "movingblocks", "I"));
             			toInject.add(new InsnNode(ICONST_1));
             			toInject.add(new InsnNode(IADD));
-                    	toInject.add(new FieldInsnNode( PUTFIELD, "jl", "movingblocks", "I"));
+                    	toInject.add(new FieldInsnNode( PUTFIELD, "jm", "movingblocks", "I"));
                     	
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			break;
                     }
                 }
             }
-        	else if (m.name.equals("b") && m.desc.equals("(Lnm;)V") )
+        	else if (m.name.equals("b") && m.desc.equals("(Lnn;)V") )
             {//Method = removeEntityFromAllTrackingPlayers(Entity)V
             	InsnList toInject = new InsnList();
             	/*
@@ -2133,15 +2119,15 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	 * before end return statement
             	 */
             	toInject.add(new VarInsnNode(ALOAD, 1));
-            	toInject.add(new TypeInsnNode(INSTANCEOF, "sq"));
+            	toInject.add(new TypeInsnNode(INSTANCEOF, "sr"));
             	LabelNode l3 = new LabelNode();
             	toInject.add(new JumpInsnNode(IFEQ, l3));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new InsnNode(DUP));
-            	toInject.add(new FieldInsnNode(GETFIELD, "jl", "movingblocks", "I"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "jm", "movingblocks", "I"));
             	toInject.add(new InsnNode(ICONST_1));
             	toInject.add(new InsnNode(ISUB));
-            	toInject.add(new FieldInsnNode(PUTFIELD, "jl", "movingblocks", "I"));
+            	toInject.add(new FieldInsnNode(PUTFIELD, "jm", "movingblocks", "I"));
             	toInject.add(l3);
             	
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
@@ -2202,7 +2188,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         /*
          * change superclass to EntityFallingSand
          */
-        classNode.superName = "sq";
+        classNode.superName = "sr";
         
         MethodNode m;
         Iterator<MethodNode> methods = classNode.methods.iterator();
@@ -2210,11 +2196,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("<init>") && m.desc.equals("(Labv;)V") )
+        	if (m.name.equals("<init>") && m.desc.equals("(Labw;)V") )
         	{//Method = <init>(World)V
         		for (int index = 0; index < m.instructions.size(); index++)
                 {
-    				if (m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("nm") && ((MethodInsnNode) m.instructions.get(index)).name.equals("<init>") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Labv;)V"))
+    				if (m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("nn") && ((MethodInsnNode) m.instructions.get(index)).name.equals("<init>") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Labw;)V"))
                     {
     					/*
     					 * Replace invokespecial at line 18
@@ -2222,13 +2208,13 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
     					 * with
     					 * super(par1World); which is really EntityFallingSand<init>(world);
     					 */
-    					m.instructions.set(m.instructions.get(index),new MethodInsnNode(INVOKESPECIAL, "sq", "<init>", "(Labv;)V"));
+    					m.instructions.set(m.instructions.get(index),new MethodInsnNode(INVOKESPECIAL, "sr", "<init>", "(Labw;)V"));
     					ok = true;
         				break;
             		}
                 }
         	}
-        	else if (m.name.equals("<init>") && m.desc.equals("(Labv;DDDLoe;)V") )
+        	else if (m.name.equals("<init>") && m.desc.equals("(Labw;DDDLof;)V") )
         	{// Method = <init>(World, double, double, double, EntityLivingBase)V
 				InsnList toInject = new InsnList();
 	 			
@@ -2245,19 +2231,19 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 				toInject.add(new VarInsnNode(DLOAD, 6));
 				toInject.add(new IntInsnNode(BIPUSH, 46));
 				toInject.add(new InsnNode(ICONST_0));
-				toInject.add(new MethodInsnNode(INVOKESPECIAL, "sq", "<init>", "(Labv;DDDII)V"));
+				toInject.add(new MethodInsnNode(INVOKESPECIAL, "sr", "<init>", "(Labw;DDDII)V"));
 				toInject.add(new VarInsnNode(ALOAD, 0));
 				toInject.add(new IntInsnNode(BIPUSH, 80));
-				toInject.add(new FieldInsnNode(PUTFIELD, "tb", "a", "I"));
+				toInject.add(new FieldInsnNode(PUTFIELD, "tc", "a", "I"));
 				
 				if (bukkit)
 				{//BUKKIT CRAP
 					toInject.add(new VarInsnNode(ALOAD, 0));
 					toInject.add(new LdcInsnNode(new Float("4.0")));
-					toInject.add(new FieldInsnNode(PUTFIELD, "tb", "yield", "F"));
+					toInject.add(new FieldInsnNode(PUTFIELD, "tc", "yield", "F"));
 					toInject.add(new VarInsnNode(ALOAD, 0));
 					toInject.add(new InsnNode(ICONST_0));
-					toInject.add(new FieldInsnNode(PUTFIELD, "tb", "isIncendiary", "Z"));
+					toInject.add(new FieldInsnNode(PUTFIELD, "tc", "isIncendiary", "Z"));
 				}//BUKKIT CRAP^
 
 				toInject.add(new InsnNode(RETURN));
@@ -2268,8 +2254,12 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 	
 				ok2 = true;
         	}
-        	else if (m.name.equals("K") && m.desc.equals("()Z") )
-        	{
+        	else if (m.name.equals("L") && m.desc.equals("()Z") )
+        	{//Method = canBeCollidedWith()boolean
+        		/*
+        		 * Equivalent to clearing method and injecting
+        		 * return false;
+        		 */
         		InsnList toInject = new InsnList();
         		toInject.add(new InsnNode(ICONST_0));
         		toInject.add(new InsnNode(IRETURN));
@@ -2287,9 +2277,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		 */
         		InsnList toInject = new InsnList();
         		toInject.add(new VarInsnNode(ALOAD, 0));
-        		toInject.add(new FieldInsnNode(GETFIELD, "tb", "q", "Labv;"));
+        		toInject.add(new FieldInsnNode(GETFIELD, "tc", "q", "Labw;"));
         		toInject.add(new VarInsnNode(ALOAD, 0));
-        		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "fallingSandUpdate", "(Labv;Lsq;)V"));
+        		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "fallingSandUpdate", "(Labw;Lsr;)V"));
         		toInject.add(new InsnNode(RETURN));
         		
         		m.instructions.clear();
@@ -2297,7 +2287,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		m.instructions.add(toInject);
         		ok6 = true;
             }
-        	else if (m.name.equals("b") && m.desc.equals("(Lbx;)V") )
+        	else if (m.name.equals("b") && m.desc.equals("(Lby;)V") )
             {//Method = writeEntityToNBT(NBTTagCompound)V
             	InsnList toInject = new InsnList();
             	
@@ -2308,7 +2298,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	 */
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new VarInsnNode(ALOAD, 1));
-            	toInject.add(new MethodInsnNode(INVOKESPECIAL, "sq", "b", "(Lbx;)V"));
+            	toInject.add(new MethodInsnNode(INVOKESPECIAL, "sr", "b", "(Lby;)V"));
            	
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -2320,7 +2310,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("a") && m.desc.equals("(Lbx;)V") )
+        	else if (m.name.equals("a") && m.desc.equals("(Lby;)V") )
             {//Method = readEntityFromNBT(NBTTagCompound)V
             	InsnList toInject = new InsnList();
             	
@@ -2331,7 +2321,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	 */
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new VarInsnNode(ALOAD, 1));
-            	toInject.add(new MethodInsnNode(INVOKESPECIAL, "sq", "a", "(Lbx;)V"));
+            	toInject.add(new MethodInsnNode(INVOKESPECIAL, "sr", "a", "(Lby;)V"));
            	
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -2354,7 +2344,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 	    				if (m.instructions.get(index).getOpcode() == INVOKESTATIC && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.contains("entity/CraftEntity") && ((MethodInsnNode) m.instructions.get(index)).name.equals("getEntity") )
 	    				{
 	    					String pclass = ((MethodInsnNode) m.instructions.get(index)).owner.replace("entity/CraftEntity", "");
-	    					m.instructions.set(m.instructions.get(index), new MethodInsnNode(INVOKESPECIAL, pclass+"entity/CraftTNTPrimed", "<init>", "(L"+pclass+"CraftServer;Ltb;)V"));
+	    					m.instructions.set(m.instructions.get(index), new MethodInsnNode(INVOKESPECIAL, pclass+"entity/CraftTNTPrimed", "<init>", "(L"+pclass+"CraftServer;Ltc;)V"));
 	
 	    					InsnList toInject = new InsnList();
 	    	    				    	    			
@@ -2421,7 +2411,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	        	
-        	if (m.name.equals("<init>") && m.desc.equals("(Labv;)V") )
+        	if (m.name.equals("<init>") && m.desc.equals("(Labw;)V") )
         	{//Method = <init> (World)V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -2449,50 +2439,50 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
              			
             			toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(ICONST_1));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "m", "Z"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "m", "Z"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new LdcInsnNode(new Float("0.996")));
                     	toInject.add(new LdcInsnNode(new Float("0.996")));
-                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "sq", "a", "(FF)V"));
+                    	toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "sr", "a", "(FF)V"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
-                    	toInject.add(new FieldInsnNode(GETFIELD, "sq", "P", "F"));
+                    	toInject.add(new FieldInsnNode(GETFIELD, "sr", "P", "F"));
                     	toInject.add(new InsnNode(FCONST_2));
                     	toInject.add(new InsnNode(FDIV));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "N", "F"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "N", "F"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(DCONST_0));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "x", "D"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "x", "D"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(DCONST_0));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "y", "D"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "y", "D"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(DCONST_0));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "z", "D"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "z", "D"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(DCONST_0));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationX", "D"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationX", "D"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new LdcInsnNode(new Double("-0.024525")));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationY", "D"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationY", "D"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(DCONST_0));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationZ", "D"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationZ", "D"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(ICONST_0));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "slideDir", "B"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "slideDir", "B"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(ICONST_1));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "Z", "Z"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "Z", "Z"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new LdcInsnNode(new Float("0.8")));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "aa", "F"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "aa", "F"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(ICONST_4));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "dead", "B"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "dead", "B"));
                     	toInject.add(new VarInsnNode(ALOAD, 0));
                     	toInject.add(new InsnNode(ICONST_0));
-                    	toInject.add(new FieldInsnNode(PUTFIELD, "sq", "bpdata", "I"));
+                    	toInject.add(new FieldInsnNode(PUTFIELD, "sr", "bpdata", "I"));
                     	                    	
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			ok10 = true;
@@ -2500,7 +2490,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
         	}
-        	else if (m.name.equals("<init>") && m.desc.equals("(Labv;DDDII)V") )
+        	else if (m.name.equals("<init>") && m.desc.equals("(Labw;DDDII)V") )
         	{
         		for (int index = 0; index < m.instructions.size(); index++)
                 {
@@ -2508,7 +2498,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         			 * Equivalent to changing line 60: this.setSize(0.98F, 0.98F);
         			 * to this.setSize(0.996f, 0.996f);
         			 */
-    				if (m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("sq") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a"))
+    				if (m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("sr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a"))
                     {
     					m.instructions.set(m.instructions.get(index-1), new LdcInsnNode(new Float("0.996")));
     					m.instructions.set(m.instructions.get(index-2), new LdcInsnNode(new Float("0.996")));
@@ -2537,28 +2527,28 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
              			
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new InsnNode(DCONST_0));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationX", "D"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationX", "D"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new LdcInsnNode(new Double("-0.024525")));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationY", "D"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationY", "D"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new InsnNode(DCONST_0));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationZ", "D"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationZ", "D"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new InsnNode(ICONST_0));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "slideDir", "B"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "slideDir", "B"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new InsnNode(ICONST_1));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "Z", "Z"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "Z", "Z"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new LdcInsnNode(new Float("0.8")));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "aa", "F"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "aa", "F"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new InsnNode(ICONST_4));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "dead", "B"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "dead", "B"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new InsnNode(ICONST_0));
-            			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "bpdata", "I"));
+            			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "bpdata", "I"));
 
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			ok2 = true;
@@ -2566,7 +2556,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
         	}
-        	else if (m.name.equals("K") && m.desc.equals("()Z") )
+        	else if (m.name.equals("L") && m.desc.equals("()Z") )
         	{//Method = canBeCollidedWith()Z
         		/*
         		 * Equivalent to removing all instructions and variables then injecting
@@ -2590,9 +2580,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		 */
         		InsnList toInject = new InsnList();
     			toInject.add(new VarInsnNode(ALOAD, 0));
-    			toInject.add(new FieldInsnNode(GETFIELD, "sq", "q", "Labv;"));
+    			toInject.add(new FieldInsnNode(GETFIELD, "sr", "q", "Labw;"));
     			toInject.add(new VarInsnNode(ALOAD, 0));
-    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "fallingSandUpdate", "(Labv;Lsq;)V"));
+    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "fallingSandUpdate", "(Labw;Lsr;)V"));
     			toInject.add(new InsnNode(RETURN));
     			
     			m.instructions.clear();
@@ -2611,7 +2601,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		m.instructions.add(new InsnNode(RETURN));
         		ok4 = true;
         	}
-        	else if (m.name.equals("b") && m.desc.equals("(Lbx;)V") )
+        	else if (m.name.equals("b") && m.desc.equals("(Lby;)V") )
         	{//Method = writeEntityToNBT(NBTTagCompound)V
         		for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -2633,26 +2623,26 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			toInject.add(new InsnNode(DUP));
             			toInject.add(new InsnNode(ICONST_0));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "sq", "accelerationX", "D"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "sr", "accelerationX", "D"));
             			toInject.add(new InsnNode(DASTORE));
             			toInject.add(new InsnNode(DUP));
             			toInject.add(new InsnNode(ICONST_1));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "sq", "accelerationY", "D"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "sr", "accelerationY", "D"));
             			toInject.add(new InsnNode(DASTORE));
             			toInject.add(new InsnNode(DUP));
             			toInject.add(new InsnNode(ICONST_2));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "sq", "accelerationZ", "D"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "sr", "accelerationZ", "D"));
             			toInject.add(new InsnNode(DASTORE));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "sq", "a", "([D)Lcf;"));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "a", "(Ljava/lang/String;Lck;)V"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "sr", "a", "([D)Lcg;"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "a", "(Ljava/lang/String;Lcl;)V"));
             			toInject.add(new VarInsnNode(ALOAD, 1));
             			toInject.add(new LdcInsnNode("BPData"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "sq", "bpdata", "I"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "sr", "bpdata", "I"));
             			toInject.add(new InsnNode(I2B));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "a", "(Ljava/lang/String;B)V"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "a", "(Ljava/lang/String;B)V"));
             			
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			ok5 = true;
@@ -2660,7 +2650,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }        		
         	}
-        	else if (m.name.equals("a") && m.desc.equals("(Lbx;)V") )
+        	else if (m.name.equals("a") && m.desc.equals("(Lby;)V") )
         	{//Method = readEntityFromNBT(NBTTagCompound)V
         		
         		while( !(m.instructions.get(0).getType() == AbstractInsnNode.LDC_INSN && ((LdcInsnNode) m.instructions.get(0)).cst.equals("Data")) )
@@ -2681,8 +2671,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		InsnList toInject = new InsnList();
     			toInject.add(new VarInsnNode(ALOAD, 0));
     			toInject.add(new VarInsnNode(ALOAD, 1));
-    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "readFallingSandID", "(Lbx;)I"));
-    			toInject.add(new FieldInsnNode(PUTFIELD, "sq", "a", "I"));
+    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "readFallingSandID", "(Lby;)I"));
+    			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "a", "I"));
     			toInject.add(new VarInsnNode(ALOAD, 0));
     			toInject.add(new VarInsnNode(ALOAD, 1));
 
@@ -2720,63 +2710,63 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 1));
                 		toInject.add(new LdcInsnNode("Acceleration"));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "b", "(Ljava/lang/String;)Z"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "b", "(Ljava/lang/String;)Z"));
                 		LabelNode l4 = new LabelNode();
                 		toInject.add(new JumpInsnNode(IFEQ, l4));
                 		toInject.add(new VarInsnNode(ALOAD, 1));
                 		toInject.add(new LdcInsnNode("Acceleration"));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "m", "(Ljava/lang/String;)Lcf;"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "m", "(Ljava/lang/String;)Lcg;"));
                 		toInject.add(new VarInsnNode(ASTORE, 2));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new VarInsnNode(ALOAD, 2));
                 		toInject.add(new InsnNode(ICONST_0));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "cf", "b", "(I)Lck;"));
-                		toInject.add(new TypeInsnNode(CHECKCAST, "ca"));
-                		toInject.add(new FieldInsnNode(GETFIELD, "ca", "a", "D"));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationX", "D"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "cg", "b", "(I)Lcl;"));
+                		toInject.add(new TypeInsnNode(CHECKCAST, "cb"));
+                		toInject.add(new FieldInsnNode(GETFIELD, "cb", "a", "D"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationX", "D"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new VarInsnNode(ALOAD, 2));
                 		toInject.add(new InsnNode(ICONST_1));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "cf", "b", "(I)Lck;"));
-                		toInject.add(new TypeInsnNode(CHECKCAST, "ca"));
-                		toInject.add(new FieldInsnNode(GETFIELD, "ca", "a", "D"));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationY", "D"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "cg", "b", "(I)Lcl;"));
+                		toInject.add(new TypeInsnNode(CHECKCAST, "cb"));
+                		toInject.add(new FieldInsnNode(GETFIELD, "cb", "a", "D"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationY", "D"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new VarInsnNode(ALOAD, 2));
                 		toInject.add(new InsnNode(ICONST_2));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "cf", "b", "(I)Lck;"));
-                		toInject.add(new TypeInsnNode(CHECKCAST, "ca"));
-                		toInject.add(new FieldInsnNode(GETFIELD, "ca", "a", "D"));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationZ", "D"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "cg", "b", "(I)Lcl;"));
+                		toInject.add(new TypeInsnNode(CHECKCAST, "cb"));
+                		toInject.add(new FieldInsnNode(GETFIELD, "cb", "a", "D"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationZ", "D"));
                 		LabelNode l5 = new LabelNode();
                 		toInject.add(new JumpInsnNode(GOTO, l5));
                 		toInject.add(l4);
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new InsnNode(DCONST_0));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationX", "D"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationX", "D"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new InsnNode(DCONST_0));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationY", "D"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationY", "D"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new InsnNode(DCONST_0));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "sq", "accelerationZ", "D"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "sr", "accelerationZ", "D"));
                 		toInject.add(l5);
             			toInject.add(new VarInsnNode(ALOAD, 1));
                 		toInject.add(new LdcInsnNode("BPData"));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "b", "(Ljava/lang/String;)Z"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "b", "(Ljava/lang/String;)Z"));
                 		LabelNode l7 = new LabelNode();
                 		toInject.add(new JumpInsnNode(IFEQ, l7));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new VarInsnNode(ALOAD, 1));
                 		toInject.add(new LdcInsnNode("BPData"));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "bx", "c", "(Ljava/lang/String;)B"));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "sq", "bpdata", "I"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "by", "c", "(Ljava/lang/String;)B"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "sr", "bpdata", "I"));
                 		LabelNode l8 = new LabelNode();
                 		toInject.add(new JumpInsnNode(GOTO, l8));
                 		toInject.add(l7);
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new InsnNode(ICONST_0));
-                		toInject.add(new FieldInsnNode(PUTFIELD, "sq", "bpdata", "I"));
+                		toInject.add(new FieldInsnNode(PUTFIELD, "sr", "bpdata", "I"));
                 		toInject.add(l8);
                 		
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
@@ -2794,7 +2784,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		 *///TODO Shouldn't this be return !this.inWater();? Shouldn't be on fire in water afterall....
         		InsnList toInject = new InsnList();
     			toInject.add(new VarInsnNode(ALOAD, 0));
-    			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "sq", "ae", "()Z"));
+    			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "sr", "ae", "()Z"));
     			toInject.add(new InsnNode(IRETURN));
     			
         		m.instructions.clear();
@@ -2853,7 +2843,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         mv = cw.visitMethod(ACC_PUBLIC, "D", "()Lasu;", null, null);
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 0);
-        mv.visitFieldInsn(GETFIELD, "sq", "E", "Lasu;");
+        mv.visitFieldInsn(GETFIELD, "sr", "E", "Lasu;");
         mv.visitInsn(ARETURN);
         mv.visitMaxs(1, 1);
         mv.visitEnd();
@@ -2881,12 +2871,12 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         mv = cw.visitMethod(ACC_PUBLIC, "d", "(DDD)V", null, null);
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 0);
-        mv.visitFieldInsn(GETFIELD, "sq", "q", "Labv;");
+        mv.visitFieldInsn(GETFIELD, "sr", "q", "Labw;");
         mv.visitVarInsn(ALOAD, 0);
         mv.visitVarInsn(DLOAD, 1);
         mv.visitVarInsn(DLOAD, 3);
         mv.visitVarInsn(DLOAD, 5);
-        mv.visitMethodInsn(INVOKESTATIC, "blockphysics/BlockPhysics", "moveEntity", "(Labv;Lsq;DDD)V");
+        mv.visitMethodInsn(INVOKESTATIC, "blockphysics/BlockPhysics", "moveEntity", "(Labw;Lsr;DDD)V");
         mv.visitInsn(RETURN);
         mv.visitMaxs(8, 7);
         mv.visitEnd();
@@ -2903,7 +2893,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         	mv = cw.visitMethod(ACC_PUBLIC, "au", "()Z", null, null);
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitMethodInsn(INVOKEVIRTUAL, "sq", "ae", "()Z");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "sr", "ae", "()Z");
             mv.visitInsn(IRETURN);
             mv.visitMaxs(0, 0);
             mv.visitEnd();
@@ -2936,7 +2926,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("a") && m.desc.equals("(Lsq;DDDFF)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Lsr;DDDFF)V") )
         	{//Method = doRenderFallingSand(EntityFallingSand, double, double, double, float, float)V
         		InsnList toInject = new InsnList();
         		/*
@@ -2949,7 +2939,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		 */
 	           	
         	    toInject.add(new VarInsnNode(ALOAD, 1));
-        	    toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "cancelRender", "(Lsq;)Z"));
+        	    toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "cancelRender", "(Lsr;)Z"));
         		LabelNode l0 = new LabelNode();
         		toInject.add(new JumpInsnNode(IFEQ, l0));
         		toInject.add(new InsnNode(RETURN));
@@ -2960,7 +2950,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		int index;
         		for (index = 0; index < m.instructions.size(); index++)
                 {
-    				if (m.instructions.get(index).getOpcode() == GETFIELD && m.instructions.get(index).getType() == AbstractInsnNode.FIELD_INSN && ((FieldInsnNode) m.instructions.get(index)).owner.equals("sq") && ((FieldInsnNode) m.instructions.get(index)).name.equals("a") && ((FieldInsnNode) m.instructions.get(index)).desc.equals("I"))
+    				if (m.instructions.get(index).getOpcode() == GETFIELD && m.instructions.get(index).getType() == AbstractInsnNode.FIELD_INSN && ((FieldInsnNode) m.instructions.get(index)).owner.equals("sr") && ((FieldInsnNode) m.instructions.get(index)).name.equals("a") && ((FieldInsnNode) m.instructions.get(index)).desc.equals("I"))
                     {
     					/*
     					 * Find first mention of getfield EntityFallingSand.blockID and add +3 to index
@@ -2982,13 +2972,13 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
               
         		for (index = 0; index < m.instructions.size(); index++)
                 {
-    				if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("bfo") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Laqw;Labv;IIII)V"))
+    				if ( m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("bfr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Laqz;Labw;IIII)V"))
                     {
     					/*
     					 * Find invokevirtual RenderBlocks.renderBlockSandFalling(Block, World, int, int, int, int)V
     					 * replace with: blockphysics.BlockPhysics.renderBlockSandFalling(RenderBlocks, Block, World, int, int, int, int)V
     					 */
-    					m.instructions.set(m.instructions.get(index), new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "renderBlockSandFalling", "(Lbfo;Laqw;Labv;IIII)V"));
+    					m.instructions.set(m.instructions.get(index), new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "renderBlockSandFalling", "(Lbfr;Laqz;Labw;IIII)V"));
     					ok4 = true;
     					break;
                     }
@@ -3021,7 +3011,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("a") && m.desc.equals("(Ldc;)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Ldd;)V") )
         	{//Method = handleVehicleSpawn(Packet23VehicleSpawn)V
             	InsnList toInject = new InsnList();
             	/*
@@ -3032,27 +3022,27 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	 * at line 461, after removing line 461 and 462
             	 */
         	    toInject.add(new VarInsnNode(ALOAD, 0));
-        	    toInject.add(new FieldInsnNode(GETFIELD, "bct", "i", "Lbda;"));
+        	    toInject.add(new FieldInsnNode(GETFIELD, "bcw", "i", "Lbdd;"));
         	    toInject.add(new VarInsnNode(DLOAD, 2));
         	    toInject.add(new VarInsnNode(DLOAD, 4));
         	    toInject.add(new VarInsnNode(DLOAD, 6));
         	    toInject.add(new VarInsnNode(ALOAD, 1));
-        	    toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "createFallingsand", "(Labv;DDDLdc;)Lsq;"));
+        	    toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "createFallingsand", "(Labw;DDDLdd;)Lsr;"));
         	    toInject.add(new VarInsnNode(ASTORE, 8));
         	    toInject.add(new VarInsnNode(ALOAD, 1));
         	    toInject.add(new InsnNode(ICONST_1));
-        	    toInject.add(new FieldInsnNode(PUTFIELD, "dc", "k", "I"));
+        	    toInject.add(new FieldInsnNode(PUTFIELD, "dd", "k", "I"));
 
     			for (int index = 0; index < m.instructions.size(); index++)
                 {
-    				if (m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("sq") && ((MethodInsnNode) m.instructions.get(index)).name.equals("<init>"))
+    				if (m.instructions.get(index).getOpcode() == INVOKESPECIAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("sr") && ((MethodInsnNode) m.instructions.get(index)).name.equals("<init>"))
                     {//Line 461, second last injection 
-    					while( m.instructions.get(index).getType() != AbstractInsnNode.FIELD_INSN || m.instructions.get(index).getOpcode() != PUTFIELD || !((FieldInsnNode) m.instructions.get(index)).owner.equals("dc") || !((FieldInsnNode) m.instructions.get(index)).name.equals("k"))
+    					while( m.instructions.get(index).getType() != AbstractInsnNode.FIELD_INSN || m.instructions.get(index).getOpcode() != PUTFIELD || !((FieldInsnNode) m.instructions.get(index)).owner.equals("dd") || !((FieldInsnNode) m.instructions.get(index)).name.equals("k"))
         				{//PUTFIELD Packet23VehicleSpawn.throwerEntityId Line 462
     						index++;
         				}
     					
-    					while( m.instructions.get(index).getType() != AbstractInsnNode.TYPE_INSN || !((TypeInsnNode) m.instructions.get(index)).desc.equals("sq"))
+    					while( m.instructions.get(index).getType() != AbstractInsnNode.TYPE_INSN || !((TypeInsnNode) m.instructions.get(index)).desc.equals("sr"))
         				{
     						/*
     						 * Delete everything between(and including) above and first instruction line 461
@@ -3113,7 +3103,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	 */
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new InsnNode(ICONST_0));
-            	toInject.add(new FieldInsnNode(PUTFIELD, "awe", "d", "Z"));
+            	toInject.add(new FieldInsnNode(PUTFIELD, "awh", "d", "Z"));
             	      	
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3130,7 +3120,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		
     			for (int index = 0; index < m.instructions.size(); index++)
                 {
-        			if (m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN  && ((MethodInsnNode) m.instructions.get(index)).owner.equals("ats") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Ljava/lang/String;Ljava/lang/String;Lacc;)V"))
+        			if (m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN  && ((MethodInsnNode) m.instructions.get(index)).owner.equals("atv") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Ljava/lang/String;Ljava/lang/String;Lacd;)V"))
                     {//Minecraft.launchIntegratedServer(String, String, WorldSettings)V line 226
         				/*
         				 * Eqiuivalent to injecting
@@ -3141,7 +3131,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				toInject.add(new VarInsnNode(ALOAD, 0));
         				toInject.add(new VarInsnNode(ALOAD, 2));
         				toInject.add(new VarInsnNode(ALOAD, 3));
-        				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "loadWorld", "(Lawb;Ljava/lang/String;Ljava/lang/String;)V"));
+        				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "loadWorld", "(Lawe;Ljava/lang/String;Ljava/lang/String;)V"));
         				
         				m.instructions.insert(m.instructions.get(index),toInject);
             			
@@ -3193,7 +3183,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	 */
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new InsnNode(ICONST_0));
-            	toInject.add(new FieldInsnNode(PUTFIELD, "auy", "v", "Z"));
+            	toInject.add(new FieldInsnNode(PUTFIELD, "avb", "v", "Z"));
             	            	
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3205,11 +3195,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("a") && m.desc.equals("(Lauq;)V") )
+        	else if (m.name.equals("a") && m.desc.equals("(Laut;)V") )
             {//Method = actionPerformed(GuiButton)V
         		for (int index = 0; index < m.instructions.size(); index++)
                 {
-        			if (m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("ats") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Ljava/lang/String;Ljava/lang/String;Lacc;)V"))
+        			if (m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN && ((MethodInsnNode) m.instructions.get(index)).owner.equals("atv") && ((MethodInsnNode) m.instructions.get(index)).name.equals("a") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(Ljava/lang/String;Ljava/lang/String;Lacd;)V"))
                     {//Minecraft.launchIntegratedServer(String, String, WorldSettings)V
         				m.instructions.remove(m.instructions.get(index));
         				/*
@@ -3219,12 +3209,12 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				InsnList toInject = new InsnList();
         				
         				toInject.add(new InsnNode(ICONST_1));
-        				toInject.add(new MethodInsnNode(INVOKESPECIAL, "blockphysics/BGui", "<init>", "(Lawb;Ljava/lang/String;Ljava/lang/String;Lacc;Z)V"));
-        				toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "ats", "a", "(Lawb;)V"));
+        				toInject.add(new MethodInsnNode(INVOKESPECIAL, "blockphysics/BGui", "<init>", "(Lawe;Ljava/lang/String;Ljava/lang/String;Lacd;Z)V"));
+        				toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "atv", "a", "(Lawe;)V"));
         				
         				m.instructions.insertBefore(m.instructions.get(index),toInject);
         				
-        				while( m.instructions.get(index).getOpcode() != GETFIELD || m.instructions.get(index).getType() != AbstractInsnNode.FIELD_INSN || !((FieldInsnNode) m.instructions.get(index)).owner.equals("auy") || !((FieldInsnNode) m.instructions.get(index)).name.equals("f") || !((FieldInsnNode) m.instructions.get(index)).desc.equals("Lats;"))
+        				while( m.instructions.get(index).getOpcode() != GETFIELD || m.instructions.get(index).getType() != AbstractInsnNode.FIELD_INSN || !((FieldInsnNode) m.instructions.get(index)).owner.equals("avb") || !((FieldInsnNode) m.instructions.get(index)).name.equals("f") || !((FieldInsnNode) m.instructions.get(index)).desc.equals("Latv;"))
         				{//GETFIELD Minecraft GuiCreateWorld.mc line 241 2nd instruction
         					index--;
         				}
@@ -3279,7 +3269,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();     	
         	
-        	if (m.name.equals("g") && m.desc.equals("(Labv;IIII)V") )
+        	if (m.name.equals("g") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onBlockDestroyedByPlayer(World, int, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -3293,8 +3283,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ILOAD, 5));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aqw", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockDestroyedByPlayer", "(Labv;IIIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockDestroyedByPlayer", "(Labw;IIIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3306,7 +3296,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("a") && m.desc.equals("(Labv;IIII)V") )
+        	else if (m.name.equals("a") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onNeighborBlockChange(World, int, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -3319,8 +3309,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aqw", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3332,7 +3322,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("b") && m.desc.equals("(Labv;IIILnm;)V") )
+        	else if (m.name.equals("b") && m.desc.equals("(Labw;IIILnn;)V") )
             {//Method = onEntityWalking(World, int, int, int, Entity)V
         		/*
         		 * Equivalent to injecting
@@ -3345,8 +3335,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aqw", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3358,7 +3348,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("a") && m.desc.equals("(Labv;IIILnm;)V") )
+        	else if (m.name.equals("a") && m.desc.equals("(Labw;IIILnn;)V") )
             {//Method = onEntityCollidedWithBlock(World, int, int, int, Entity)V
         		/*
         		 * Equivalent to injecting
@@ -3371,9 +3361,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aqw", "cF", "I"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
             	toInject.add(new VarInsnNode(ALOAD, 5));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onEntityCollidedWithBlock", "(Labv;IIIILnm;)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onEntityCollidedWithBlock", "(Labw;IIIILnn;)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3385,7 +3375,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("k") && m.desc.equals("(Labv;IIII)V") )
+        	else if (m.name.equals("k") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onPostBlockPlaced(World, int, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -3398,9 +3388,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aqw", "cF", "I"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
             	toInject.add(new VarInsnNode(ILOAD, 5));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onPostBlockPlaced", "(Labv;IIIII)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onPostBlockPlaced", "(Labw;IIIII)V"));
             	 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3412,7 +3402,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("a") && m.desc.equals("(Labv;IIILnm;F)V") )
+        	else if (m.name.equals("a") && m.desc.equals("(Labw;IIILnn;F)V") )
             {//Method = onFallenUpon(World, int, int, int, Entity, float)V
         		/*
         		 * Equivalent to injecting
@@ -3425,8 +3415,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aqw", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3482,7 +3472,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         while(methods.hasNext())
         {
         	m = methods.next();
-        	if (m.name.equals("a") && m.desc.equals("(Labv;IIII)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onNeighborBlockChange(World, int, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -3495,8 +3485,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "amv", "cF", "I"));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "amy", "cF", "I"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3536,7 +3526,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("a") && m.desc.equals("(Labv;IIII)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onNeighborBlockChange(World, int, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -3549,8 +3539,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "asq", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "ast", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3562,7 +3552,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("k") && m.desc.equals("(Labv;III)V") )
+        	else if (m.name.equals("k") && m.desc.equals("(Labw;III)V") )
             {//Method = updatePistonState(World, int, int, int)V
         		/*
         		 * Equivalent to clearing all instructions and variables then injecting
@@ -3576,8 +3566,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "asq", "a", "Z"));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "updatePistonState", "(Labv;IIILasq;Z)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "ast", "a", "Z"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "updatePistonState", "(Labw;IIILast;Z)V"));
             	toInject.add(new InsnNode(RETURN));
             	
             	m.instructions.clear();
@@ -3585,7 +3575,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	m.instructions.add(toInject);
             	ok2 = true;
             }
-        	else if (m.name.equals("b") && m.desc.equals("(Labv;IIIII)Z") )
+        	else if (m.name.equals("b") && m.desc.equals("(Labw;IIIII)Z") )
             {//Method = onBlockEventReceived(World, int, int, int, int, int)Z
         		/*
         		 * Equivalent to clearing all instructions and variables then injecting
@@ -3601,8 +3591,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 6));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "asq", "a", "Z"));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockPistonEventReceived", "(Labv;IIIIILasq;Z)Z"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "ast", "a", "Z"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockPistonEventReceived", "(Labw;IIIIILast;Z)Z"));
             	toInject.add(new InsnNode(IRETURN));
             	
             	m.instructions.clear();
@@ -3641,7 +3631,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
 
-        	if (m.name.equals("a") && m.desc.equals("(Labv;IIII)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onNeighborBlockChange(World, int, int, int, int)V
         		/*
         		 * Equivalent to clearing all instructions and variables then injecting
@@ -3654,8 +3644,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aop", "cF", "I"));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aos", "cF", "I"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
             	toInject.add(new InsnNode(RETURN));
         		
         		m.instructions.clear();
@@ -3663,7 +3653,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		m.instructions.add(toInject);
         		ok = true;
             }
-        	else if (m.name.equals("a") && m.desc.equals("(Labv;IIILjava/util/Random;)V") )
+        	else if (m.name.equals("a") && m.desc.equals("(Labw;IIILjava/util/Random;)V") )
             {//Method = updateTick(World, int, int, int, Random)V
         		/*
         		 * Equivalent to clearing all instructions and variables then injecting
@@ -3674,7 +3664,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	m.instructions.insert(new InsnNode(RETURN));
             	ok2 = true;
             }
-        	else if (m.name.equals("k") && m.desc.equals("(Labv;III)V") )
+        	else if (m.name.equals("k") && m.desc.equals("(Labw;III)V") )
             {//Method = tryToFall(World, int, int, int)V
         		/*
         		 * Equivalent to clearing all instructions and variables, then injecting
@@ -3685,7 +3675,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		m.instructions.insert(new InsnNode(RETURN));
             	ok3 = true;
             }
-            else if (m.name.equals("a_") && m.desc.equals("(Labv;III)Z") )
+            else if (m.name.equals("a_") && m.desc.equals("(Labw;III)Z") )
             {//Method = canFallBelow(World, int, int, int)Z
             	/*
             	 * Equivalent to clearing all instructions and variables then injecting
@@ -3698,7 +3688,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 2));
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new InsnNode(ICONST_0));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "canMoveTo", "(Labv;IIII)Z"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "canMoveTo", "(Labw;IIII)Z"));
             	toInject.add(new InsnNode(IRETURN));
         		
         		m.instructions.clear();
@@ -3733,7 +3723,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("a") && m.desc.equals("(Labv;IIII)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onNeighborBlockChange(World, int, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -3746,8 +3736,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aqa", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aqd", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3788,7 +3778,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("a") && m.desc.equals("(Labv;IIII)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onNeighborBlockChange(World, int, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -3801,8 +3791,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "arb", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "are", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3814,7 +3804,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             		}
                 }
             }
-        	else if (m.name.equals("g") && m.desc.equals("(Labv;IIII)V") )
+        	else if (m.name.equals("g") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onBlockDestroyedByPlayer(World, int, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -3828,8 +3818,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ILOAD, 5));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "arb", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockDestroyedByPlayer", "(Labv;IIIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "are", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockDestroyedByPlayer", "(Labw;IIIII)V"));
                 
                 for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3869,7 +3859,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("a") && m.desc.equals("(Labv;IIILnm;F)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;IIILnn;F)V") )
             {//Method = onFallenUpon(World, int, int, int, Entity, float)V
         		/*
         		 * Equivalent to injecting
@@ -3883,8 +3873,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "aoc", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aof", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3924,7 +3914,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("a") && m.desc.equals("(Lsq;)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Lsr;)V") )
             {//Method = onStartFalling(EntityFallingSand)V
         		/*
         		 * Equivalent to clearing all instructions and variables, then injecting
@@ -3935,7 +3925,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	m.instructions.insert(new InsnNode(RETURN));
             	ok = true;
             }
-        	else if (m.name.equals("a_") && m.desc.equals("(Labv;IIII)V") )
+        	else if (m.name.equals("a_") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onFinishFalling(World, int, int, int, int)V
         		/*
         		 * Equivalent to removing all instructions and variables then injecting
@@ -3973,7 +3963,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
         	m = methods.next();
         	
-        	if (m.name.equals("a") && m.desc.equals("(Labv;IIII)V") )
+        	if (m.name.equals("a") && m.desc.equals("(Labw;IIII)V") )
             {//Method = onNeighborBlockChange(World, int, int, int, int)V
         		/*
         		 * Equivalent to clearing all instructions and variables then injecting
@@ -3986,8 +3976,8 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
-            	toInject.add(new FieldInsnNode(GETFIELD, "any", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labv;IIII)V"));
+            	toInject.add(new FieldInsnNode(GETFIELD, "aob", "cF", "I"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 toInject.add(new InsnNode(RETURN));
                 
                 m.instructions.clear();
@@ -3996,7 +3986,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
                 ok = true;
             	
             }
-        	else if (m.name.equals("a") && m.desc.equals("(Labv;IIILjava/util/Random;)V") )
+        	else if (m.name.equals("a") && m.desc.equals("(Labw;IIILjava/util/Random;)V") )
             {//Method = updateTick(World, int, int, int, Random)V
         		/*
         		 * Equivalent to clearing all instructions and variables then injecting
@@ -4007,7 +3997,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	m.instructions.insert(new InsnNode(RETURN));
             	ok2 = true;
             }
-        	else if (m.name.equals("k") && m.desc.equals("(Labv;III)V") )
+        	else if (m.name.equals("k") && m.desc.equals("(Labw;III)V") )
             {//Method = fallIfPossible(World, int, int, int)V
         		/*
         		 * Equivalent to clearing all instructions and variables then injecting
@@ -4018,7 +4008,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	m.instructions.insert(new InsnNode(RETURN));
             	ok3 = true;
             }
-        	else if (m.name.equals("m") && m.desc.equals("(Labv;III)V") )
+        	else if (m.name.equals("m") && m.desc.equals("(Labw;III)V") )
             {//Method = teleportNearby(World, int, int, int)V
         		/*
         		 * Equivalent to injecting
@@ -4029,11 +4019,11 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 6));
             	toInject.add(new VarInsnNode(ILOAD, 7));
             	toInject.add(new VarInsnNode(ILOAD, 8));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "notifyMove", "(Labv;III)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "notifyMove", "(Labw;III)V"));
 
             	for (int index = 0; index < m.instructions.size(); index++)
                 {
-        			if (m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN  && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abv") && ((MethodInsnNode) m.instructions.get(index)).name.equals("i") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(III)Z"))
+        			if (m.instructions.get(index).getOpcode() == INVOKEVIRTUAL && m.instructions.get(index).getType() == AbstractInsnNode.METHOD_INSN  && ((MethodInsnNode) m.instructions.get(index)).owner.equals("abw") && ((MethodInsnNode) m.instructions.get(index)).name.equals("i") && ((MethodInsnNode) m.instructions.get(index)).desc.equals("(III)Z"))
                     {//World.setBlockToAir(int, int, int)Z
         				//INVOKEVIRTUAL on line 111
         				if ( m.instructions.get(index+1).getOpcode() == POP)
