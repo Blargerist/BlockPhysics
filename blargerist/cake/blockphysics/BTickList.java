@@ -1,22 +1,4 @@
-/*	Copyright 2013 Dénes Derhán
-*
-*	This file is part of BlockPhysics.
-*
-*	BlockPhysics is free software: you can redistribute it and/or modify
-*	it under the terms of the GNU General Public License as published by
-*	the Free Software Foundation, either version 3 of the License, or
-*	(at your option) any later version.
-*
-*	BlockPhysics is distributed in the hope that it will be useful,
-*	but WITHOUT ANY WARRANTY; without even the implied warranty of
-*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*	GNU General Public License for more details.
-*
-*	You should have received a copy of the GNU General Public License
-*	along with BlockPhysics.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-package blockphysics;
+package blargerist.cake.blockphysics;
 
 import java.util.ArrayList;
 import net.minecraft.block.Block;
@@ -35,7 +17,6 @@ public class BTickList
     public void scheduleBlockMoveUpdate(World world, int par1, int par2, int par3, int par4, int meta, boolean par5)
     {
     	if ( BlockPhysics.blockSet[par4][meta].movenum == 0 ) {
-    		BlockPhysics.bpLogger.info("Block: " + par4 + ":" + meta + " not found in set");
     		return;
     	}
     	

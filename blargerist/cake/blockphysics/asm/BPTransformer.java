@@ -1,4 +1,4 @@
-package blockphysics.asm;
+package blargerist.cake.blockphysics.asm;
 
 import java.util.Iterator;
 
@@ -34,15 +34,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 	@Override
     public byte[] transform(String name, String mcpName, byte[] bytes)
     {
-		if (name.equals("adr"))//
-        {
-    		return transformChunk(bytes);
-        }
-    	else if (name.equals("ads"))//
-        {
-    		return transformExtendedBlockStorage(bytes);
-        }
-    	else if (name.equals("aee"))//
+    	if (name.equals("aee"))//
         {
     		return transformAnvilChunkLoader(bytes);
         }
@@ -62,7 +54,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         {
     		return transformTileEntityPiston(bytes);
         }
-    	else if (name.equals("blockphysics.BlockPhysics"))
+    	else if (name.equals("blargerist.cake.blockphysics.BlockPhysics"))
         {
         	return transformBlockPhysics(bytes);
         }
@@ -246,7 +238,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			toInject.add(new FieldInsnNode(GETFIELD, "asw", "n", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new FieldInsnNode(GETFIELD, "asw", "bpmeta", "I"));
-            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "setBlockBPdata", "(Labw;IIII)Z"));
+            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "setBlockBPdata", "(Labw;IIII)Z"));
             			toInject.add(new InsnNode(POP));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new FieldInsnNode(GETFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
@@ -403,7 +395,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			toInject.add(new FieldInsnNode(GETFIELD, "asw", "n", "I"));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new FieldInsnNode(GETFIELD, "asw", "bpmeta", "I"));
-            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "setBlockBPdata", "(Labw;IIII)Z"));
+            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "setBlockBPdata", "(Labw;IIII)Z"));
             			toInject.add(new InsnNode(POP));
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new FieldInsnNode(GETFIELD, "asw", "movingBlockTileEntityData", "Lby;"));
@@ -942,158 +934,6 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         return cw.toByteArray();
 	}
 
-	private byte[] transformChunk(byte[] bytes) {
-		
-		System.out.print("[BlockPhysics] Patching Chunk.class ...................");
-       
-        ClassNode classNode = new ClassNode();
-        ClassReader classReader = new ClassReader(bytes);
-        classReader.accept(classNode, 0);
-        
-        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        classNode.accept(cw);
-        
-        /*
-         * Equivalent to adding method:
-         * public int getBlockBPdata(int par1, int par2, int par3)
-         * {
-         * 		if (par2 >> 4 >= this.storageArrays.length)
-		 * 			{
-		 * 				return 0;
-		 * 			}
-		 * 
-		 * 		ExtendedBlockStorage blockStorage = this.storageArrays[par2 >> 4];
-		 * 
-		 * 		if (blockStorage != null)
-		 * 		{
-		 * 			return blockStorage.getBlockBPdata(par1, par2 & 15, par3);
-		 * 		}
-		 * 		else
-		 * 		{
-         * 			return 0;
-         * 		}
-         * }
-         */
-        
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "getBlockBPdata", "(III)I", null, null);
-		mv.visitCode();
-		mv.visitVarInsn(ILOAD, 2);
-		mv.visitInsn(ICONST_4);
-		mv.visitInsn(ISHR);
-		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
-		mv.visitInsn(ARRAYLENGTH);
-		Label l0 = new Label();
-		mv.visitJumpInsn(IF_ICMPLT, l0);
-		mv.visitInsn(ICONST_0);
-		mv.visitInsn(IRETURN);
-		mv.visitLabel(l0);
-		mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
-		mv.visitVarInsn(ILOAD, 2);
-		mv.visitInsn(ICONST_4);
-		mv.visitInsn(ISHR);
-		mv.visitInsn(AALOAD);
-		mv.visitVarInsn(ASTORE, 4);
-		mv.visitVarInsn(ALOAD, 4);
-		Label l1 = new Label();
-		mv.visitJumpInsn(IFNULL, l1);
-		mv.visitVarInsn(ALOAD, 4);
-		mv.visitVarInsn(ILOAD, 1);
-		mv.visitVarInsn(ILOAD, 2);
-		mv.visitIntInsn(BIPUSH, 15);
-		mv.visitInsn(IAND);
-		mv.visitVarInsn(ILOAD, 3);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "getBlockBPdata", "(III)I");
-		Label l2 = new Label();
-		mv.visitJumpInsn(GOTO, l2);
-		mv.visitLabel(l1);
-		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"ads"}, 0, null);
-		mv.visitInsn(ICONST_0);
-		mv.visitLabel(l2);
-		mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {Opcodes.INTEGER});
-		mv.visitInsn(IRETURN);
-		mv.visitMaxs(4, 5);
-		mv.visitEnd();
-
-		/*
-		 * Equivalent to adding method:
-		 * public boolean setBlockBPdata(int par1, int par2, int par3, int par4)
-		 * {
-		 *	 ExtendedBlockStorage blockStorage = this.storageArrays[par2 >> 4];
-		 *	
-		 *	 if (blockStorage == null)
-		 *	 {
-		 *		 return false;
-		 *	 }
-		 *	 int blockBPdata = blockStorage.getBlockBPdata(par1, par2 & 15, par3);
-		 *	 
-		 *	 if (blockBPdata == par4)
-		 *	 {
-		 *		 return false;
-		 *	 }
-		 *	 this.isModified = true;
-		 *	 blockStorage.setBlockBPdata(par1, par2 & 15, par3, par4);
-		 * 	 return true;
-		 * }
-		 */
-		
-		mv = cw.visitMethod(ACC_PUBLIC, "setBlockBPdata", "(IIII)Z", null, null);
-		mv.visitCode();
-		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
-		mv.visitVarInsn(ILOAD, 2);
-		mv.visitInsn(ICONST_4);
-		mv.visitInsn(ISHR);
-		mv.visitInsn(AALOAD);
-		mv.visitVarInsn(ASTORE, 5);
-		mv.visitVarInsn(ALOAD, 5);
-		Label lab0 = new Label();
-		mv.visitJumpInsn(IFNONNULL, lab0);
-		mv.visitInsn(ICONST_0);
-		mv.visitInsn(IRETURN);
-		mv.visitLabel(lab0);
-		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"ads"}, 0, null);
-		mv.visitVarInsn(ALOAD, 5);
-		mv.visitVarInsn(ILOAD, 1);
-		mv.visitVarInsn(ILOAD, 2);
-		mv.visitIntInsn(BIPUSH, 15);
-		mv.visitInsn(IAND);
-		mv.visitVarInsn(ILOAD, 3);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "getBlockBPdata", "(III)I");
-		mv.visitVarInsn(ISTORE, 6);
-		mv.visitVarInsn(ILOAD, 6);
-		mv.visitVarInsn(ILOAD, 4);
-		Label lab1 = new Label();
-		mv.visitJumpInsn(IF_ICMPNE, lab1);
-		mv.visitInsn(ICONST_0);
-		mv.visitInsn(IRETURN);
-		mv.visitLabel(lab1);
-		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {Opcodes.INTEGER}, 0, null);
-		mv.visitVarInsn(ALOAD, 0);
-		mv.visitInsn(ICONST_1);
-		mv.visitFieldInsn(PUTFIELD, "adr", "l", "Z");
-		mv.visitVarInsn(ALOAD, 5);
-		mv.visitVarInsn(ILOAD, 1);
-		mv.visitVarInsn(ILOAD, 2);
-		mv.visitIntInsn(BIPUSH, 15);
-		mv.visitInsn(IAND);
-		mv.visitVarInsn(ILOAD, 3);
-		mv.visitVarInsn(ILOAD, 4);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "setBlockBPdata", "(IIII)V");
-		mv.visitInsn(ICONST_1);
-		mv.visitInsn(IRETURN);
-		mv.visitMaxs(5, 7);
-		mv.visitEnd();
-
-		cw.visitEnd();
-
-        System.out.println("OK");
-       
-        return cw.toByteArray();       
-	}
-
 	private byte[] transformBlockPhysics(byte[] bytes)
     {
     	//TODO
@@ -1127,7 +967,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		
         		InsnList toInject = new InsnList();
         		        	
-        		toInject.add(new FieldInsnNode(GETSTATIC, "blockphysics/BlockPhysics", "skipMove", "Z"));
+        		toInject.add(new FieldInsnNode(GETSTATIC, "blargerist/cake/blockphysics/BlockPhysics", "skipMove", "Z"));
         		LabelNode l0 = new LabelNode();
         		toInject.add(new JumpInsnNode(IFEQ, l0));
         		toInject.add(new InsnNode(RETURN));
@@ -1202,13 +1042,13 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ILOAD, 14));
         		toInject.add(new InsnNode(ICONST_3));
         		toInject.add(new JumpInsnNode(IF_ICMPGE, l5));
-        		toInject.add(new FieldInsnNode(GETSTATIC, "blockphysics/BlockPhysics", "updateLCG", "I"));
+        		toInject.add(new FieldInsnNode(GETSTATIC, "blargerist/cake/blockphysics/BlockPhysics", "updateLCG", "I"));
         		toInject.add(new InsnNode(ICONST_3));
         		toInject.add(new InsnNode(IMUL));
         		toInject.add(new LdcInsnNode(new Integer(1013904223)));
         		toInject.add(new InsnNode(IADD));
-        		toInject.add(new FieldInsnNode(PUTSTATIC, "blockphysics/BlockPhysics", "updateLCG", "I"));
-        		toInject.add(new FieldInsnNode(GETSTATIC, "blockphysics/BlockPhysics", "updateLCG", "I"));
+        		toInject.add(new FieldInsnNode(PUTSTATIC, "blargerist/cake/blockphysics/BlockPhysics", "updateLCG", "I"));
+        		toInject.add(new FieldInsnNode(GETSTATIC, "blargerist/cake/blockphysics/BlockPhysics", "updateLCG", "I"));
         		toInject.add(new InsnNode(ICONST_2));
         		toInject.add(new InsnNode(ISHR));
         		toInject.add(new VarInsnNode(ISTORE, 11));
@@ -1240,12 +1080,12 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ILOAD, 16));
         		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "ads", "b", "(III)I"));
         		toInject.add(new VarInsnNode(ISTORE, 19));
-        		toInject.add(new FieldInsnNode(GETSTATIC, "blockphysics/BlockPhysics", "blockSet", "[[Lblockphysics/BlockDef;"));
+        		toInject.add(new FieldInsnNode(GETSTATIC, "blargerist/cake/blockphysics/BlockPhysics", "blockSet", "[[Lblargerist/cake/blockphysics/BlockDef;"));
         		toInject.add(new VarInsnNode(ILOAD, 18));
         		toInject.add(new InsnNode(AALOAD));
         		toInject.add(new VarInsnNode(ILOAD, 19));
         		toInject.add(new InsnNode(AALOAD));
-        		toInject.add(new FieldInsnNode(GETFIELD, "blockphysics/BlockDef", "randomtick", "Z"));
+        		toInject.add(new FieldInsnNode(GETFIELD, "blargerist/cake/blockphysics/BlockDef", "randomtick", "Z"));
         		LabelNode l7 = new LabelNode();
         		toInject.add(new JumpInsnNode(IFEQ, l7));
         		toInject.add(new VarInsnNode(ALOAD, 0));
@@ -1262,7 +1102,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ILOAD, 18));
         		toInject.add(new VarInsnNode(ILOAD, 19));
         		toInject.add(new InsnNode(ICONST_0));
-        		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "tryToMove", "(Labw;IIIIIZ)Z"));
+        		toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "tryToMove", "(Labw;IIIIIZ)Z"));
         		toInject.add(new InsnNode(POP));
         		toInject.add(l7);
         		toInject.add(new FrameNode(Opcodes.F_FULL, 14, new Object[] {"js", "gnu/trove/iterator/TLongShortIterator", Opcodes.LONG, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "adr", Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "[Lads;", "ads", Opcodes.INTEGER}, 0, new Object[] {}));
@@ -1457,7 +1297,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
     			toInject.add(new VarInsnNode(ALOAD, 0));
     			toInject.add(new FieldInsnNode(GETFIELD, "arp", "cF", "I"));
     			toInject.add(new VarInsnNode(ALOAD, 5));
-    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onEntityCollidedWithBlock", "(Labw;IIIILnn;)V"));
+    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onEntityCollidedWithBlock", "(Labw;IIIILnn;)V"));
     			toInject.add(new InsnNode(RETURN));
             	
     			m.instructions.clear();
@@ -1510,20 +1350,20 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			 */
         		   		InsnList toInject = new InsnList();
 		    			toInject.add(new VarInsnNode(ALOAD, 0));
-		    		    toInject.add(new TypeInsnNode(NEW, "blockphysics/BTickList"));
+		    		    toInject.add(new TypeInsnNode(NEW, "blargerist/cake/blockphysics/BTickList"));
 		    		    toInject.add(new InsnNode(DUP));
-		    		    toInject.add(new MethodInsnNode(INVOKESPECIAL, "blockphysics/BTickList", "<init>", "()V"));
-		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abw", "moveTickList", "Lblockphysics/BTickList;"));
+		    		    toInject.add(new MethodInsnNode(INVOKESPECIAL, "blargerist/cake/blockphysics/BTickList", "<init>", "()V"));
+		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abw", "moveTickList", "Lblargerist/cake/blockphysics/BTickList;"));
 		    		    toInject.add(new VarInsnNode(ALOAD, 0));
 		    		    toInject.add(new TypeInsnNode(NEW, "java/util/HashSet"));
 		    		    toInject.add(new InsnNode(DUP));
 		    		    toInject.add(new MethodInsnNode(INVOKESPECIAL, "java/util/HashSet", "<init>", "()V"));
 		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abw", "pistonMoveBlocks", "Ljava/util/HashSet;"));
 		    		    toInject.add(new VarInsnNode(ALOAD, 0));
-		    		    toInject.add(new TypeInsnNode(NEW, "blockphysics/ExplosionQueue"));
+		    		    toInject.add(new TypeInsnNode(NEW, "blargerist/cake/blockphysics/ExplosionQueue"));
 		    		    toInject.add(new InsnNode(DUP));
-		    		    toInject.add(new MethodInsnNode(INVOKESPECIAL, "blockphysics/ExplosionQueue", "<init>", "()V"));
-		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abw", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
+		    		    toInject.add(new MethodInsnNode(INVOKESPECIAL, "blargerist/cake/blockphysics/ExplosionQueue", "<init>", "()V"));
+		    		    toInject.add(new FieldInsnNode(PUTFIELD, "abw", "explosionQueue", "Lblargerist/cake/blockphysics/ExplosionQueue;"));
 
 		    			m.instructions.insertBefore(m.instructions.get(index),toInject);
 		    			ok = true;
@@ -1560,9 +1400,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				 */
         				InsnList toInject = new InsnList();
         				toInject.add(new VarInsnNode(ALOAD, 0));
-        				toInject.add(new FieldInsnNode(GETFIELD, "abw", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
+        				toInject.add(new FieldInsnNode(GETFIELD, "abw", "explosionQueue", "Lblargerist/cake/blockphysics/ExplosionQueue;"));
         				toInject.add(new VarInsnNode(ALOAD, 11));
-        				toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/ExplosionQueue", "add", "(Labr;)V"));
+        				toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blargerist/cake/blockphysics/ExplosionQueue", "add", "(Labr;)V"));
 
             			m.instructions.insertBefore(m.instructions.get(index-1),toInject);
             			
@@ -1584,13 +1424,13 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
     	 * public java.util.HashSet<String> pistonMoveBlocks;
     	 * public blockphysics.ExplosionQueue explosionQueue;
     	 */
-    	fv = cw.visitField(ACC_PUBLIC, "moveTickList", "Lblockphysics/BTickList;", null, null);
+    	fv = cw.visitField(ACC_PUBLIC, "moveTickList", "Lblargerist/cake/blockphysics/BTickList;", null, null);
     	fv.visitEnd();
     	
     	fv = cw.visitField(ACC_PUBLIC, "pistonMoveBlocks", "Ljava/util/HashSet;", "Ljava/util/HashSet<Ljava/lang/String;>;", null);
     	fv.visitEnd();
     	
-    	fv = cw.visitField(ACC_PUBLIC, "explosionQueue", "Lblockphysics/ExplosionQueue;", null, null);
+    	fv = cw.visitField(ACC_PUBLIC, "explosionQueue", "Lblargerist/cake/blockphysics/ExplosionQueue;", null, null);
     	fv.visitEnd();
    	
     	cw.visitEnd();
@@ -1647,17 +1487,17 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			 */
             			InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "tickBlocksRandomMove", "(Ljs;)V"));
+                		toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "tickBlocksRandomMove", "(Ljs;)V"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new FieldInsnNode(GETFIELD, "js", "moveTickList", "Lblockphysics/BTickList;"));
+                		toInject.add(new FieldInsnNode(GETFIELD, "js", "moveTickList", "Lblargerist/cake/blockphysics/BTickList;"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/BTickList", "tickMoveUpdates", "(Labw;)V"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blargerist/cake/blockphysics/BTickList", "tickMoveUpdates", "(Labw;)V"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
                 		toInject.add(new FieldInsnNode(GETFIELD, "js", "pistonMoveBlocks", "Ljava/util/HashSet;"));
                 		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "java/util/HashSet", "clear", "()V"));
                 		toInject.add(new VarInsnNode(ALOAD, 0));
-                		toInject.add(new FieldInsnNode(GETFIELD, "js", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
-                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/ExplosionQueue", "doNextExplosion", "()V"));
+                		toInject.add(new FieldInsnNode(GETFIELD, "js", "explosionQueue", "Lblargerist/cake/blockphysics/ExplosionQueue;"));
+                		toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blargerist/cake/blockphysics/ExplosionQueue", "doNextExplosion", "()V"));
 
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			
@@ -1696,9 +1536,9 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				 */
         				InsnList toInject = new InsnList();
             			toInject.add(new VarInsnNode(ALOAD, 0));
-            			toInject.add(new FieldInsnNode(GETFIELD, "js", "explosionQueue", "Lblockphysics/ExplosionQueue;"));
+            			toInject.add(new FieldInsnNode(GETFIELD, "js", "explosionQueue", "Lblargerist/cake/blockphysics/ExplosionQueue;"));
             			toInject.add(new VarInsnNode(ALOAD, 11));
-            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blockphysics/ExplosionQueue", "add", "(Labr;)V"));
+            			toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "blargerist/cake/blockphysics/ExplosionQueue", "add", "(Labr;)V"));
 
             			m.instructions.insertBefore(m.instructions.get(index-1),toInject);
             			
@@ -1768,7 +1608,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 				toInject.add(new VarInsnNode(ALOAD, 0));
 				toInject.add(new FieldInsnNode(GETFIELD, "abr", "k", "Labw;"));
 				toInject.add(new VarInsnNode(ALOAD, 0));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "doExplosionA", "(Labw;Labr;)V"));
+				toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "doExplosionA", "(Labw;Labr;)V"));
 				toInject.add(new InsnNode(RETURN));
 
 				m.instructions.clear();
@@ -1788,7 +1628,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 				toInject.add(new FieldInsnNode(GETFIELD, "abr", "k", "Labw;"));
 				toInject.add(new VarInsnNode(ALOAD, 0));
 				toInject.add(new VarInsnNode(ILOAD, 1));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "doExplosionB", "(Labw;Labr;Z)V"));
+				toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "doExplosionB", "(Labw;Labr;Z)V"));
 				toInject.add(new InsnNode(RETURN));
 				
 				m.instructions.clear();
@@ -1872,7 +1712,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 							if ( m.instructions.get(index).getOpcode() == LSUB )
 							{
 								InsnList toInject = new InsnList();
-			        			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "setSkipMoveM", "(J)J"));
+			        			toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "setSkipMoveM", "(J)J"));
 			        			
 			        			m.instructions.insert(m.instructions.get(index),toInject);
 			        			
@@ -1912,7 +1752,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
 								 */
 								InsnList toInject = new InsnList();
 			        			toInject.add(new VarInsnNode(LLOAD, 7));
-			        			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "setSkipMove", "(J)V"));
+			        			toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "setSkipMove", "(J)V"));
 			        			
 			        			m.instructions.insertBefore(m.instructions.get(index),toInject);
 			        			
@@ -1987,7 +1827,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             			toInject.add(new VarInsnNode(ALOAD, 0));
             			toInject.add(new FieldInsnNode(GETFIELD, "jx", "a", "Lnn;"));
             			toInject.add(new TypeInsnNode(CHECKCAST, "sr"));
-            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "spawnFallingSandPacket", "(Lsr;)Ldd;"));
+            			toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "spawnFallingSandPacket", "(Lsr;)Ldd;"));
             			
             			m.instructions.insertBefore(m.instructions.get(index),toInject);
             			ok = true;
@@ -2279,7 +2119,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		toInject.add(new VarInsnNode(ALOAD, 0));
         		toInject.add(new FieldInsnNode(GETFIELD, "tc", "q", "Labw;"));
         		toInject.add(new VarInsnNode(ALOAD, 0));
-        		toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "fallingSandUpdate", "(Labw;Lsr;)V"));
+        		toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "fallingSandUpdate", "(Labw;Lsr;)V"));
         		toInject.add(new InsnNode(RETURN));
         		
         		m.instructions.clear();
@@ -2582,7 +2422,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
     			toInject.add(new VarInsnNode(ALOAD, 0));
     			toInject.add(new FieldInsnNode(GETFIELD, "sr", "q", "Labw;"));
     			toInject.add(new VarInsnNode(ALOAD, 0));
-    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "fallingSandUpdate", "(Labw;Lsr;)V"));
+    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "fallingSandUpdate", "(Labw;Lsr;)V"));
     			toInject.add(new InsnNode(RETURN));
     			
     			m.instructions.clear();
@@ -2671,7 +2511,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		InsnList toInject = new InsnList();
     			toInject.add(new VarInsnNode(ALOAD, 0));
     			toInject.add(new VarInsnNode(ALOAD, 1));
-    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "readFallingSandID", "(Lby;)I"));
+    			toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "readFallingSandID", "(Lby;)I"));
     			toInject.add(new FieldInsnNode(PUTFIELD, "sr", "a", "I"));
     			toInject.add(new VarInsnNode(ALOAD, 0));
     			toInject.add(new VarInsnNode(ALOAD, 1));
@@ -2876,7 +2716,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         mv.visitVarInsn(DLOAD, 1);
         mv.visitVarInsn(DLOAD, 3);
         mv.visitVarInsn(DLOAD, 5);
-        mv.visitMethodInsn(INVOKESTATIC, "blockphysics/BlockPhysics", "moveEntity", "(Labw;Lsr;DDD)V");
+        mv.visitMethodInsn(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "moveEntity", "(Labw;Lsr;DDD)V");
         mv.visitInsn(RETURN);
         mv.visitMaxs(8, 7);
         mv.visitEnd();
@@ -2939,7 +2779,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         		 */
 	           	
         	    toInject.add(new VarInsnNode(ALOAD, 1));
-        	    toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "cancelRender", "(Lsr;)Z"));
+        	    toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BClient", "cancelRender", "(Lsr;)Z"));
         		LabelNode l0 = new LabelNode();
         		toInject.add(new JumpInsnNode(IFEQ, l0));
         		toInject.add(new InsnNode(RETURN));
@@ -2978,7 +2818,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
     					 * Find invokevirtual RenderBlocks.renderBlockSandFalling(Block, World, int, int, int, int)V
     					 * replace with: blockphysics.BlockPhysics.renderBlockSandFalling(RenderBlocks, Block, World, int, int, int, int)V
     					 */
-    					m.instructions.set(m.instructions.get(index), new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "renderBlockSandFalling", "(Lbfr;Laqz;Labw;IIII)V"));
+    					m.instructions.set(m.instructions.get(index), new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BClient", "renderBlockSandFalling", "(Lbfr;Laqz;Labw;IIII)V"));
     					ok4 = true;
     					break;
                     }
@@ -3027,7 +2867,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         	    toInject.add(new VarInsnNode(DLOAD, 4));
         	    toInject.add(new VarInsnNode(DLOAD, 6));
         	    toInject.add(new VarInsnNode(ALOAD, 1));
-        	    toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "createFallingsand", "(Labw;DDDLdd;)Lsr;"));
+        	    toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "createFallingsand", "(Labw;DDDLdd;)Lsr;"));
         	    toInject.add(new VarInsnNode(ASTORE, 8));
         	    toInject.add(new VarInsnNode(ALOAD, 1));
         	    toInject.add(new InsnNode(ICONST_1));
@@ -3131,7 +2971,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				toInject.add(new VarInsnNode(ALOAD, 0));
         				toInject.add(new VarInsnNode(ALOAD, 2));
         				toInject.add(new VarInsnNode(ALOAD, 3));
-        				toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BClient", "loadWorld", "(Lawe;Ljava/lang/String;Ljava/lang/String;)V"));
+        				toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BClient", "loadWorld", "(Lawe;Ljava/lang/String;Ljava/lang/String;)V"));
         				
         				m.instructions.insert(m.instructions.get(index),toInject);
             			
@@ -3209,7 +3049,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				InsnList toInject = new InsnList();
         				
         				toInject.add(new InsnNode(ICONST_1));
-        				toInject.add(new MethodInsnNode(INVOKESPECIAL, "blockphysics/BGui", "<init>", "(Lawe;Ljava/lang/String;Ljava/lang/String;Lacd;Z)V"));
+        				toInject.add(new MethodInsnNode(INVOKESPECIAL, "blargerist/cake/blockphysics/BGui", "<init>", "(Lawe;Ljava/lang/String;Ljava/lang/String;Lacd;Z)V"));
         				toInject.add(new MethodInsnNode(INVOKEVIRTUAL, "atv", "a", "(Lawe;)V"));
         				
         				m.instructions.insertBefore(m.instructions.get(index),toInject);
@@ -3225,7 +3065,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
         				 *TODO Don't really know yet....
         				 * after second instruction line 241
         				 */
-        				toInject.add(new TypeInsnNode(NEW, "blockphysics/BGui"));
+        				toInject.add(new TypeInsnNode(NEW, "blargerist/cake/blockphysics/BGui"));
         				toInject.add(new InsnNode(DUP));
         				toInject.add(new VarInsnNode(ALOAD, 0));
         				
@@ -3284,7 +3124,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 5));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockDestroyedByPlayer", "(Labw;IIIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onBlockDestroyedByPlayer", "(Labw;IIIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3310,7 +3150,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3336,7 +3176,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3363,7 +3203,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
             	toInject.add(new VarInsnNode(ALOAD, 5));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onEntityCollidedWithBlock", "(Labw;IIIILnn;)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onEntityCollidedWithBlock", "(Labw;IIIILnn;)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3390,7 +3230,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
             	toInject.add(new VarInsnNode(ILOAD, 5));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onPostBlockPlaced", "(Labw;IIIII)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onPostBlockPlaced", "(Labw;IIIII)V"));
             	 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3416,7 +3256,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aqz", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3486,7 +3326,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "amy", "cF", "I"));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3540,7 +3380,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "ast", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3567,7 +3407,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "ast", "a", "Z"));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "updatePistonState", "(Labw;IIILast;Z)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "updatePistonState", "(Labw;IIILast;Z)V"));
             	toInject.add(new InsnNode(RETURN));
             	
             	m.instructions.clear();
@@ -3592,7 +3432,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "ast", "a", "Z"));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockPistonEventReceived", "(Labw;IIIIILast;Z)Z"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onBlockPistonEventReceived", "(Labw;IIIIILast;Z)Z"));
             	toInject.add(new InsnNode(IRETURN));
             	
             	m.instructions.clear();
@@ -3645,7 +3485,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aos", "cF", "I"));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
             	toInject.add(new InsnNode(RETURN));
         		
         		m.instructions.clear();
@@ -3688,7 +3528,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 2));
             	toInject.add(new VarInsnNode(ILOAD, 3));
             	toInject.add(new InsnNode(ICONST_0));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "canMoveTo", "(Labw;IIII)Z"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "canMoveTo", "(Labw;IIII)Z"));
             	toInject.add(new InsnNode(IRETURN));
         		
         		m.instructions.clear();
@@ -3737,7 +3577,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aqd", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3792,7 +3632,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "are", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3819,7 +3659,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 5));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "are", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onBlockDestroyedByPlayer", "(Labw;IIIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onBlockDestroyedByPlayer", "(Labw;IIIII)V"));
                 
                 for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3874,7 +3714,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aof", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 
             	for (int index = m.instructions.size() - 1; index >= 0; index--)
                 {
@@ -3977,7 +3817,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 4));
             	toInject.add(new VarInsnNode(ALOAD, 0));
             	toInject.add(new FieldInsnNode(GETFIELD, "aob", "cF", "I"));
-                toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
+                toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "onNeighborBlockChange", "(Labw;IIII)V"));
                 toInject.add(new InsnNode(RETURN));
                 
                 m.instructions.clear();
@@ -4019,7 +3859,7 @@ public class BPTransformer implements net.minecraft.launchwrapper.IClassTransfor
             	toInject.add(new VarInsnNode(ILOAD, 6));
             	toInject.add(new VarInsnNode(ILOAD, 7));
             	toInject.add(new VarInsnNode(ILOAD, 8));
-            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blockphysics/BlockPhysics", "notifyMove", "(Labw;III)V"));
+            	toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/BlockPhysics", "notifyMove", "(Labw;III)V"));
 
             	for (int index = 0; index < m.instructions.size(); index++)
                 {

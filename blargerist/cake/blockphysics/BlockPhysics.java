@@ -1,15 +1,15 @@
-package blockphysics;
+package blargerist.cake.blockphysics;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import blockphysics.asm.BlockPhysicsCorePlugin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.BlockPistonMoving;
@@ -44,6 +44,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.MinecraftForge;
+import blargerist.cake.blockphysics.asm.ASMPlugin;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -64,8 +65,8 @@ public class BlockPhysics
     
 	@Instance("BlockPhysics")
 	public static BlockPhysics instance;
-	public static File gameDir = BlockPhysicsCorePlugin.gameDir;
-	public static File bpjarFile = BlockPhysicsCorePlugin.bpjarFile;
+	public static File gameDir = ASMPlugin.gameDir;
+	public static File bpjarFile = ASMPlugin.bpjarFile;
 	
 	protected static Random rand = new Random();
 	protected static int updateLCG = (new Random()).nextInt();

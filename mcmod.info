@@ -2,20 +2,15 @@
 {
   "modid": "BlockPhysics",
   "name": "BlockPhysics",
-  "description": "Falling blocks.",
-  "mcversion": "@MCVERSION@",
-  "version" : "@VERSION@",
+  "description": "Adds physics to blocks. Originally by id_miner.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors": [
-    "id_miner"
-  ],
+  "authorList": ["Blargerist"],
   "credits": "",
   "logoFile": "",
-  "screenshots": [
-  ],
-  "parent":"",
-  "dependencies": [
-  ]
+  "screenshots": [],
+  "dependencies": []
 }
 ]
