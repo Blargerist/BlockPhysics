@@ -1,38 +1,14 @@
-package blargerist.cake.blockphysics.asm.module;
+package blargerist.pie.blockphysics.asm.modules;
 
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.objectweb.asm.Opcodes.BALOAD;
-import static org.objectweb.asm.Opcodes.BASTORE;
-import static org.objectweb.asm.Opcodes.BIPUSH;
-import static org.objectweb.asm.Opcodes.GETFIELD;
-import static org.objectweb.asm.Opcodes.I2B;
-import static org.objectweb.asm.Opcodes.IADD;
-import static org.objectweb.asm.Opcodes.ILOAD;
-import static org.objectweb.asm.Opcodes.IMUL;
-import static org.objectweb.asm.Opcodes.IRETURN;
-import static org.objectweb.asm.Opcodes.NEWARRAY;
-import static org.objectweb.asm.Opcodes.PUTFIELD;
-import static org.objectweb.asm.Opcodes.RETURN;
-import static org.objectweb.asm.Opcodes.SIPUSH;
-import static org.objectweb.asm.Opcodes.T_BYTE;
+import static org.objectweb.asm.Opcodes.*;
 
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.IntInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.VarInsnNode;
+import org.objectweb.asm.tree.*;
 
 import squeek.asmhelper.ASMHelper;
-import blargerist.cake.blockphysics.ModInfo;
-import blargerist.cake.blockphysics.asm.IClassTransformerModule;
+import blargerist.pie.blockphysics.ModInfo;
+import blargerist.pie.blockphysics.asm.IClassTransformerModule;
 
 public class ModuleExtendedBlockStorage implements IClassTransformerModule
 {
@@ -116,7 +92,7 @@ public class ModuleExtendedBlockStorage implements IClassTransformerModule
 		toInject.add(new VarInsnNode(ALOAD, 0));
 		toInject.add(new IntInsnNode(SIPUSH, 4096));
 		toInject.add(new IntInsnNode(NEWARRAY, T_BYTE));
-		toInject.add(new FieldInsnNode(PUTFIELD, "ads", "blockBPdataArray", "[B"));
+		toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/world/chunk/storage/ExtendedBlockStorage", "blockBPdataArray", "[B"));
 
 		method.instructions.insertBefore(targetNode, toInject);
 	}
@@ -133,7 +109,7 @@ public class ModuleExtendedBlockStorage implements IClassTransformerModule
 
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "ads", "blockBPdataArray", "[B");
+		mv.visitFieldInsn(GETFIELD, "net/minecraft/world/chunk/storage/ExtendedBlockStorage", "blockBPdataArray", "[B");
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitIntInsn(SIPUSH, 256);
 		mv.visitInsn(IMUL);
@@ -161,7 +137,7 @@ public class ModuleExtendedBlockStorage implements IClassTransformerModule
 
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "ads", "blockBPdataArray", "[B");
+		mv.visitFieldInsn(GETFIELD, "net/minecraft/world/chunk/storage/ExtendedBlockStorage", "blockBPdataArray", "[B");
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitIntInsn(SIPUSH, 256);
 		mv.visitInsn(IMUL);
@@ -190,7 +166,7 @@ public class ModuleExtendedBlockStorage implements IClassTransformerModule
 
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "ads", "blockBPdataArray", "[B");
+		mv.visitFieldInsn(GETFIELD, "net/minecraft/world/chunk/storage/ExtendedBlockStorage", "blockBPdataArray", "[B");
 		mv.visitInsn(ARETURN);
 		mv.visitMaxs(1, 1);
 		mv.visitEnd();
@@ -208,7 +184,7 @@ public class ModuleExtendedBlockStorage implements IClassTransformerModule
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
 		mv.visitVarInsn(ALOAD, 1);
-		mv.visitFieldInsn(PUTFIELD, "ads", "blockBPdataArray", "[B");
+		mv.visitFieldInsn(PUTFIELD, "net/minecraft/world/chunk/storage/ExtendedBlockStorage", "blockBPdataArray", "[B");
 		mv.visitInsn(RETURN);
 		mv.visitMaxs(2, 2);
 		mv.visitEnd();

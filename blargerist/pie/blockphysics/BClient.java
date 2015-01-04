@@ -1,33 +1,32 @@
-package blargerist.cake.blockphysics;
+package blargerist.pie.blockphysics;
 
 import java.io.File;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
+import blargerist.pie.blockphysics.util.EntityMovingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.item.EntityFallingSand;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BClient
 {
 	    
-
-    public static void loadWorld(GuiScreen screen, String var2, String var3 )
+	//TODO
+    /*public static void loadWorld(GuiScreen screen, String var2, String var3 )
     {
     	BlockPhysicsUtil.resetConfig();
 		if (BlockPhysicsUtil.loadConfig(new File(BlockPhysics.gameDir, "saves"+File.separator +var2 +File.separator+BlockPhysics.conffile))) Minecraft.getMinecraft().launchIntegratedServer(var2, var3, (WorldSettings)null);
 		else Minecraft.getMinecraft().displayGuiScreen(new BGui(screen, var2, var3, (WorldSettings)null, false));
-    }
+    }*/
     
     public static void renderBlockSandFalling(RenderBlocks sandRenderBlocks, Block par1Block, World par2World, int par3, int par4, int par5, int par6)
     {
@@ -112,8 +111,8 @@ public class BClient
             for (int var9 = -1; var9 <= 1; ++var9)
             {
                 for (int var10 = -1; var10 <= 1; ++var10)
-                {
-                    int var11 = par1World.getBiomeGenForCoords(par2 + var10, par4 + var9).getBiomeFoliageColor();
+                {//TODO check this works
+                    int var11 = par1World.getBiomeGenForCoords(par2 + var10, par4 + var9).getBiomeFoliageColor(par2, 64, par4);
                     var6 += (var11 & 16711680) >> 16;
                     var7 += (var11 & 65280) >> 8;
                     var8 += var11 & 255;
@@ -124,11 +123,11 @@ public class BClient
         }
     }
     
-    public static boolean cancelRender(EntityFallingSand par1EntityFallingSand)
+    public static boolean cancelRender(EntityMovingBlock par1EntityFallingSand)
 	{
 		//if ( par1EntityFallingSand.fallTime < 4 || par1EntityFallingSand.dead < 4 )
         //{
-        	if (par1EntityFallingSand.worldObj.getBlockId(MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ)) != 0 ) return true;
+        	if (par1EntityFallingSand.worldObj.getBlock(MathHelper.floor_double(par1EntityFallingSand.posX), MathHelper.floor_double(par1EntityFallingSand.posY), MathHelper.floor_double(par1EntityFallingSand.posZ)) != Blocks.air ) return true;
         //}
 		return false;
 	}

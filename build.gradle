@@ -1,31 +1,35 @@
 buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
-    }
+	repositories {
+		mavenCentral()
+		maven {
+			name = "forge"
+			url = "http://files.minecraftforge.net/maven"
+		}
+		maven {
+			name = "sonatype"
+			url = "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+	}
 }
 
 apply plugin: 'forge'
 
 minecraft {
-	version = "1.6.4-9.11.1.964"
+	version = "1.7.10-10.13.2.1230"
 }
 
 group = project.projectDir.name.toLowerCase()
-archivesBaseName = project.projectDir.name + "-mc" + project.minecraft.version
+archivesBaseName = "BlockPhysics-mc" + project.minecraft.version
 
 sourceSets.main{
-    java {
-		srcDirs 'java', 'apis' //set the source folder as the /src subfolder
+	java {
+		srcDirs 'java', 'apis', 'ASMHelper/java'
 	}
-    resources {
-		srcDirs 'resources' //set the resources folder as the /resources subfolder
+	resources {
+		srcDirs 'resources'
 	}
 }
 
@@ -33,46 +37,37 @@ dependencies {
 	compile fileTree(dir: 'libs', include: '*.jar,*.zip')
 }
 
-// variable replacement in source files
-task processSources(type:Copy){
+jar {
+	manifest {
+		attributes 'FMLCorePlugin': 'blargerist.pie.blockphysics.asm.ASMPlugin'
+		attributes 'FMLCorePluginContainsFMLMod': 'true'
+	}
+}
+
+// variable substitution in java files
+task processSourceMainJava(type:Copy) {
+	inputs.property "vars", project.version + project.minecraft.version
 	from('java')
 	{
 		include '**/ModInfo.java'
-
+		include '**/package-info.java'
 		expand 'version':project.version, 'mcversion':project.minecraft.version
 	}
 	into project.buildDir.getPath()+"/sources/java"
 }
 
-// delete mcmod.info so that it gets a fresh version copied in every time
-task cleanModInfo(type: Delete) {
-	delete file(sourceSets.main.output.resourcesDir.getPath()+"/mcmod.info")
-}
-
 // correct task ordering
-processResources.dependsOn cleanModInfo
-compileJava.dependsOn processSources
-
-// Add Coremod Manifest
-jar {
-    manifest {
-        attributes 'FMLCorePlugin': 'blockphysics.asm.BlockPhysicsCorePlugin'
-        attributes 'FMLCorePluginContainsFMLMod': 'true'
-    }
+afterEvaluate { project ->
+	sourceMainJava.finalizedBy(processSourceMainJava)
 }
 
-processResources
-{
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+processResources {
+	inputs.property "vars", project.version + project.minecraft.version
+	from(sourceSets.main.resources.srcDirs) {
+		include '**/*.info'
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+	from(sourceSets.main.resources.srcDirs) {
+		exclude '**/*.info'
+	}
 }

@@ -1,7 +1,7 @@
-package blargerist.cake.blockphysics;
+package blargerist.pie.blockphysics.util;
 
 import java.util.ArrayList;
-
+import blargerist.pie.blockphysics.ModConfig;
 import net.minecraft.world.Explosion;
 
 public class ExplosionQueue
@@ -16,7 +16,7 @@ public class ExplosionQueue
     
 	public void add( Explosion expl)
     {
-		if (explosionQueue.size() >= BlockPhysics.explosionQueue) 
+		if (explosionQueue.size() >= ModConfig.explosionQueue) 
     	{
     		//BlockPhysics.writetoLog("Skipping explosion...");
     		return;
@@ -29,7 +29,7 @@ public class ExplosionQueue
 		xinterv++;
 		if (xinterv < 0) xinterv = 1000;
 		if ( explosionQueue.isEmpty() ) return;
-		if ( xinterv < BlockPhysics.explosionInterval) return;
+		if ( xinterv < ModConfig.explosionInterval) return;
 		xinterv = 0;
 		Explosion explosion = (Explosion)explosionQueue.remove(0);
 		explosion.doExplosionA();

@@ -1,4 +1,4 @@
-package blargerist.cake.blockphysics;
+package blargerist.pie.blockphysics.util;
 
 public class BTickListEntry implements Comparable
 {
@@ -25,7 +25,8 @@ public class BTickListEntry implements Comparable
             this.scheduledTime = par5;
     }
 
-    public boolean equals(Object par1Obj)
+    @Override
+	public boolean equals(Object par1Obj)
     {
         if (!(par1Obj instanceof BTickListEntry))
         {
@@ -38,7 +39,8 @@ public class BTickListEntry implements Comparable
         }
     }
 
-    public int hashCode()
+    @Override
+	public int hashCode()
     {
         return this.xCoord * 1024 * 1024 + this.zCoord * 1024 + this.yCoord;
     }
@@ -51,7 +53,8 @@ public class BTickListEntry implements Comparable
         return this.scheduledTime < par1BlockPhysicsTickListEntry.scheduledTime ? -1 : (this.scheduledTime > par1BlockPhysicsTickListEntry.scheduledTime ? 1 : (this.hashCode() < par1BlockPhysicsTickListEntry.hashCode() ? -1 : (this.hashCode() > par1BlockPhysicsTickListEntry.hashCode() ? 1 : 0)));
     }
 
-    public int compareTo(Object par1Obj)
+    @Override
+	public int compareTo(Object par1Obj)
     {
         return this.comparer((BTickListEntry)par1Obj);
     }

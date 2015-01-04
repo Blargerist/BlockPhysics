@@ -1,4 +1,4 @@
-package blargerist.cake.blockphysics.asm;
+package blargerist.pie.blockphysics.asm;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 

@@ -1,9 +1,6 @@
-package blargerist.cake.blockphysics;
+package blargerist.pie.blockphysics.util;
 
-import java.nio.ByteBuffer;
-
-
-public class BlockDef      
+public class BlockDef
 {
 	public int id;
 	public int movenum;				// 0,1,2
@@ -11,7 +8,7 @@ public class BlockDef
 	public int moveflipnumber;		// 0-15
 	public int movechanger;		//0 no 1 weather 2 mechanical 3 both
 	public int supportingblock; // 0 no 1 yes
-	public int	fragile;	// 0 no, 1 yes no drop, 2 yes drop
+	public int fragile;	// 0 no, 1 yes no drop, 2 yes drop
 	public boolean trapping;	//0,1
 	public int pushtype;      // 0 not pushable, 1 pushable by all, 2 pushable by piston, 3 pushable by explosion
 	public boolean randomtick; //0,1
@@ -19,12 +16,12 @@ public class BlockDef
 	public int placedmove;		//0,1
 	public int mass;			//1-40000
 	public int strength;		//0-64000
-		
-	public BlockDef(int id1, int movenum1, int move0, int move1, int moveflipnumber1, int movechanger1, int supportingblock1, int fragile1, boolean trapping1, int pushtype1, boolean randomtick1, int tickrate1, int placedmove1, int mass1, int strength1 )
+	
+	public BlockDef(int id1, int movenum1, int move0, int move1, int moveflipnumber1, int movechanger1, int supportingblock1, int fragile1, boolean trapping1, int pushtype1, boolean randomtick1, int tickrate1, int placedmove1, int mass1, int strength1)
 	{
 		id = id1;
-		movenum = movenum1;	
-		move[0] = move0;	
+		movenum = movenum1;
+		move[0] = move0;
 		move[1] = move1;
 		moveflipnumber = moveflipnumber1;
 		movechanger = movechanger1;
@@ -38,13 +35,12 @@ public class BlockDef
 		mass = mass1;
 		strength = strength1;
 	}
-
-
-	public BlockDef(int id1) 
+	
+	public BlockDef(int id1)
 	{
 		id = id1;
-		movenum = 0;	
-		move[0] = 0;	
+		movenum = 0;
+		move[0] = 0;
 		move[1] = 0;
 		moveflipnumber = 0;
 		movechanger = 0;
@@ -59,7 +55,7 @@ public class BlockDef
 		strength = 64000;
 	}
 	
-	public static void copyBlockDef(BlockDef def1, BlockDef def2) 
+	public static void copyBlockDef(BlockDef def1, BlockDef def2)
 	{
 		def1.movenum = def2.movenum;
 		def1.move[0] = def2.move[0];

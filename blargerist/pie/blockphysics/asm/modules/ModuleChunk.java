@@ -1,16 +1,13 @@
-package blargerist.cake.blockphysics.asm.module;
+package blargerist.pie.blockphysics.asm.modules;
 
 import static org.objectweb.asm.Opcodes.*;
-
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-
 import squeek.asmhelper.ASMHelper;
-import squeek.asmhelper.ObfHelper;
-import blargerist.cake.blockphysics.ModInfo;
-import blargerist.cake.blockphysics.asm.IClassTransformerModule;
+import blargerist.pie.blockphysics.ModInfo;
+import blargerist.pie.blockphysics.asm.IClassTransformerModule;
 
 public class ModuleChunk implements IClassTransformerModule
 {
@@ -63,12 +60,6 @@ public class ModuleChunk implements IClassTransformerModule
 			throw new RuntimeException("Could not create method -getBlockBPdata(int, int, int)int- in Chunk");
 	}
 	
-	public String getObfuscatedMethodName()
-	{
-		getClass();
-		return "";
-	}
-	
 	public void createGetBlockBPdata(ClassNode classNode)
 	{
         /*
@@ -99,7 +90,7 @@ public class ModuleChunk implements IClassTransformerModule
 		mv.visitInsn(ICONST_4);
 		mv.visitInsn(ISHR);
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
+		mv.visitFieldInsn(GETFIELD, "net/minecraft/world/chunk/Chunk", "field_76652_q", "[Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;");
 		mv.visitInsn(ARRAYLENGTH);
 		Label label1 = new Label();
 		mv.visitJumpInsn(IF_ICMPLT, label1);
@@ -108,7 +99,7 @@ public class ModuleChunk implements IClassTransformerModule
 		mv.visitLabel(label1);
 		mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
+		mv.visitFieldInsn(GETFIELD, "net/minecraft/world/chunk/Chunk", "field_76652_q", "[Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;");
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitInsn(ICONST_4);
 		mv.visitInsn(ISHR);
@@ -123,11 +114,11 @@ public class ModuleChunk implements IClassTransformerModule
 		mv.visitIntInsn(BIPUSH, 15);
 		mv.visitInsn(IAND);
 		mv.visitVarInsn(ILOAD, 3);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "getBlockBPdata", "(III)I");
+		mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/chunk/storage/ExtendedBlockStorage", "getBlockBPdata", "(III)I", false);
 		Label label3 = new Label();
 		mv.visitJumpInsn(GOTO, label3);
 		mv.visitLabel(label2);
-		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"ads"}, 0, null);
+		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"net/minecraft/world/chunk/storage/ExtendedBlockStorage"}, 0, null);
 		mv.visitInsn(ICONST_0);
 		mv.visitLabel(label3);
 		mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {Opcodes.INTEGER});
@@ -163,7 +154,7 @@ public class ModuleChunk implements IClassTransformerModule
 		MethodVisitor mv = classNode.visitMethod(ACC_PUBLIC, "setBlockBPdata", "(IIII)Z", null, null);
 		mv.visitCode();
 		mv.visitVarInsn(ALOAD, 0);
-		mv.visitFieldInsn(GETFIELD, "adr", "r", "[Lads;");
+		mv.visitFieldInsn(GETFIELD, "net/minecraft/world/chunk/Chunk", "field_76652_q", "[Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;");
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitInsn(ICONST_4);
 		mv.visitInsn(ISHR);
@@ -175,14 +166,14 @@ public class ModuleChunk implements IClassTransformerModule
 		mv.visitInsn(ICONST_0);
 		mv.visitInsn(IRETURN);
 		mv.visitLabel(lab0);
-		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"ads"}, 0, null);
+		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {"net/minecraft/world/chunk/storage/ExtendedBlockStorage"}, 0, null);
 		mv.visitVarInsn(ALOAD, 5);
 		mv.visitVarInsn(ILOAD, 1);
 		mv.visitVarInsn(ILOAD, 2);
 		mv.visitIntInsn(BIPUSH, 15);
 		mv.visitInsn(IAND);
 		mv.visitVarInsn(ILOAD, 3);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "getBlockBPdata", "(III)I");
+		mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/chunk/storage/ExtendedBlockStorage", "getBlockBPdata", "(III)I", false);
 		mv.visitVarInsn(ISTORE, 6);
 		mv.visitVarInsn(ILOAD, 6);
 		mv.visitVarInsn(ILOAD, 4);
@@ -194,7 +185,7 @@ public class ModuleChunk implements IClassTransformerModule
 		mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {Opcodes.INTEGER}, 0, null);
 		mv.visitVarInsn(ALOAD, 0);
 		mv.visitInsn(ICONST_1);
-		mv.visitFieldInsn(PUTFIELD, "adr", "l", "Z");
+		mv.visitFieldInsn(PUTFIELD, "net/minecraft/world/chunk/Chunk", "field_76643_l", "Z");
 		mv.visitVarInsn(ALOAD, 5);
 		mv.visitVarInsn(ILOAD, 1);
 		mv.visitVarInsn(ILOAD, 2);
@@ -202,7 +193,7 @@ public class ModuleChunk implements IClassTransformerModule
 		mv.visitInsn(IAND);
 		mv.visitVarInsn(ILOAD, 3);
 		mv.visitVarInsn(ILOAD, 4);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "ads", "setBlockBPdata", "(IIII)V");
+		mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/chunk/storage/ExtendedBlockStorage", "setBlockBPdata", "(IIII)V", false);
 		mv.visitInsn(ICONST_1);
 		mv.visitInsn(IRETURN);
 		mv.visitMaxs(5, 7);
