@@ -39,7 +39,7 @@ dependencies {
 
 jar {
 	manifest {
-		attributes 'FMLCorePlugin': 'blargerist.pie.blockphysics.asm.ASMPlugin'
+		attributes 'FMLCorePlugin': 'blargerist.cake.blockphysics.asm.ASMPlugin'
 		attributes 'FMLCorePluginContainsFMLMod': 'true'
 	}
 }
