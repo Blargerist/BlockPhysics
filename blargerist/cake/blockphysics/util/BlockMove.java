@@ -16,47 +16,46 @@ public class BlockMove
 	{
 		if (!world.isRemote)
 		{
-			Block block = world.getBlock(x, y, z);
-			String blockName = Block.blockRegistry.getNameForObject(block);
-			int meta = world.getBlockMetadata(x, y, z);
-			BlockDef blockDef = DefinitionMaps.getBlockDef(blockName, meta);
-			MoveDef moveDef = DefinitionMaps.getMovedef(blockDef.id);
-			if (blockDef.canMove)
+			if (playersWithinRange(world, x, y, z))
 			{
-				if (playersWithinRange(world, x, y, z))
-				{
-					if (!floating(world, x, y, z, moveDef.floatingRadius, moveDef.floatingBlock, moveDef.floatingMeta))
-					{
-						if (moveDef.moveType != 0)//if (moveDef.moveType == 3) 3 = dropped as item
-						{
-							if (canMoveTo(world, x, y - 1, z, blockDef.mass / 10))
-							{
-								if (!hanging(world, x, y, z, moveDef.hanging, blockName, meta))
-								{
-									if (!attached(world, x, y, z, moveDef.attached, blockName, meta))
-									{
-										if (!nCorbel(world, x, y, z, moveDef.nCorbel))
-										{
-											if (!corbel(world, x, y, z, moveDef.corbel, blockName, meta))
-											{
-												if (!moveDef.ceiling || !ceiling(world, x, y, z))
-												{
-													if (!smallArc(world, x, y, z, moveDef.smallArc))
-													{
-														if (!bigArc(world, x, y, z, moveDef.bigArc))
-														{
-															if (!moveDef.branch || !branch(world, x, y, z, blockName, meta))
-															{
-																byte b0 = 32;
+				byte b0 = 32;
 
-																if (world.checkChunksExist(x - b0, y - b0, z - b0, x + b0, y + b0, z + b0))
+				if (world.checkChunksExist(x - b0, y - b0, z - b0, x + b0, y + b0, z + b0))
+				{
+					Block block = world.getBlock(x, y, z);
+					String blockName = Block.blockRegistry.getNameForObject(block);
+					int meta = world.getBlockMetadata(x, y, z);
+					BlockDef blockDef = DefinitionMaps.getBlockDef(blockName, meta);
+
+					if (blockDef.canMove)
+					{
+						MoveDef moveDef = DefinitionMaps.getMovedef(blockDef.id);
+						
+						if (!floating(world, x, y, z, moveDef.floatingRadius, moveDef.floatingBlock, moveDef.floatingMeta))
+						{
+							if (moveDef.moveType != 0)//if (moveDef.moveType == 3) 3 = dropped as item
+							{
+								if (canMoveTo(world, x, y - 1, z, blockDef.mass / 10))
+								{
+									if (!hanging(world, x, y, z, moveDef.hanging, blockName, meta))
+									{
+										if (!attached(world, x, y, z, moveDef.attached, blockName, meta))
+										{
+											if (!nCorbel(world, x, y, z, moveDef.nCorbel))
+											{
+												if (!corbel(world, x, y, z, moveDef.corbel, blockName, meta))
+												{
+													if (!moveDef.ceiling || !ceiling(world, x, y, z))
+													{
+														if (!smallArc(world, x, y, z, moveDef.smallArc))
+														{
+															if (!bigArc(world, x, y, z, moveDef.bigArc))
+															{
+																if (!moveDef.branch || !branch(world, x, y, z, blockName, meta))
 																{
-																	if (!world.isRemote)
-																	{
-																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
-																		world.spawnEntityInWorld(entityfallingblock);
-																	}
+																	EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																	entityfallingblock.func_145806_a(true);
+																	world.spawnEntityInWorld(entityfallingblock);
 																}
 															}
 														}
