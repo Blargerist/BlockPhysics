@@ -4,6 +4,9 @@ import static org.objectweb.asm.Opcodes.*;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.tree.*;
 import squeek.asmhelper.ASMHelper;
 import blargerist.cake.blockphysics.BlockPhysics;
@@ -19,7 +22,8 @@ public class ModuleBlockFalling implements IClassTransformerModule
 		return new String[]{
 		"net.minecraft.block.BlockFalling",
 		"net.minecraft.world.WorldServer",
-		"net.minecraft.block.Block"
+		"net.minecraft.block.Block",
+		"net.minecraft.entity.item.EntityFallingBlock"
 		};
 	}
 
@@ -90,6 +94,35 @@ public class ModuleBlockFalling implements IClassTransformerModule
                 throw new RuntimeException("Could not find onNeighborBlockChange method in " + transformedName);
             
             return ASMHelper.writeClassToBytes(classNode);
+		}
+		else if (transformedName.equals("net.minecraft.entity.item.EntityFallingBlock"))
+		{
+			ModInfo.Log.info("Transforming class: " + transformedName);
+			MethodNode methodNode = ASMHelper.findMethodNodeOfClass(classNode, "func_70071_h_", "()V");
+            if (methodNode != null)
+            {
+                insertEntityFallingBlockOnUpdateHook(methodNode);
+            }
+            else
+                throw new RuntimeException("Could not find onUpdate method in " + transformedName);
+			
+            methodNode = ASMHelper.findMethodNodeOfClass(classNode, "<init>", "(Lnet/minecraft/world/World;)V");
+			if (methodNode != null)
+			{
+				insertFrustumNoClip1(methodNode);
+			}
+			else
+				throw new RuntimeException("Could not find <init> method in " + transformedName);
+			
+			methodNode = ASMHelper.findMethodNodeOfClass(classNode, "<init>", "(Lnet/minecraft/world/World;DDDLnet/minecraft/block/Block;I)V");
+			if (methodNode != null)
+			{
+				insertFrustumNoClip2(methodNode);
+			}
+			else
+				throw new RuntimeException("Could not find <init> method in " + transformedName);
+			
+			return ASMHelper.writeClassToBytes(classNode);
 		}
 		return bytes;
 	}
@@ -204,6 +237,57 @@ public class ModuleBlockFalling implements IClassTransformerModule
 		toInject.add(new VarInsnNode(ILOAD, 4));
 		toInject.add(new VarInsnNode(ALOAD, 5));
 		toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/events/BPEventHandler", "onNeighborBlockChange", "(Lnet/minecraft/world/World;IIILnet/minecraft/block/Block;)V", false));
+		
+		method.instructions.insertBefore(target, toInject);
+	}
+	
+	public void insertEntityFallingBlockOnUpdateHook(MethodNode method)
+	{
+		AbstractInsnNode target = ASMHelper.findFirstInstruction(method);
+		
+		if (target == null)
+			throw new RuntimeException("Unexpected instruction patter in EntityFallingBlock.onUpdate");
+		
+		InsnList toInject = new InsnList();
+		toInject.add(new VarInsnNode(ALOAD, 0));
+		toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/events/BPEventHandler", "entityFallingBlockUpdate", "(Lnet/minecraft/entity/item/EntityFallingBlock;)V", false));
+		toInject.add(new InsnNode(RETURN));
+		
+		method.instructions.insertBefore(target, toInject);
+	}
+
+	public void insertFrustumNoClip1(MethodNode method)
+	{
+		AbstractInsnNode target = ASMHelper.findLastInstructionWithOpcode(method, RETURN);
+		
+		if (target == null)
+			throw new RuntimeException("Unexpected instruction patter in EntityFallingBlock.<init>(World)");
+		
+		InsnList toInject = new InsnList();
+		toInject.add(new VarInsnNode(ALOAD, 0));
+		toInject.add(new InsnNode(ICONST_0));
+		toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/entity/item/EntityFallingBlock", "field_70158_ak", "Z"));
+		toInject.add(new VarInsnNode(ALOAD, 0));
+		toInject.add(new InsnNode(ICONST_1));
+		toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/entity/item/EntityFallingBlock", "field_70145_X", "Z"));
+		
+		method.instructions.insertBefore(target, toInject);
+	}
+	
+	public void insertFrustumNoClip2(MethodNode method)
+	{
+		AbstractInsnNode target = ASMHelper.findLastInstructionWithOpcode(method, RETURN);
+		
+		if (target == null)
+			throw new RuntimeException("Unexpected instruction patter in EntityFallingBlock.<init>(World;DDDBlock;I)");
+		
+		InsnList toInject = new InsnList();
+		toInject.add(new VarInsnNode(ALOAD, 0));
+		toInject.add(new InsnNode(ICONST_0));
+		toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/entity/item/EntityFallingBlock", "field_70158_ak", "Z"));
+		toInject.add(new VarInsnNode(ALOAD, 0));
+		toInject.add(new InsnNode(ICONST_1));
+		toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/entity/item/EntityFallingBlock", "field_70145_X", "Z"));
 		
 		method.instructions.insertBefore(target, toInject);
 	}

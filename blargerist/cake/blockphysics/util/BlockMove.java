@@ -1,5 +1,6 @@
 package blargerist.cake.blockphysics.util;
 
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityFallingBlock;
@@ -8,10 +9,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import blargerist.cake.blockphysics.ModConfig;
-import blargerist.cake.blockphysics.ModInfo;
 
 public class BlockMove
 {
+	private static Random rand = new Random();
+
 	public static void fall(World world, int x, int y, int z)
 	{
 		if (!world.isRemote)
@@ -30,13 +32,101 @@ public class BlockMove
 					if (blockDef.canMove)
 					{
 						MoveDef moveDef = DefinitionMaps.getMovedef(blockDef.id);
-						
+
 						if (!floating(world, x, y, z, moveDef.floatingRadius, moveDef.floatingBlock, moveDef.floatingMeta))
 						{
-							if (moveDef.moveType != 0)//if (moveDef.moveType == 3) 3 = dropped as item
+							boolean canFall = canMoveTo(world, x, y - 1, z, blockDef.mass / 10);
+
+							if (canFall && (moveDef.moveType == 1 || moveDef.moveType == 2))
 							{
-								if (canMoveTo(world, x, y - 1, z, blockDef.mass / 10))
+								if (!hanging(world, x, y, z, moveDef.hanging, blockName, meta))
 								{
+									if (!attached(world, x, y, z, moveDef.attached, blockName, meta))
+									{
+										if (!nCorbel(world, x, y, z, moveDef.nCorbel))
+										{
+											if (!corbel(world, x, y, z, moveDef.corbel, blockName, meta))
+											{
+												if (!moveDef.ceiling || !ceiling(world, x, y, z))
+												{
+													if (!smallArc(world, x, y, z, moveDef.smallArc))
+													{
+														if (!bigArc(world, x, y, z, moveDef.bigArc))
+														{
+															if (!moveDef.branch || !branch(world, x, y, z, blockName, meta))
+															{
+																EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																entityfallingblock.func_145806_a(true);
+																entityfallingblock.noClip = false;
+																world.spawnEntityInWorld(entityfallingblock);
+																return;
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+							else if (!canFall && moveDef.moveType == 2 && moveDef.slideChance >= (rand.nextInt(100) + 1))
+							{
+								String[] slideDirs = new String[8];
+								int length = 0;
+								boolean north = false;
+								boolean south = false;
+								boolean east = false;
+								boolean west = false;
+
+								if (canMoveTo(world, x, y, z + 1, blockDef.mass) && canMoveTo(world, x, y - 1, z + 1, blockDef.mass))
+								{
+									slideDirs[length] = "north";
+									length++;
+									north = true;
+								}
+								if (canMoveTo(world, x, y, z - 1, blockDef.mass) && canMoveTo(world, x, y - 1, z - 1, blockDef.mass))
+								{
+									slideDirs[length] = "south";
+									length++;
+									south = true;
+								}
+								if (canMoveTo(world, x + 1, y, z, blockDef.mass) && canMoveTo(world, x + 1, y - 1, z, blockDef.mass))
+								{
+									slideDirs[length] = "east";
+									length++;
+									east = true;
+								}
+								if (canMoveTo(world, x - 1, y, z, blockDef.mass) && canMoveTo(world, x - 1, y - 1, z, blockDef.mass))
+								{
+									slideDirs[length] = "west";
+									length++;
+									west = true;
+								}
+								if (length > 0)
+								{
+									if ((north || south) && (east || west))
+									{
+										if (north && east && canMoveTo(world, x + 1, y, z + 1, blockDef.mass) && canMoveTo(world, x + 1, y - 1, z + 1, blockDef.mass))
+										{
+											slideDirs[length] = "northeast";
+											length++;
+										}
+										if (north && west && canMoveTo(world, x - 1, y, z + 1, blockDef.mass) && canMoveTo(world, x - 1, y - 1, z + 1, blockDef.mass))
+										{
+											slideDirs[length] = "northwest";
+											length++;
+										}
+										if (south && east && canMoveTo(world, x + 1, y, z - 1, blockDef.mass) && canMoveTo(world, x + 1, y - 1, z - 1, blockDef.mass))
+										{
+											slideDirs[length] = "southeast";
+											length++;
+										}
+										if (south && west && canMoveTo(world, x - 1, y, z - 1, blockDef.mass) && canMoveTo(world, x - 1, y - 1, z - 1, blockDef.mass))
+										{
+											slideDirs[length] = "southwest";
+											length++;
+										}
+									}
 									if (!hanging(world, x, y, z, moveDef.hanging, blockName, meta))
 									{
 										if (!attached(world, x, y, z, moveDef.attached, blockName, meta))
@@ -53,9 +143,75 @@ public class BlockMove
 															{
 																if (!moveDef.branch || !branch(world, x, y, z, blockName, meta))
 																{
-																	EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																	entityfallingblock.func_145806_a(true);
-																	world.spawnEntityInWorld(entityfallingblock);
+																	String direction = slideDirs[rand.nextInt(length)];
+																	if (direction.equals("north"))
+																	{
+																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.motionZ = 0.135;
+																		world.spawnEntityInWorld(entityfallingblock);
+																		return;
+																	}
+																	else if (direction.equals("south"))
+																	{
+																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.motionZ = -0.135;
+																		world.spawnEntityInWorld(entityfallingblock);
+																		return;
+																	}
+																	else if (direction.equals("east"))
+																	{
+																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.motionX = 0.135;
+																		world.spawnEntityInWorld(entityfallingblock);
+																		return;
+																	}
+																	else if (direction.equals("west"))
+																	{
+																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.motionX = -0.135;
+																		world.spawnEntityInWorld(entityfallingblock);
+																		return;
+																	}
+																	else if (direction.equals("northeast"))
+																	{
+																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.motionZ = 0.135;
+																		entityfallingblock.motionX = 0.135;
+																		world.spawnEntityInWorld(entityfallingblock);
+																		return;
+																	}
+																	else if (direction.equals("northwest"))
+																	{
+																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.motionZ = 0.135;
+																		entityfallingblock.motionX = -0.135;
+																		world.spawnEntityInWorld(entityfallingblock);
+																		return;
+																	}
+																	else if (direction.equals("southeast"))
+																	{
+																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.motionZ = -0.135;
+																		entityfallingblock.motionX = 0.135;
+																		world.spawnEntityInWorld(entityfallingblock);
+																		return;
+																	}
+																	else if (direction.equals("southwest"))
+																	{
+																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
+																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.motionZ = -0.135;
+																		entityfallingblock.motionX = -0.135;
+																		world.spawnEntityInWorld(entityfallingblock);
+																		return;
+																	}
 																}
 															}
 														}
@@ -65,6 +221,10 @@ public class BlockMove
 										}
 									}
 								}
+							}
+							else if (moveDef.moveType == 3)
+							{
+
 							}
 						}
 					}
@@ -79,6 +239,10 @@ public class BlockMove
 		if (block == Blocks.air)
 		{
 			return true;
+		}
+		if (block.getBlockHardness(world, x, y, z) == -1)
+		{
+			return false;
 		}
 		String blockName = Block.blockRegistry.getNameForObject(block);
 		int meta = world.getBlockMetadata(x, y, z);
