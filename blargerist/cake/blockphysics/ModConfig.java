@@ -153,8 +153,8 @@ public class ModConfig
 		
 		if (categoryMap == null || categoryMap.keySet().size() == 0)
 		{
-			config.get("block definitions", "sand", new String[]{"canmove:true", "movedef:sand", "supportiveblock:false", "fragile:0", "trapping:true", "mass:1700", "strength:64000"}).getStringList();
-			config.get("block definitions", "sand", new String[]{"canmove:true", "movedef:cobblestone", "supportiveblock:true", "fragile:0", "trapping:false", "mass:2100", "strength:64000"}).getStringList();
+			config.get("block definitions", "sand", new String[]{"canmove:true", "movedef:sand", "supportiveblock:false", "fragile:0", "trapping:true", "mass:1700", "strength:64000", "hurts:true"}).getStringList();
+			config.get("block definitions", "sand", new String[]{"canmove:true", "movedef:cobblestone", "supportiveblock:true", "fragile:0", "trapping:false", "mass:2100", "strength:64000", "hurts:true"}).getStringList();
 			categoryMap = config.getCategory("block definitions");
 		}
 		
@@ -170,6 +170,7 @@ public class ModConfig
 			boolean trapping = true;
 			int mass = 1500;
 			int strength = 64000;
+			boolean hurts = true;
 
 			for (int i = 0; i < properties.length; i++)
 			{
@@ -193,7 +194,7 @@ public class ModConfig
 						strength = value;
 					}
 				}
-				else if (keyString.equals("trapping") || keyString.equals("supportiveblock") || keyString.equals("canmove"))
+				else if (keyString.equals("trapping") || keyString.equals("supportiveblock") || keyString.equals("canmove") || keyString.equals("hurts"))
 				{
 					Boolean value = Boolean.valueOf(properties[i].substring(colonIndex +1));
 					
@@ -209,13 +210,17 @@ public class ModConfig
 					{
 						canMove = value;
 					}
+					else if (keyString.equals("hurts"))
+					{
+						hurts = value;
+					}
 				}
 				else if (keyString.equals("movedef"))
 				{
 					moveDef = keyString;
 				}
 			}
-			DefinitionMaps.putBlockDef(id, new BlockDef(id, canMove, moveDef, supportiveBlock, fragile, trapping, mass, strength));
+			DefinitionMaps.putBlockDef(id, new BlockDef(id, canMove, moveDef, supportiveBlock, fragile, trapping, mass, strength, hurts));
 		}
 		
 		categoryMap = config.getCategory("blocks");
@@ -236,7 +241,15 @@ public class ModConfig
 			{
 				int index = properties[i].indexOf(":");
 				int index1 = properties[i].indexOf(":", index +1);
-				String block = properties[i].substring(0, index1);
+				String block;
+				if (index1 != -1)
+				{
+					block = properties[i].substring(0, index1);
+				}
+				else
+				{
+					block = properties[i].substring(0);
+				}
 				int meta = 0;
 				String[] blockDefs = new String[16];
 				

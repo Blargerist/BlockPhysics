@@ -56,7 +56,7 @@ public class BlockMove
 															if (!moveDef.branch || !branch(world, x, y, z, blockName, meta))
 															{
 																EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																entityfallingblock.func_145806_a(true);
+																entityfallingblock.func_145806_a(blockDef.hurts);
 																entityfallingblock.noClip = false;
 																world.spawnEntityInWorld(entityfallingblock);
 																return;
@@ -147,7 +147,7 @@ public class BlockMove
 																	if (direction.equals("north"))
 																	{
 																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.func_145806_a(blockDef.hurts);
 																		entityfallingblock.motionZ = 0.135;
 																		world.spawnEntityInWorld(entityfallingblock);
 																		return;
@@ -155,7 +155,7 @@ public class BlockMove
 																	else if (direction.equals("south"))
 																	{
 																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.func_145806_a(blockDef.hurts);
 																		entityfallingblock.motionZ = -0.135;
 																		world.spawnEntityInWorld(entityfallingblock);
 																		return;
@@ -163,7 +163,7 @@ public class BlockMove
 																	else if (direction.equals("east"))
 																	{
 																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.func_145806_a(blockDef.hurts);
 																		entityfallingblock.motionX = 0.135;
 																		world.spawnEntityInWorld(entityfallingblock);
 																		return;
@@ -171,7 +171,7 @@ public class BlockMove
 																	else if (direction.equals("west"))
 																	{
 																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.func_145806_a(blockDef.hurts);
 																		entityfallingblock.motionX = -0.135;
 																		world.spawnEntityInWorld(entityfallingblock);
 																		return;
@@ -179,7 +179,7 @@ public class BlockMove
 																	else if (direction.equals("northeast"))
 																	{
 																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.func_145806_a(blockDef.hurts);
 																		entityfallingblock.motionZ = 0.135;
 																		entityfallingblock.motionX = 0.135;
 																		world.spawnEntityInWorld(entityfallingblock);
@@ -188,7 +188,7 @@ public class BlockMove
 																	else if (direction.equals("northwest"))
 																	{
 																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.func_145806_a(blockDef.hurts);
 																		entityfallingblock.motionZ = 0.135;
 																		entityfallingblock.motionX = -0.135;
 																		world.spawnEntityInWorld(entityfallingblock);
@@ -197,7 +197,7 @@ public class BlockMove
 																	else if (direction.equals("southeast"))
 																	{
 																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.func_145806_a(blockDef.hurts);
 																		entityfallingblock.motionZ = -0.135;
 																		entityfallingblock.motionX = 0.135;
 																		world.spawnEntityInWorld(entityfallingblock);
@@ -206,7 +206,7 @@ public class BlockMove
 																	else if (direction.equals("southwest"))
 																	{
 																		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
-																		entityfallingblock.func_145806_a(true);
+																		entityfallingblock.func_145806_a(blockDef.hurts);
 																		entityfallingblock.motionZ = -0.135;
 																		entityfallingblock.motionX = -0.135;
 																		world.spawnEntityInWorld(entityfallingblock);

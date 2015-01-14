@@ -121,7 +121,7 @@ public class BPEventHandler
 
                     entity.worldObj.setBlockToAir(i, j, k);
                 }
-                else if (entity.field_145812_b == 5)
+                else if (entity.field_145812_b == 4)
                 {
                 	entity.noClip = false;
                 }
@@ -170,7 +170,7 @@ public class BPEventHandler
                                 }
                             }
                         }
-                        else if (entity.field_145813_c && entity.field_145812_b == 50)
+                        else if (entity.field_145813_c && entity.field_145812_b > 600)
                         {
                         	entity.setDead();
                             entity.entityDropItem(new ItemStack(entity.func_145805_f(), 1, entity.func_145805_f().damageDropped(entity.field_145814_a)), 0.0F);

@@ -12,8 +12,9 @@ public class BlockDef
 	public int pushType;      // 0 not pushable, 1 pushable by all, 2 pushable by piston, 3 pushable by explosion
 	public int mass;			//1-40000
 	public int strength;		//0-64000
+	public boolean hurts;
 
-	public BlockDef(String id1, boolean canMove1, String moveDef1, Boolean supportiveBlock1, int fragile1, boolean trapping1, int mass1, int strength1)
+	public BlockDef(String id1, boolean canMove1, String moveDef1, Boolean supportiveBlock1, int fragile1, boolean trapping1, int mass1, int strength1, boolean hurts1)
 	{
 		id = id1;
 		canMove = canMove1;
@@ -23,6 +24,7 @@ public class BlockDef
 		trapping = trapping1;
 		mass = mass1;
 		strength = strength1;
+		hurts = hurts1;
 	}
 
 	public BlockDef(String id1)
@@ -35,6 +37,7 @@ public class BlockDef
 		trapping = false;
 		mass = 1500;
 		strength = 64000;
+		hurts = true;
 	}
 
 	public static void copyBlockDef(BlockDef def1, BlockDef def2)
@@ -48,5 +51,6 @@ public class BlockDef
 		def1.pushType = def2.pushType;
 		def1.mass = def2.mass;
 		def1.strength = def2.strength;
+		def1.hurts = def2.hurts;
 	}
 }
