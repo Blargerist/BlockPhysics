@@ -45,8 +45,18 @@ public class ModConfig
 		
 		if (categoryMap == null || categoryMap.keySet().size() == 0)
 		{
+			config.get("move definitions", "brick", new String[]{"movetype:1", "slidechance:0", "ceiling:1", "smallarc:0", "bigarc:1", "corbel:1", "ncorbel:0", "hanging:0", "attached:0", "floating:0", "branch:0"}).getStringList();
+			config.get("move definitions", "cobblestone", new String[]{"movetype:1", "slidechance:0", "ceiling:0", "smallarc:1", "bigarc:1", "corbel:0", "ncorbel:0", "hanging:0", "attached:0", "floating:0", "branch:0"}).getStringList();
+			config.get("move definitions", "dirt", new String[]{"movetype:1", "slidechance:0", "ceiling:0", "smallarc:0", "bigarc:0", "corbel:0", "ncorbel:0", "hanging:0", "attached:0", "floating:0", "branch:0"}).getStringList();
+			config.get("move definitions", "grass", new String[]{"movetype:2", "slidechance:70", "ceiling:0", "smallarc:0", "bigarc:0", "corbel:0", "ncorbel:0", "hanging:0", "attached:0", "floating:0", "branch:0"}).getStringList();
+			config.get("move definitions", "leaves", new String[]{"movetype:1", "slidechance:0", "ceiling:1", "smallarc:0", "bigarc:0", "corbel:0", "ncorbel:0", "hanging:1", "attached:2", "floating:0", "branch:0"}).getStringList();
 			config.get("move definitions", "sand", new String[]{"movetype:2", "slidechance:90", "ceiling:0", "smallarc:0", "bigarc:0", "corbel:0", "ncorbel:0", "hanging:0", "attached:0", "floating:0", "branch:0"}).getStringList();
-			config.get("move definitions", "cobblestone", new String[]{"movetype:1", "slidechance:60", "ceiling:0", "smallarc:1", "bigarc:1", "corbel:0", "ncorbel:0", "hanging:0", "attached:0", "floating:0", "branch:0"}).getStringList();
+			config.get("move definitions", "stone", new String[]{"movetype:1", "slidechance:0", "ceiling:0", "smallarc:2", "bigarc:2", "corbel:0", "ncorbel:0", "hanging:0", "attached:0", "floating:0", "branch:0"}).getStringList();
+			config.get("move definitions", "stonebrick", new String[]{"movetype:1", "slidechance:0", "ceiling:0", "smallarc:2", "bigarc:3", "corbel:2", "ncorbel:0", "hanging:0", "attached:0", "floating:0", "branch:0"}).getStringList();
+			config.get("move definitions", "wall", new String[]{"movetype:1", "slidechance:0", "ceiling:1", "smallarc:0", "bigarc:0", "corbel:0", "ncorbel:0", "hanging:1", "attached:2", "floating:0", "branch:0"}).getStringList();
+			config.get("move definitions", "wood", new String[]{"movetype:1", "slidechance:0", "ceiling:1", "smallarc:0", "bigarc:0", "corbel:0", "ncorbel:6", "hanging:0", "attached:0", "floating:0", "branch:1"}).getStringList();
+			config.get("move definitions", "wool", new String[]{"movetype:1", "slidechance:0", "ceiling:0", "smallarc:0", "bigarc:0", "corbel:0", "ncorbel:0", "hanging:5", "attached:5", "floating:0", "branch:0"}).getStringList();
+			
 			categoryMap = config.getCategory("move definitions");
 		}
 		
@@ -68,6 +78,7 @@ public class ModConfig
 			String floatingblock = null;
 			int floatingmeta = 0;
 			boolean branch = false;
+			int tree = 0;
 
 			for (int i = 0; i < properties.length; i++)
 			{
@@ -109,6 +120,10 @@ public class ModConfig
 					{
 						attached = value;
 					}
+					else if (keyString.equals("tree"))
+					{
+						tree = value;
+					}
 				}
 				else if (keyString.equals("ceiling") || keyString.equals("branch"))
 				{
@@ -146,15 +161,31 @@ public class ModConfig
 					}
 				}
 			}
-			DefinitionMaps.putMoveDef(id, new MoveDef(id, movetype, slidechance, ceiling, smallarc, bigarc, corbel, ncorbel, hanging, attached, floatingradius, floatingblock, floatingmeta, branch));
+			DefinitionMaps.putMoveDef(id, new MoveDef(id, movetype, slidechance, ceiling, smallarc, bigarc, corbel, ncorbel, hanging, attached, floatingradius, floatingblock, floatingmeta, branch, tree));
 		}
 		
 		categoryMap = config.getCategory("block definitions");
 		
 		if (categoryMap == null || categoryMap.keySet().size() == 0)
 		{
-			config.get("block definitions", "sand", new String[]{"canmove:true", "movedef:sand", "supportiveblock:false", "fragile:0", "trapping:true", "mass:1700", "strength:64000", "hurts:true"}).getStringList();
-			config.get("block definitions", "sand", new String[]{"canmove:true", "movedef:cobblestone", "supportiveblock:true", "fragile:0", "trapping:false", "mass:2100", "strength:64000", "hurts:true"}).getStringList();
+			config.get("block definitions", "brick", new String[]{"canmove:true", "movedef:brick", "supportiveblock:true", "fragile:0", "trapping:false", "mass:1500", "strength:64000"}).getStringList();
+			config.get("block definitions", "cobblestone", new String[]{"canmove:true", "movedef:cobblestone", "supportiveblock:true", "fragile:0", "trapping:false", "mass:2100", "strength:64000"}).getStringList();
+			config.get("block definitions", "dirt", new String[]{"canmove:true", "movedef:dirt", "supportiveblock:false", "fragile:0", "trapping:true", "mass:1500", "strength:64000"}).getStringList();
+			config.get("block definitions", "dispenser", new String[]{"canmove:no", "movedef:default", "supportiveblock:true", "fragile:0", "trapping:false", "mass:1500", "strength:64000"}).getStringList();
+			config.get("block definitions", "gemblock", new String[]{"canmove:no", "movedef:default", "supportiveblock:false", "fragile:0", "trapping:false", "mass:1500", "strength:64000"}).getStringList();
+			config.get("block definitions", "giantmushroom", new String[]{"canmove:false", "movedef:default", "supportiveblock:false", "fragile:1", "trapping:false", "mass:40", "strength:10"}).getStringList();
+			config.get("block definitions", "grass", new String[]{"canmove:true", "movedef:grass", "supportiveblock:false", "fragile:0", "trapping:false", "mass:1500", "strength:64000"}).getStringList();
+			config.get("block definitions", "leaves", new String[]{"canmove:false", "movedef:leaves", "supportiveblock:false", "fragile:1", "trapping:false", "mass:40", "strength:10"}).getStringList();
+			config.get("block definitions", "misc", new String[]{"canmove:false", "movedef:default", "supportiveblock:false", "fragile:2", "trapping:false", "mass:10", "strength:0"}).getStringList();
+			config.get("block definitions", "piston", new String[]{"canmove:false", "movedef:default", "supportiveblock:true", "fragile:0", "trapping:false", "mass:1500", "strength:64000"}).getStringList();
+			config.get("block definitions", "plants", new String[]{"canmove:false", "movedef:default", "supportiveblock:false", "fragile:1", "trapping:false", "mass:10", "strength:0"}).getStringList();
+			config.get("block definitions", "sand", new String[]{"canmove:true", "movedef:sand", "supportiveblock:false", "fragile:0", "trapping:true", "mass:1700", "strength:64000"}).getStringList();
+			config.get("block definitions", "stone", new String[]{"canmove:true", "movedef:stone", "supportiveblock:true", "fragile:0", "trapping:false", "mass:2500", "strength:64000"}).getStringList();
+			config.get("block definitions", "stonebrick", new String[]{"canmove:true", "movedef:stonebrick", "supportiveblock:true", "fragile:0", "trapping:false", "mass:2500", "strength:64000"}).getStringList();
+			config.get("block definitions", "wall", new String[]{"canmove:true", "movedef:wall", "supportiveblock:true", "fragile:0", "trapping:false", "mass:700", "strength:64000"}).getStringList();
+			config.get("block definitions", "wood", new String[]{"canmove:true", "movedef:wood", "supportiveblock:true", "fragile:1", "trapping:false", "mass:500", "strength:2000"}).getStringList();
+			config.get("block definitions", "wool", new String[]{"canmove:true", "movedef:wool", "supportiveblock:false", "fragile:1", "trapping:false", "mass:10", "strength:100"}).getStringList();
+			
 			categoryMap = config.getCategory("block definitions");
 		}
 		
@@ -227,8 +258,24 @@ public class ModConfig
 
 		if (categoryMap == null || categoryMap.keySet().size() == 0)
 		{
+			config.get("blocks", "bricks", new String[]{"minecraft:brick_block"}).getStringList();
+			config.get("blocks", "cobblestone", new String[]{"minecraft:cobblestone", "minecraft:mossy_cobblestone", "minecraft:monster_egg:0:1:2:3:4:5"}).getStringList();
+			config.get("blocks", "dirt", new String[]{"minecraft:dirt:0:1"}).getStringList();
+			config.get("blocks", "dispenser", new String[]{"minecraft:dispenser:0:1:2:3:4:5", "minecraft:piston_extension", "minecraft:furnace:2:3:4:5", "minecraft:lit_furnace:2:3:4:5", "minecraft:dropper:0:1:2:3:4:5"}).getStringList();
+			config.get("blocks", "gemblock", new String[]{"minecraft:lapis_block", "minecraft:redstone_block", "minecraft:emerald_block"}).getStringList();
+			config.get("blocks", "giantmushroom", new String[]{"minecraft:brown_mushroom_block:0:1:2:3:4:5:6:7:8:9:10:11:12:13:14:15", "minecraft:red_mushroom_block:0:1:2:3:4:5:6:7:8:9:10:11:12:13:14:15"}).getStringList();
+			config.get("blocks", "grass", new String[]{"minecraft:grass:0:1", "minecraft:farmland", "minecraft:clay", "minecraft:mycelium"}).getStringList();
+			config.get("blocks", "leaves", new String[]{"minecraft:leaves:0:1:2:3:4:5:6:7:8:9:10:11:12:13:14:15", "minecraft:leaves2:0:1:4:5:8:9:12:13"}).getStringList();
+			config.get("blocks", "misc", new String[]{"minecraft:torch:1:2:3:4:5", "minecraft:wheat:0:1:2:3:4:5:6:7", "minecraft:cactus:0:1:2:3:4:5:6:7:8:9:10:11:12:13:14:15", "minecraft:reeds:0:1:2:3:4:5:6:7:8:9:10:11:12:13:14:15", "minecraft:nether_wart:0:1:2:3", "minecraft:cocoa:0:1:2:3", "minecraft:tripwire", "minecraft:string", "minecraft:flower_pot", "minecraft:carrots:0:1:2:3:4:5:6:7", "minecraft:potatoes:0:1:2:3:4:5:6:7"}).getStringList();
+			config.get("blocks", "piston", new String[]{"minecraft:piston:0:1:2:3:4:5", "minecraft:sticky_piston:0:1:2:3:4:5"}).getStringList();
+			config.get("blocks", "plants", new String[]{"minecraft:sapling:0:1:2:3:4:5", "minecraft:tallgrass", "minecraft:deadbush", "minecraft:yellow_flower", "minecraft:red_flower:0:1:2:3:4:5:6:7:8", "minecraft:double_plant:0:1:2:3:4:5", "minecraft:red_mushroom", "minecraft:brown_mushroom", "minecraft:snow_layer:0:1:2:3:4:5:6:7", "minecraft:glass_pane", "minecraft:pumpkin_seeds:0:1:2:3:4:5:6:7", "minecraft:melon_stem:0:1:2:3:4:5:6:7", "minecraft:vine:0:1:2:4:8", "minecraft:waterlily"}).getStringList();
 			config.get("blocks", "sand", new String[]{"minecraft:sand:0:1", "minecraft:soul_sand", "minecraft:gravel"}).getStringList();
-			config.get("blocks", "cobblestone", new String[]{"minecraft:cobblestone", "minecraft:mossy_cobblestone"}).getStringList();
+			config.get("blocks", "stone", new String[]{"minecraft:stone:0:1", "minecraft:sandstone:0:1:2"}).getStringList();
+			config.get("blocks", "stonebrick", new String[]{"minecraft:stonebrick:0:1:2:3", "minecraft:quartz_block:0:1:2:3:4"}).getStringList();
+			config.get("blocks", "wall", new String[]{"minecraft:cobblestone_wall:0:1"}).getStringList();
+			config.get("blocks", "wood", new String[]{"minecraft:log:0:1:2:3:4:5:6:7:8:9:10:11:12:13:14:15", "minecraft:log2:0:1:4:5:8:9:12:13"}).getStringList();
+			config.get("blocks", "wool", new String[]{"minecraft:wool:0:1:2:3:4:5:6:7:8:9:10:11:12:13:14:15", "minecraft:sponge:0:1"}).getStringList();
+			
 			categoryMap = config.getCategory("blocks");
 		}
 

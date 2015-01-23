@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import blargerist.cake.blockphysics.ModConfig;
+import blargerist.cake.blockphysics.ModInfo;
 
 public class BlockMove
 {
@@ -32,17 +33,19 @@ public class BlockMove
 					if (blockDef.canMove)
 					{
 						MoveDef moveDef = DefinitionMaps.getMovedef(blockDef.id);
-
+						//TODO use an array to store blocks in the area as they are required, to cut down on use of world.getblock
 						if (!floating(world, x, y, z, moveDef.floatingRadius, moveDef.floatingBlock, moveDef.floatingMeta))
 						{
-							boolean canFall = canMoveTo(world, x, y - 1, z, blockDef.mass / 10);
+							int canFall = canMoveTo(world, x, y - 1, z, blockDef.mass / 10);
 
-							if (canFall && (moveDef.moveType == 1 || moveDef.moveType == 2))
+							if (canFall != 0 && (moveDef.moveType == 1 || moveDef.moveType == 2))
 							{
 								if (!hanging(world, x, y, z, moveDef.hanging, blockName, meta))
 								{
 									if (!attached(world, x, y, z, moveDef.attached, blockName, meta))
 									{
+										if (!tree(world, x, y, z, moveDef.tree, blockName, meta))
+										{
 										if (!nCorbel(world, x, y, z, moveDef.nCorbel))
 										{
 											if (!corbel(world, x, y, z, moveDef.corbel, blockName, meta))
@@ -58,6 +61,10 @@ public class BlockMove
 																EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block, meta);
 																entityfallingblock.func_145806_a(blockDef.hurts);
 																entityfallingblock.noClip = false;
+																if (canFall == 2)
+																{
+																	world.setBlockToAir(x, y - 1, z);
+																}
 																world.spawnEntityInWorld(entityfallingblock);
 																return;
 															}
@@ -66,10 +73,10 @@ public class BlockMove
 												}
 											}
 										}
-									}
+									}}
 								}
 							}
-							else if (!canFall && moveDef.moveType == 2 && moveDef.slideChance >= (rand.nextInt(100) + 1))
+							else if (canFall == 0 && moveDef.moveType == 2 && moveDef.slideChance >= (rand.nextInt(100) + 1))
 							{
 								String[] slideDirs = new String[8];
 								int length = 0;
@@ -78,25 +85,25 @@ public class BlockMove
 								boolean east = false;
 								boolean west = false;
 
-								if (canMoveTo(world, x, y, z + 1, blockDef.mass) && canMoveTo(world, x, y - 1, z + 1, blockDef.mass))
+								if (canMoveTo(world, x, y, z + 1, blockDef.mass) == 1 && canMoveTo(world, x, y - 1, z + 1, blockDef.mass) == 1)
 								{
 									slideDirs[length] = "north";
 									length++;
 									north = true;
 								}
-								if (canMoveTo(world, x, y, z - 1, blockDef.mass) && canMoveTo(world, x, y - 1, z - 1, blockDef.mass))
+								if (canMoveTo(world, x, y, z - 1, blockDef.mass) == 1 && canMoveTo(world, x, y - 1, z - 1, blockDef.mass) == 1)
 								{
 									slideDirs[length] = "south";
 									length++;
 									south = true;
 								}
-								if (canMoveTo(world, x + 1, y, z, blockDef.mass) && canMoveTo(world, x + 1, y - 1, z, blockDef.mass))
+								if (canMoveTo(world, x + 1, y, z, blockDef.mass) == 1 && canMoveTo(world, x + 1, y - 1, z, blockDef.mass) == 1)
 								{
 									slideDirs[length] = "east";
 									length++;
 									east = true;
 								}
-								if (canMoveTo(world, x - 1, y, z, blockDef.mass) && canMoveTo(world, x - 1, y - 1, z, blockDef.mass))
+								if (canMoveTo(world, x - 1, y, z, blockDef.mass) == 1 && canMoveTo(world, x - 1, y - 1, z, blockDef.mass) == 1)
 								{
 									slideDirs[length] = "west";
 									length++;
@@ -106,22 +113,22 @@ public class BlockMove
 								{
 									if ((north || south) && (east || west))
 									{
-										if (north && east && canMoveTo(world, x + 1, y, z + 1, blockDef.mass) && canMoveTo(world, x + 1, y - 1, z + 1, blockDef.mass))
+										if (north && east && canMoveTo(world, x + 1, y, z + 1, blockDef.mass) == 1 && canMoveTo(world, x + 1, y - 1, z + 1, blockDef.mass) == 1)
 										{
 											slideDirs[length] = "northeast";
 											length++;
 										}
-										if (north && west && canMoveTo(world, x - 1, y, z + 1, blockDef.mass) && canMoveTo(world, x - 1, y - 1, z + 1, blockDef.mass))
+										if (north && west && canMoveTo(world, x - 1, y, z + 1, blockDef.mass) == 1 && canMoveTo(world, x - 1, y - 1, z + 1, blockDef.mass) == 1)
 										{
 											slideDirs[length] = "northwest";
 											length++;
 										}
-										if (south && east && canMoveTo(world, x + 1, y, z - 1, blockDef.mass) && canMoveTo(world, x + 1, y - 1, z - 1, blockDef.mass))
+										if (south && east && canMoveTo(world, x + 1, y, z - 1, blockDef.mass) == 1 && canMoveTo(world, x + 1, y - 1, z - 1, blockDef.mass) == 1)
 										{
 											slideDirs[length] = "southeast";
 											length++;
 										}
-										if (south && west && canMoveTo(world, x - 1, y, z - 1, blockDef.mass) && canMoveTo(world, x - 1, y - 1, z - 1, blockDef.mass))
+										if (south && west && canMoveTo(world, x - 1, y, z - 1, blockDef.mass) == 1 && canMoveTo(world, x - 1, y - 1, z - 1, blockDef.mass) == 1)
 										{
 											slideDirs[length] = "southwest";
 											length++;
@@ -233,22 +240,26 @@ public class BlockMove
 		}
 	}
 
-	private static boolean canMoveTo(World world, int x, int y, int z, int mass)
+	public static int canMoveTo(World world, int x, int y, int z, int mass)
 	{
 		Block block = world.getBlock(x, y, z);
 		if (block == Blocks.air)
 		{
-			return true;
+			return 1;
 		}
 		if (block.getBlockHardness(world, x, y, z) == -1)
 		{
-			return false;
+			return 0;
 		}
 		String blockName = Block.blockRegistry.getNameForObject(block);
 		int meta = world.getBlockMetadata(x, y, z);
 		BlockDef blockDef = DefinitionMaps.getBlockDef(blockName, meta);
+		if ((blockDef.fragile > 0 && blockDef.strength < mass))
+		{
+			return 2;
+		}
 		Material material = block.getMaterial();
-		return material == Material.air || material == Material.fire || material.isLiquid() || material == Material.plants || material == Material.vine || material == Material.circuits || (blockDef.fragile > 0 && blockDef.strength < mass);
+		return (material == Material.air || material == Material.fire || material.isLiquid() || material == Material.plants || material == Material.vine || material == Material.circuits) ? 1 : 0;
 	}
 
 	public static boolean playersWithinRange(World world, int x, int y, int z)
@@ -333,6 +344,7 @@ public class BlockMove
 				break;
 			}
 		}
+		
 		for (i = 1; i <= attached; i++)
 		{
 			blockName2 = Block.blockRegistry.getNameForObject(world.getBlock(x - i, y, z));
@@ -346,6 +358,7 @@ public class BlockMove
 				break;
 			}
 		}
+		
 		for (i = 1; i <= attached; i++)
 		{
 			blockName2 = Block.blockRegistry.getNameForObject(world.getBlock(x, y, z + i));
@@ -359,6 +372,7 @@ public class BlockMove
 				break;
 			}
 		}
+		
 		for (i = 1; i <= attached; i++)
 		{
 			blockName2 = Block.blockRegistry.getNameForObject(world.getBlock(x, y, z - i));
@@ -880,9 +894,205 @@ public class BlockMove
 		}
 		return false;
 	}
+	
+	private static boolean tree(World world, int x, int y, int z, int tree, String blockName, int meta)
+	{
+		if (tree <= 0)
+		{
+			return false;
+		}
+
+		String blockName2;
+		int meta2;
+		int i;
+		String blockName3;
+		int meta3;
+		int i2;
+
+		for (i = 1; i <= tree; i++)
+		{
+			blockName2 = Block.blockRegistry.getNameForObject(world.getBlock(x + i, y, z));
+			meta2 = world.getBlockMetadata(x + i, y, z);
+			if (DefinitionMaps.getBlockDef(blockName2, meta2).supportiveBlock)
+			{
+				return true;
+			}
+			else if (!sameBlock(blockName, meta, blockName2, meta2))
+			{
+				break;
+			}
+			else
+			{
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x + i, y + 1, z));
+				meta3 = world.getBlockMetadata(x + i, y + 1, z);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x + i, y + 1, z));
+				meta3 = world.getBlockMetadata(x + i, y - 1, z);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x + i, y, z + 1));
+				meta3 = world.getBlockMetadata(x + i, y, z + 1);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x + i, y, z - 1));
+				meta3 = world.getBlockMetadata(x + i, y, z - 1);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+			}
+		}
+		
+		for (i = 1; i <= tree; i++)
+		{
+			blockName2 = Block.blockRegistry.getNameForObject(world.getBlock(x - i, y, z));
+			meta2 = world.getBlockMetadata(x - i, y, z);
+			if (DefinitionMaps.getBlockDef(blockName2, meta2).supportiveBlock)
+			{
+				return true;
+			}
+			else if (!sameBlock(blockName, meta, blockName2, meta2))
+			{
+				break;
+			}
+			else
+			{
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x - i, y + 1, z));
+				meta3 = world.getBlockMetadata(x - i, y + 1, z);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x - i, y - 1, z));
+				meta3 = world.getBlockMetadata(x - i, y - 1, z);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x - i, y, z + 1));
+				meta3 = world.getBlockMetadata(x - i, y, z + 1);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x - i, y, z - 1));
+				meta3 = world.getBlockMetadata(x - i, y, z - 1);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+			}
+		}
+		
+		for (i = 1; i <= tree; i++)
+		{
+			blockName2 = Block.blockRegistry.getNameForObject(world.getBlock(x, y, z + i));
+			meta2 = world.getBlockMetadata(x, y, z + i);
+			if (DefinitionMaps.getBlockDef(blockName2, meta2).supportiveBlock)
+			{
+				return true;
+			}
+			else if (!sameBlock(blockName, meta, blockName2, meta2))
+			{
+				break;
+			}
+			else
+			{
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x, y + 1, z + i));
+				meta3 = world.getBlockMetadata(x, y + 1, z + i);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x, y - 1, z + i));
+				meta3 = world.getBlockMetadata(x, y - 1, z + i);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x + 1, y, z + i));
+				meta3 = world.getBlockMetadata(x + 1, y, z + i);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x - 1, y, z + i));
+				meta3 = world.getBlockMetadata(x - 1, y, z + i);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+			}
+		}
+		
+		for (i = 1; i <= tree; i++)
+		{
+			blockName2 = Block.blockRegistry.getNameForObject(world.getBlock(x, y, z - i));
+			meta2 = world.getBlockMetadata(x, y, z - i);
+			if (DefinitionMaps.getBlockDef(blockName2, meta2).supportiveBlock)
+			{
+				return true;
+			}
+			else if (!sameBlock(blockName, meta, blockName2, meta2))
+			{
+				break;
+			}
+			else
+			{
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x, y + 1, z - i));
+				meta3 = world.getBlockMetadata(x, y + 1, z - i);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x, y - 1, z - i));
+				meta3 = world.getBlockMetadata(x, y - 1, z - i);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x + 1, y, z - i));
+				meta3 = world.getBlockMetadata(x + 1, y, z - i);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+				blockName3 = Block.blockRegistry.getNameForObject(world.getBlock(x - 1, y, z - i));
+				meta3 = world.getBlockMetadata(x - 1, y, z - i);
+				if (DefinitionMaps.getBlockDef(blockName3, meta3).supportiveBlock)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 	private static boolean sameBlock(String blockName, int blockMetadata, String name, int meta)
 	{
+		if (blockName.equals(name))
+		{
+			if (blockName.equals("minecraft:leaves") || blockName.equals("minecraft:leaves2"))
+			{
+				return iunno(blockMetadata) == iunno(meta);
+			}
+		}
 		return blockName.equals(name) && blockMetadata == meta;
+	}
+	
+	private static int iunno(int i)
+	{
+		while (i > 3)
+		{
+			i -= 4;
+		}
+		return i;
 	}
 }

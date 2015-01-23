@@ -3,7 +3,7 @@
   "modid": "BlockPhysics",
   "name": "BlockPhysics",
   "description": "Adds physics to blocks. Originally by id_miner.",
-  "version": "0.93b",
+  "version": "0.931b",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",

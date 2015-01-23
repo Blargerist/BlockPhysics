@@ -16,8 +16,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
+import blargerist.cake.blockphysics.ModInfo;
 import blargerist.cake.blockphysics.util.BlockMove;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -87,106 +87,8 @@ public class BPEventHandler
 		}
 	}
 	
-	public static void entityFallingBlockUpdate(EntityFallingBlock entity)
+	public static void onFragileBlockCollision(Entity entity, int x, int y, int z)
 	{
-		if (entity.func_145805_f().getMaterial() == Material.air)
-        {
-            entity.setDead();
-        }
-        else
-        {
-            entity.prevPosX = entity.posX;
-            entity.prevPosY = entity.posY;
-            entity.prevPosZ = entity.posZ;
-            ++entity.field_145812_b;
-            entity.motionY -= 0.03999999910593033D;
-            entity.moveEntity(entity.motionX, entity.motionY, entity.motionZ);
-            entity.motionX *= 0.9800000190734863D;
-            entity.motionY *= 0.9800000190734863D;
-            entity.motionZ *= 0.9800000190734863D;
-
-            if (!entity.worldObj.isRemote)
-            {
-                int i = MathHelper.floor_double(entity.posX);
-                int j = MathHelper.floor_double(entity.posY);
-                int k = MathHelper.floor_double(entity.posZ);
-
-                if (entity.field_145812_b == 1)
-                {
-                    if (entity.worldObj.getBlock(i, j, k) != entity.func_145805_f())
-                    {
-                        entity.setDead();
-                        return;
-                    }
-
-                    entity.worldObj.setBlockToAir(i, j, k);
-                }
-                else if (entity.field_145812_b == 4)
-                {
-                	entity.noClip = false;
-                }
-
-                if (entity.onGround)
-                {
-                    entity.motionX *= 0.699999988079071D;
-                    entity.motionZ *= 0.699999988079071D;
-                    entity.motionY *= -0.5D;
-
-                    if (entity.worldObj.getBlock(i, j, k) != Blocks.piston_extension)
-                    {
-
-                        if (entity.worldObj.canPlaceEntityOnSide(entity.func_145805_f(), i, j, k, true, 1, (Entity)null, (ItemStack)null) && !BlockFalling.func_149831_e(entity.worldObj, i, j - 1, k) && entity.worldObj.setBlock(i, j, k, entity.func_145805_f(), entity.field_145814_a, 3))
-                        {
-                            entity.setDead();
-                            
-                            if (entity.func_145805_f() instanceof BlockFalling)
-                            {
-                                ((BlockFalling)entity.func_145805_f()).func_149828_a(entity.worldObj, i, j, k, entity.field_145814_a);
-                            }
-
-                            if (entity.field_145810_d != null && entity.func_145805_f() instanceof ITileEntityProvider)
-                            {
-                                TileEntity tileentity = entity.worldObj.getTileEntity(i, j, k);
-
-                                if (tileentity != null)
-                                {
-                                    NBTTagCompound nbttagcompound = new NBTTagCompound();
-                                    tileentity.writeToNBT(nbttagcompound);
-                                    Iterator iterator = entity.field_145810_d.func_150296_c().iterator();
-
-                                    while (iterator.hasNext())
-                                    {
-                                        String s = (String)iterator.next();
-                                        NBTBase nbtbase = entity.field_145810_d.getTag(s);
-
-                                        if (!s.equals("x") && !s.equals("y") && !s.equals("z"))
-                                        {
-                                            nbttagcompound.setTag(s, nbtbase.copy());
-                                        }
-                                    }
-
-                                    tileentity.readFromNBT(nbttagcompound);
-                                    tileentity.markDirty();
-                                }
-                            }
-                        }
-                        else if (entity.field_145813_c && entity.field_145812_b > 600)
-                        {
-                        	entity.setDead();
-                            entity.entityDropItem(new ItemStack(entity.func_145805_f(), 1, entity.func_145805_f().damageDropped(entity.field_145814_a)), 0.0F);
-                        }
-                    }
-                }
-                else if (entity.field_145812_b > 100 && !entity.worldObj.isRemote && (j < 1 || j > 256) || entity.field_145812_b > 600)
-                {
-                    if (entity.field_145813_c)
-                    {
-                        entity.entityDropItem(new ItemStack(entity.func_145805_f(), 1, entity.func_145805_f().damageDropped(entity.field_145814_a)), 0.0F);
-                    }
-
-                    entity.setDead();
-                }
-            }
-        }
+		entity.worldObj.setBlockToAir(x, y, z);
 	}
 }

@@ -23,7 +23,8 @@ public class ModuleBlockFalling implements IClassTransformerModule
 		"net.minecraft.block.BlockFalling",
 		"net.minecraft.world.WorldServer",
 		"net.minecraft.block.Block",
-		"net.minecraft.entity.item.EntityFallingBlock"
+		"net.minecraft.entity.item.EntityFallingBlock",
+		"net.minecraft.entity.Entity"
 		};
 	}
 
@@ -121,6 +122,19 @@ public class ModuleBlockFalling implements IClassTransformerModule
 			}
 			else
 				throw new RuntimeException("Could not find <init> method in " + transformedName);
+			
+			return ASMHelper.writeClassToBytes(classNode);
+		}
+		else if (transformedName.equals("net.minecraft.entity.Entity"))
+		{
+			ModInfo.Log.info("Transforming class: " + transformedName);
+			MethodNode methodNode = ASMHelper.findMethodNodeOfClass(classNode, "func_70091_d", "(DDD)V");
+			if (methodNode != null)
+			{
+				injectIfBlockFalling(methodNode);
+			}
+			else
+				throw new RuntimeException("Could not find moveEntity method in " + transformedName);
 			
 			return ASMHelper.writeClassToBytes(classNode);
 		}
@@ -246,11 +260,11 @@ public class ModuleBlockFalling implements IClassTransformerModule
 		AbstractInsnNode target = ASMHelper.findFirstInstruction(method);
 		
 		if (target == null)
-			throw new RuntimeException("Unexpected instruction patter in EntityFallingBlock.onUpdate");
+			throw new RuntimeException("Unexpected instruction pattern in EntityFallingBlock.onUpdate");
 		
 		InsnList toInject = new InsnList();
 		toInject.add(new VarInsnNode(ALOAD, 0));
-		toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/events/BPEventHandler", "entityFallingBlockUpdate", "(Lnet/minecraft/entity/item/EntityFallingBlock;)V", false));
+		toInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/util/EntityMove", "onUpdate", "(Lnet/minecraft/entity/item/EntityFallingBlock;)V", false));
 		toInject.add(new InsnNode(RETURN));
 		
 		method.instructions.insertBefore(target, toInject);
@@ -261,7 +275,25 @@ public class ModuleBlockFalling implements IClassTransformerModule
 		AbstractInsnNode target = ASMHelper.findLastInstructionWithOpcode(method, RETURN);
 		
 		if (target == null)
-			throw new RuntimeException("Unexpected instruction patter in EntityFallingBlock.<init>(World)");
+			throw new RuntimeException("Unexpected instruction pattern in EntityFallingBlock.<init>(World)");
+		
+		InsnList toInject = new InsnList();
+		toInject.add(new VarInsnNode(ALOAD, 0));
+		toInject.add(new InsnNode(ICONST_0));
+		toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/entity/item/EntityFallingBlock", "field_70158_ak", "Z"));
+		//toInject.add(new VarInsnNode(ALOAD, 0));
+		//toInject.add(new InsnNode(ICONST_1));
+		//toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/entity/item/EntityFallingBlock", "field_70145_X", "Z"));
+		
+		method.instructions.insertBefore(target, toInject);
+	}
+	
+	public void insertFrustumNoClip2(MethodNode method)
+	{
+		AbstractInsnNode target = ASMHelper.findLastInstructionWithOpcode(method, RETURN);
+		
+		if (target == null)
+			throw new RuntimeException("Unexpected instruction pattern in EntityFallingBlock.<init>(World;DDDBlock;I)");
 		
 		InsnList toInject = new InsnList();
 		toInject.add(new VarInsnNode(ALOAD, 0));
@@ -274,21 +306,33 @@ public class ModuleBlockFalling implements IClassTransformerModule
 		method.instructions.insertBefore(target, toInject);
 	}
 	
-	public void insertFrustumNoClip2(MethodNode method)
+	public void injectIfBlockFalling(MethodNode method)
 	{
-		AbstractInsnNode target = ASMHelper.findLastInstructionWithOpcode(method, RETURN);
+		InsnList toFind = new InsnList();
+		toFind.add(new VarInsnNode(ALOAD, 0));
+		toFind.add(new MethodInsnNode(INVOKEVIRTUAL, "net/minecraft/entity/Entity", "func_145775_I", "()V", false));
 		
-		if (target == null)
-			throw new RuntimeException("Unexpected instruction patter in EntityFallingBlock.<init>(World;DDDBlock;I)");
+		AbstractInsnNode start = ASMHelper.find(method.instructions, toFind);
+		AbstractInsnNode end = ASMHelper.move(start, 1);
 		
-		InsnList toInject = new InsnList();
-		toInject.add(new VarInsnNode(ALOAD, 0));
-		toInject.add(new InsnNode(ICONST_0));
-		toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/entity/item/EntityFallingBlock", "field_70158_ak", "Z"));
-		toInject.add(new VarInsnNode(ALOAD, 0));
-		toInject.add(new InsnNode(ICONST_1));
-		toInject.add(new FieldInsnNode(PUTFIELD, "net/minecraft/entity/item/EntityFallingBlock", "field_70145_X", "Z"));
+		if (start == null || end == null)
+			throw new RuntimeException("Unexpected instructions pattern in Entity.moveEntity");
 		
-		method.instructions.insertBefore(target, toInject);
+		InsnList firstInject = new InsnList();
+		firstInject.add(new VarInsnNode(ALOAD, 0));
+		firstInject.add(new TypeInsnNode(INSTANCEOF, "net/minecraft/entity/item/EntityFallingBlock"));
+		LabelNode label1 = new LabelNode();
+		firstInject.add(new JumpInsnNode(IFEQ, label1));
+		firstInject.add(new VarInsnNode(ALOAD, 0));
+		firstInject.add(new MethodInsnNode(INVOKESTATIC, "blargerist/cake/blockphysics/util/EntityMove", "checkEntityBlockCollisions", "(Lnet/minecraft/entity/Entity;)V", false));
+		LabelNode label2 = new LabelNode();
+		firstInject.add(new JumpInsnNode(GOTO, label2));
+		firstInject.add(label1);
+
+		InsnList secondInject = new InsnList();
+		secondInject.add(label2);
+		
+		method.instructions.insertBefore(start, firstInject);
+		method.instructions.insert(end, secondInject);
 	}
 }

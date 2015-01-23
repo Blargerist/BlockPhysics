@@ -16,8 +16,9 @@ public class MoveDef
 	public String floatingBlock;
 	public int floatingMeta;
 	public boolean branch;		// 0,1
+	public int tree;
 	
-	public MoveDef(String id1, int moveType1, int slideChance1, boolean ceiling1, int smallArc1, int bigArc1, int corbel1, int nCorbel1, int hanging1, int attached1, int floatingRadius1, String floatingBlock1, int floatingMeta1, boolean branch1)
+	public MoveDef(String id1, int moveType1, int slideChance1, boolean ceiling1, int smallArc1, int bigArc1, int corbel1, int nCorbel1, int hanging1, int attached1, int floatingRadius1, String floatingBlock1, int floatingMeta1, boolean branch1, int tree1)
 	{
 		id = id1;
 		moveType = moveType1;
@@ -33,6 +34,7 @@ public class MoveDef
 		floatingBlock = floatingBlock1;
 		floatingMeta = floatingMeta1;
 		branch = branch1;
+		tree = tree1;
 	}
 	
 	public MoveDef(String id1)
@@ -51,6 +53,7 @@ public class MoveDef
 		floatingBlock = null;
 		floatingMeta = 0;
 		branch = false;
+		tree = 0;
 	}
 	
 	public static void copyMoveDef(MoveDef def1, MoveDef def2)
@@ -68,5 +71,6 @@ public class MoveDef
 		def1.floatingBlock = def2.floatingBlock;
 		def1.floatingMeta = def2.floatingMeta;
 		def1.branch = def2.branch;
+		def1.tree = def2.tree;
 	}
 }
